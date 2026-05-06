@@ -289,6 +289,42 @@
     gap: 0;
   }
 
+  /* ── 빈 상태 안내 ── */
+  .empty-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+  .empty-state .es-emoji {
+    font-size: 56px;
+    margin-bottom: 18px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+  }
+  .empty-state .es-title {
+    font-family: 'Dongle', 'Jua', 'Pretendard', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+  }
+  .empty-state .es-sub {
+    font-size: 14px;
+    color: var(--ink-mute);
+    line-height: 1.7;
+    max-width: 360px;
+  }
+  .empty-state .es-sub b {
+    color: var(--mint-deep);
+    font-weight: 700;
+  }
+
   /* ── 학생 카드 영역 ── */
   #card-area {
     flex: 1;
@@ -1348,7 +1384,7 @@
 
 <!-- 상단 바 -->
 <div id="header">
-  <div class="title"><span class="bird-emoji">🐦</span><span id="header-title">얼리버드 프로젝트 · 2학년 7반</span></div>
+  <div class="title"><span class="bird-emoji">🐦</span><span id="header-title">얼리버드 프로젝트</span></div>
   <div class="header-right">
     <div id="date-display">--</div>
     <div id="clock-display">--:--:--</div>
@@ -1431,7 +1467,7 @@
 
       <div class="admin-roster-section">
         <div class="admin-backup-title">👥 학급 설정</div>
-        <div class="class-info-badge" id="class-info-display">현재: 2학년 7반 (26명)</div>
+        <div class="class-info-badge" id="class-info-display">아직 학생 명단 없음</div>
         <button class="btn-roster" id="btn-upload-roster">📋 명렬표 업로드 (.xlsx)</button>
         <input type="file" id="roster-file-input" accept=".xlsx,.xls" style="display:none">
       </div>
@@ -1544,21 +1580,8 @@
 // ────────────────────────────────────────
 // 학생 데이터 / 학급 정보
 // ────────────────────────────────────────
-const DEFAULT_STUDENTS = [
-  { id: '20701', name: '권윤서' }, { id: '20702', name: '김민경' },
-  { id: '20703', name: '김민정' }, { id: '20704', name: '김시은' },
-  { id: '20705', name: '김채원' }, { id: '20706', name: '박나은' },
-  { id: '20707', name: '박세은' }, { id: '20708', name: '박효빈' },
-  { id: '20709', name: '손예원' }, { id: '20710', name: '신지민' },
-  { id: '20711', name: '양수빈' }, { id: '20712', name: '엄예주' },
-  { id: '20713', name: '엄지율' }, { id: '20714', name: '유진'   },
-  { id: '20715', name: '윤채원' }, { id: '20716', name: '이가을' },
-  { id: '20717', name: '이가현' }, { id: '20718', name: '이서현' },
-  { id: '20719', name: '이수경' }, { id: '20720', name: '이채린' },
-  { id: '20721', name: '임혜림' }, { id: '20722', name: '정예은' },
-  { id: '20723', name: '차효주' }, { id: '20724', name: '최유리' },
-  { id: '20725', name: '한서현' }, { id: '20726', name: '한예소' },
-];
+// 학생 명단은 비어있는 상태로 시작. 명렬표(.xlsx) 업로드로 채워짐.
+const DEFAULT_STUDENTS = [];
 
 function loadStudents() {
   const raw = localStorage.getItem('earlybird_students');
@@ -1566,7 +1589,7 @@ function loadStudents() {
 }
 function loadClassInfo() {
   const raw = localStorage.getItem('earlybird_class_info');
-  return raw ? JSON.parse(raw) : { grade: 2, classNum: 7 };
+  return raw ? JSON.parse(raw) : { grade: 0, classNum: 0 };
 }
 function loadDeadline() {
   const raw = localStorage.getItem('earlybird_deadline');
@@ -1578,7 +1601,7 @@ function saveDeadline(t) {
 }
 function loadTitle() {
   const raw = localStorage.getItem('earlybird_title');
-  return raw || '얼리버드 프로젝트 · 2학년 7반';
+  return raw || '얼리버드 프로젝트';
 }
 function saveTitle(t) {
   localStorage.setItem('earlybird_title', t);
@@ -1751,7 +1774,13 @@ function updateHeader() {
   document.getElementById('header-title').textContent = TITLE;
   document.title = TITLE;
   const el = document.getElementById('class-info-display');
-  if (el) el.textContent = `현재: ${CLASS_INFO.grade}학년 ${CLASS_INFO.classNum}반 (${STUDENTS.length}명)`;
+  if (el) {
+    if (STUDENTS.length === 0) {
+      el.textContent = '아직 학생 명단이 없어요. 명렬표를 업로드해주세요.';
+    } else {
+      el.textContent = `현재: ${CLASS_INFO.grade}학년 ${CLASS_INFO.classNum}반 (${STUDENTS.length}명)`;
+    }
+  }
 }
 
 // ────────────────────────────────────────
@@ -1814,6 +1843,16 @@ function parseRosterXlsx(file) {
 function renderCards() {
   const area = document.getElementById('card-area');
   area.innerHTML = '';
+  if (STUDENTS.length === 0) {
+    area.innerHTML = `
+      <div class="empty-state">
+        <div class="es-emoji">📋</div>
+        <div class="es-title">시작하려면 명렬표를 업로드해주세요</div>
+        <div class="es-sub">우측 사이드패널의 <b>🔒 관리자</b>에서 PIN <b>0000</b>을 입력한 뒤<br><b>📋 명렬표 업로드 (.xlsx)</b>를 눌러주세요.</div>
+      </div>`;
+    updateSidePanel();
+    return;
+  }
   STUDENTS.forEach((s, idx) => {
     const card = document.createElement('div');
     card.className = 'student-card';

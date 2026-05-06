@@ -1,0 +1,49 @@
+const CACHE = 'earlybird-v1';
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192.svg',
+  './icon-512.svg',
+  'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css',
+  'https://fonts.googleapis.com/css2?family=Dongle:wght@400;700&family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap',
+  'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'
+];
+
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open(CACHE).then(c => c.addAll(ASSETS).catch(() => {}))
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+    )
+  );
+  self.clients.claim();
+});
+
+self.addEventListener('fetch', e => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  e.respondWith(
+    caches.match(req).then(cached => {
+      const network = fetch(req).then(res => {
+        if (res && res.status === 200 && (
+          req.url.startsWith(self.location.origin) ||
+          req.url.includes('fonts.g') ||
+          req.url.includes('cdnjs') ||
+          req.url.includes('jsdelivr')
+        )) {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(req, copy));
+        }
+        return res;
+      }).catch(() => cached);
+      return cached || network;
+    })
+  );
+});

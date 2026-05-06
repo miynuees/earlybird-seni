@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>얼리버드 프로젝트</title>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dongle:wght@400;700&family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root,
+  body[data-theme="spring"] {
+    --mint: #6ec1b1;
+    --mint-soft: #a8d8ce;
+    --mint-bg: #eaf6f3;
+    --mint-deep: #3d8479;
+    --lavender: #c8b5e3;
+    --lavender-bg: #f3eef9;
+    --peach: #ffb595;
+    --peach-bg: #fff0e8;
+    --cream: #fff9ee;
+    --paper: #fefcf6;
+    --ink: #2d2a2a;
+    --ink-soft: #6a6562;
+    --ink-mute: #a39f9c;
+    --line: #ebe4d8;
+    --line-soft: #f3ede1;
+    --header-bg: linear-gradient(135deg, #ff9a82 0%, #ffd194 45%, #6ec1b1 100%);
+    --header-text: #ffffff;
+    --bg-blob-1: radial-gradient(circle at 12% 18%, rgba(255, 154, 130, 0.22) 0%, transparent 32%);
+    --bg-blob-2: radial-gradient(circle at 88% 82%, rgba(110, 193, 177, 0.25) 0%, transparent 38%);
+    --bg-blob-3: radial-gradient(circle at 70% 12%, rgba(200, 181, 227, 0.18) 0%, transparent 28%);
+  }
+  /* 자연 정원 — 짙은 녹색 + 테라코타 + 베이지 */
+  body[data-theme="forest"] {
+    --mint: #5a8a64;
+    --mint-soft: #a3c4a7;
+    --mint-bg: #e3edd9;
+    --mint-deep: #3d6644;
+    --lavender: #cf8a5a;
+    --lavender-bg: #faecdc;
+    --peach: #e8b89c;
+    --peach-bg: #fbf0e6;
+    --cream: #f5ecd4;
+    --paper: #f8f1de;
+    --ink: #2a2d1e;
+    --ink-soft: #54584a;
+    --ink-mute: #91917e;
+    --line: #d8cda8;
+    --line-soft: #e8dec0;
+    --header-bg: linear-gradient(135deg, #3d6644 0%, #7ba786 50%, #cf8a5a 100%);
+    --header-text: #ffffff;
+    --bg-blob-1: radial-gradient(circle at 10% 15%, rgba(90, 138, 100, 0.30) 0%, transparent 38%);
+    --bg-blob-2: radial-gradient(circle at 90% 85%, rgba(207, 138, 90, 0.25) 0%, transparent 38%);
+    --bg-blob-3: radial-gradient(circle at 80% 20%, rgba(232, 184, 156, 0.22) 0%, transparent 30%);
+  }
+  /* 노랑 단색 — 부드러운 머스타드 단색 톤 */
+  body[data-theme="yellow"] {
+    --mint: #e6b94a;
+    --mint-soft: #f5dc8e;
+    --mint-bg: #fef5d4;
+    --mint-deep: #b8842a;
+    --lavender: #a8c89d;
+    --lavender-bg: #eef5ec;
+    --peach: #e8b89c;
+    --peach-bg: #fbf0e6;
+    --cream: #fffae3;
+    --paper: #fffce8;
+    --ink: #3d3520;
+    --ink-soft: #6b6045;
+    --ink-mute: #a8a085;
+    --line: #f0e6c0;
+    --line-soft: #f8f1d6;
+    --header-bg: #f4c95d;
+    --header-text: #4a3a18;
+    --bg-blob-1: radial-gradient(circle at 12% 18%, rgba(244, 201, 93, 0.22) 0%, transparent 35%);
+    --bg-blob-2: radial-gradient(circle at 88% 82%, rgba(168, 200, 157, 0.20) 0%, transparent 38%);
+    --bg-blob-3: radial-gradient(circle at 75% 15%, rgba(232, 184, 156, 0.18) 0%, transparent 30%);
+  }
+  /* 노랑 테마는 단색 헤더라 텍스트 가독성 위한 미세 조정 */
+  body[data-theme="yellow"] #header .title,
+  body[data-theme="yellow"] #header .header-right {
+    text-shadow: 0 1px 2px rgba(255,255,255,0.55);
+  }
+  body[data-theme="yellow"] #header .bird-emoji {
+    filter: drop-shadow(0 1px 2px rgba(255,255,255,0.45));
+  }
+  body[data-theme="yellow"] #header::before {
+    background:
+      radial-gradient(circle at 8% 30%,  rgba(74, 58, 24, 0.20) 0 1.4px, transparent 2px),
+      radial-gradient(circle at 14% 70%, rgba(74, 58, 24, 0.15) 0 1px,   transparent 1.6px),
+      radial-gradient(circle at 22% 22%, rgba(74, 58, 24, 0.13) 0 0.8px, transparent 1.4px),
+      radial-gradient(circle at 33% 80%, rgba(74, 58, 24, 0.15) 0 1px,   transparent 1.6px),
+      radial-gradient(circle at 88% 28%, rgba(74, 58, 24, 0.20) 0 1.4px, transparent 2px),
+      radial-gradient(circle at 78% 72%, rgba(74, 58, 24, 0.15) 0 1px,   transparent 1.6px),
+      radial-gradient(circle at 95% 55%, rgba(74, 58, 24, 0.12) 0 0.8px, transparent 1.4px);
+  }
+  /* 맑은 하늘 — 라이트 블루 + 분홍 + 흰색 */
+  body[data-theme="sky"] {
+    --mint: #6aa8c9;
+    --mint-soft: #b8d6e6;
+    --mint-bg: #e3eff7;
+    --mint-deep: #3a7299;
+    --lavender: #f08aa8;
+    --lavender-bg: #fce8ee;
+    --peach: #f5c789;
+    --peach-bg: #fdf5e8;
+    --cream: #f0f6fb;
+    --paper: #f7fbff;
+    --ink: #1f2d3d;
+    --ink-soft: #5d6975;
+    --ink-mute: #99a4ae;
+    --line: #d0dee9;
+    --line-soft: #e3edf5;
+    --header-bg: linear-gradient(135deg, #ffb8d4 0%, #d4b8f0 40%, #6aa8c9 100%);
+    --header-text: #ffffff;
+    --bg-blob-1: radial-gradient(circle at 15% 20%, rgba(106, 168, 201, 0.25) 0%, transparent 38%);
+    --bg-blob-2: radial-gradient(circle at 85% 82%, rgba(240, 138, 168, 0.22) 0%, transparent 38%);
+    --bg-blob-3: radial-gradient(circle at 75% 15%, rgba(212, 184, 240, 0.20) 0%, transparent 30%);
+  }
+
+  body {
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    background:
+      var(--bg-blob-1),
+      var(--bg-blob-2),
+      var(--bg-blob-3),
+      linear-gradient(160deg, var(--paper) 0%, var(--cream) 55%, var(--mint-bg) 100%);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    user-select: none;
+    color: var(--ink);
+    transition: background 0.6s ease;
+  }
+
+  /* ── 상단 바 (테마별 그라데이션 + 감성 헤더) ── */
+  #header {
+    color: var(--header-text);
+    padding: 0 32px;
+    height: 108px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+    background: var(--header-bg);
+    transition: background 0.6s ease, color 0.6s ease;
+    position: relative;
+    overflow: hidden;
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
+  }
+  /* 떠다니는 반짝이 — 작은 별 점들이 반짝 */
+  #header::before,
+  #header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  #header::before {
+    background:
+      radial-gradient(circle at 8% 30%,  rgba(255,255,255,0.85) 0 1.4px, transparent 2px),
+      radial-gradient(circle at 14% 70%, rgba(255,255,255,0.7)  0 1px,   transparent 1.6px),
+      radial-gradient(circle at 22% 22%, rgba(255,255,255,0.6)  0 0.8px, transparent 1.4px),
+      radial-gradient(circle at 33% 80%, rgba(255,255,255,0.7)  0 1px,   transparent 1.6px),
+      radial-gradient(circle at 88% 28%, rgba(255,255,255,0.85) 0 1.4px, transparent 2px),
+      radial-gradient(circle at 78% 72%, rgba(255,255,255,0.65) 0 1px,   transparent 1.6px),
+      radial-gradient(circle at 95% 55%, rgba(255,255,255,0.55) 0 0.8px, transparent 1.4px);
+    animation: twinkle 4s ease-in-out infinite alternate;
+  }
+  #header::after {
+    background:
+      radial-gradient(ellipse 200px 60px at 18% 110%, rgba(255,255,255,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 240px 70px at 82% 110%, rgba(255,255,255,0.15) 0%, transparent 70%);
+  }
+  @keyframes twinkle {
+    0%   { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+  #header .title {
+    font-family: 'Dongle', 'Jua', 'Pretendard', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.22);
+    line-height: 1;
+  }
+  #header .bird-emoji {
+    font-size: 34px;
+    text-shadow: none;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+    animation: birdHop 3.5s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+  @keyframes birdHop {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-3px) rotate(3deg); }
+  }
+  #header .header-right {
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+    z-index: 1;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  #date-display {
+    font-family: 'Dongle', 'Jua', 'Pretendard', sans-serif;
+    font-size: 20px;
+    opacity: 0.95;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    line-height: 1;
+  }
+  #clock-display {
+    font-family: 'Dongle', 'Jua', 'Pretendard', sans-serif;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+    margin-top: 2px;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  #clock-display .clock-main {
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  #clock-display .clock-sec {
+    font-size: 22px;
+    opacity: 0.75;
+    font-weight: 400;
+    line-height: 1;
+  }
+  #time-label {
+    font-family: 'Dongle', 'Jua', 'Pretendard', sans-serif;
+    font-size: 12px;
+    opacity: 0.88;
+    font-weight: 400;
+    margin-top: 2px;
+    padding: 2px 10px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 99px;
+    backdrop-filter: blur(4px);
+  }
+  #header .header-left {
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    font-family: 'Dongle', 'Jua', 'Pretendard', sans-serif;
+    font-size: 12px;
+    opacity: 0.85;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    line-height: 1.4;
+  }
+  #header .header-left .greeting {
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 1;
+  }
+  #header .header-left .sub-greeting {
+    font-size: 11px;
+    opacity: 0.85;
+    margin-top: 1px;
+  }
+
+  /* ── 메인 영역 ── */
+  #main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    gap: 0;
+  }
+
+  /* ── 학생 카드 영역 ── */
+  #card-area {
+    flex: 1;
+    padding: 12px 14px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+    grid-auto-rows: 134px;
+    gap: 9px;
+    align-content: start;
+  }
+
+  .student-card {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 134px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.2s, border-color 0.2s;
+    touch-action: manipulation;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(155, 145, 130, 0.05);
+  }
+  .student-card:active { transform: scale(0.96); }
+  .student-card:hover {
+    box-shadow: 0 6px 16px rgba(110, 193, 177, 0.18);
+    border-color: var(--mint-soft);
+  }
+  .student-card.checked {
+    background: linear-gradient(155deg, var(--mint) 0%, var(--mint-deep) 100%);
+    border-color: var(--mint-deep);
+    color: white;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  }
+  .student-card.locked {
+    cursor: default;
+    opacity: 0.6;
+  }
+  .student-card.locked:hover {
+    box-shadow: 0 1px 3px rgba(155, 145, 130, 0.05);
+    border-color: var(--line);
+  }
+  .card-number {
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-bottom: 4px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .student-card.checked .card-number { color: rgba(255,255,255,0.78); }
+  .card-plant {
+    font-size: 24px;
+    margin-bottom: 7px;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.08));
+    animation: plantWobble 4.5s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  .student-card.checked .card-plant {
+    animation: plantWobbleHappy 2.8s ease-in-out infinite;
+  }
+  @keyframes plantWobble {
+    0%, 100% { transform: rotate(-2deg); }
+    50%      { transform: rotate(2deg); }
+  }
+  @keyframes plantWobbleHappy {
+    0%, 100% { transform: rotate(-4deg) translateY(0); }
+    50%      { transform: rotate(4deg) translateY(-1px); }
+  }
+  .card-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 5px;
+    letter-spacing: -0.3px;
+    line-height: 1.15;
+  }
+  .student-card.checked .card-name { color: white; }
+  .card-time {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mint-deep);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.3px;
+    display: none;
+    line-height: 1.2;
+  }
+  .student-card.checked .card-time {
+    display: block;
+    color: white;
+  }
+  .card-streak {
+    font-size: 10.5px;
+    color: var(--peach);
+    font-weight: 600;
+    margin-top: 3px;
+    display: none;
+    line-height: 1.2;
+  }
+  .student-card.has-streak .card-streak { display: block; }
+  .student-card.checked .card-streak {
+    color: rgba(255, 220, 195, 1);
+  }
+  .card-total {
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-top: 3px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .student-card.checked .card-total {
+    color: rgba(255,255,255,0.75);
+  }
+  .card-mood-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 14px;
+    opacity: 0.92;
+  }
+
+  /* ── 우측 사이드패널 ── */
+  #side-panel {
+    width: 240px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(10px);
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    padding: 18px 14px;
+    gap: 12px;
+    overflow-y: auto;
+    transition: background 0.6s ease;
+  }
+
+  .panel-box {
+    background: var(--mint-bg);
+    border: 1px solid var(--mint-soft);
+    border-radius: 14px;
+    padding: 14px 12px;
+  }
+  .panel-box-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--mint-deep);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    letter-spacing: -0.2px;
+  }
+  .today-count {
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--mint-deep);
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: -1px;
+  }
+  .today-count-label {
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .today-names {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .today-name-item {
+    font-size: 13px;
+    color: var(--ink);
+    padding: 6px 9px;
+    background: white;
+    border-radius: 9px;
+    border: 1px solid var(--mint-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+  }
+  .today-name-item .tn-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+    flex: 1;
+  }
+  .today-name-item .tn-mood { font-size: 14px; }
+  .today-name-item .tn-name {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .today-name-item .tn-time {
+    font-size: 12px;
+    color: var(--mint-deep);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+
+  .panel-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    touch-action: manipulation;
+    min-height: 46px;
+    font-family: inherit;
+    letter-spacing: -0.2px;
+  }
+  .panel-btn:active { transform: scale(0.97); }
+  .btn-garden {
+    background: var(--lavender-bg);
+    color: #7c4dca;
+    border: 1px solid var(--lavender);
+  }
+  .btn-garden:hover { background: #ebe0ff; }
+  .btn-history {
+    background: var(--mint-bg);
+    color: var(--mint-deep);
+    border: 1px solid var(--mint-soft);
+  }
+  .btn-history:hover { background: #d4ede9; }
+  .btn-admin {
+    background: #f5f5f5;
+    color: var(--ink-soft);
+    border: 1px solid #ddd;
+  }
+  .btn-admin:hover { background: #ececec; }
+
+  /* ── 테마 스위처 ── */
+  .theme-switcher {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 6px 4px;
+    margin-top: auto;
+  }
+  .theme-label {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .theme-dots {
+    display: flex;
+    gap: 7px;
+  }
+  .theme-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+    font-family: inherit;
+  }
+  .theme-dot:hover {
+    transform: scale(1.18);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  }
+  .theme-dot.active {
+    border-color: var(--ink);
+    transform: scale(1.12);
+  }
+  .theme-dot[data-theme="spring"] { background: linear-gradient(135deg, #6ec1b1 0%, #ffb595 100%); }
+  .theme-dot[data-theme="forest"] { background: linear-gradient(135deg, #7ba786 0%, #d4a574 100%); }
+  .theme-dot[data-theme="sky"]    { background: linear-gradient(135deg, #7eb8d4 0%, #f0a9c4 100%); }
+  .theme-dot[data-theme="yellow"] { background: #f4c95d; }
+
+  /* ── 공통 모달 ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(40, 35, 35, 0.4);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: white;
+    border-radius: 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+    display: flex;
+    flex-direction: column;
+    max-height: 86vh;
+    overflow: hidden;
+  }
+  .modal-header {
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--mint-deep);
+    letter-spacing: -0.3px;
+  }
+  .modal-close {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    font-family: inherit;
+  }
+  .modal-close:hover { background: #ddd; }
+  .modal-body {
+    padding: 18px 22px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  /* ── 이력 모달 ── */
+  #history-modal .modal-box { width: 580px; }
+  .history-tab-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .history-tab {
+    flex: 1;
+    padding: 9px;
+    border-radius: 10px;
+    border: 1px solid var(--mint-soft);
+    background: white;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--mint-deep);
+    cursor: pointer;
+    transition: background 0.12s;
+    font-family: inherit;
+  }
+  .history-tab.active {
+    background: var(--mint);
+    color: white;
+    border-color: var(--mint);
+  }
+  .history-date-item {
+    margin-bottom: 14px;
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .history-date-header {
+    background: var(--mint-bg);
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--mint-deep);
+    display: flex;
+    justify-content: space-between;
+  }
+  .history-date-names {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.9;
+  }
+  .history-date-names .name-chip {
+    display: inline-block;
+    margin: 2px 6px 2px 0;
+    padding: 2px 8px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 12.5px;
+  }
+  .history-date-names .name-chip .chip-time {
+    color: var(--mint-deep);
+    font-weight: 600;
+    font-size: 11.5px;
+    margin-left: 4px;
+  }
+  .history-student-select {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--mint-soft);
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: var(--ink);
+    font-family: inherit;
+    background: white;
+  }
+  .history-student-summary {
+    background: var(--mint-bg);
+    border: 1px solid var(--mint-soft);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .history-student-stat {
+    text-align: center;
+  }
+  .history-student-stat .stat-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--mint-deep);
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .history-student-stat .stat-label {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .history-student-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .history-student-date-item {
+    padding: 8px 12px;
+    background: var(--mint-bg);
+    border-radius: 9px;
+    font-size: 13.5px;
+    color: var(--mint-deep);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .history-student-date-item .hsd-time {
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .history-empty {
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 14px;
+    padding: 28px 0;
+  }
+
+  /* ── 전체 현황 탭 ── */
+  .summary-total-info {
+    font-size: 12px; color: var(--ink-soft); text-align: center;
+    background: var(--mint-bg); border-radius: 9px;
+    padding: 7px 12px; margin-bottom: 12px;
+  }
+  .summary-grid { display: flex; flex-direction: column; gap: 5px; }
+  .summary-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 11px; background: white;
+    border-radius: 10px; border: 1px solid var(--line-soft);
+  }
+  .summary-rank {
+    font-size: 13px; min-width: 26px;
+    text-align: center; flex-shrink: 0; color: var(--ink-mute);
+    font-weight: 700;
+  }
+  .summary-name { flex: 0 0 64px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .summary-bar-wrap {
+    flex: 1; height: 9px; background: var(--mint-bg);
+    border-radius: 99px; overflow: hidden;
+  }
+  .summary-bar {
+    height: 100%; background: linear-gradient(90deg, var(--mint) 0%, var(--mint-deep) 100%);
+    border-radius: 99px; transition: width .4s ease;
+    min-width: 2px;
+  }
+  .summary-count {
+    font-size: 13px; font-weight: 700;
+    color: var(--mint-deep); min-width: 32px; text-align: right;
+  }
+  .summary-zero .summary-bar { background: #e0d9cb; }
+  .summary-zero .summary-count { color: var(--ink-mute); }
+  .summary-zero .summary-name { color: var(--ink-mute); font-weight: 500; }
+
+  /* ── 우리 학급 정원 모달 ── */
+  #garden-modal .modal-box { width: 720px; max-width: 92vw; }
+  .garden-header-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .garden-stat-box {
+    background: var(--lavender-bg);
+    border: 1px solid var(--lavender);
+    border-radius: 14px;
+    padding: 12px 10px;
+    text-align: center;
+  }
+  .garden-stat-box .gs-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: #7c4dca;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .garden-stat-box .gs-label {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  .garden-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    background: linear-gradient(180deg, #f3eef9 0%, var(--paper) 100%);
+    border-radius: 14px;
+    padding: 16px 12px;
+    border: 1px solid var(--lavender);
+  }
+  .garden-tile {
+    background: white;
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    padding: 10px 6px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    text-align: center;
+    transition: transform 0.15s;
+  }
+  .garden-tile:hover { transform: translateY(-2px); }
+  .garden-tile.empty { opacity: 0.5; }
+  .gt-plant {
+    font-size: 30px;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .gt-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .gt-count {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .gt-streak {
+    font-size: 11px;
+    color: var(--peach);
+    font-weight: 700;
+  }
+  .garden-legend {
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.7;
+  }
+  .garden-legend .lg-item {
+    display: inline-block;
+    margin: 0 7px;
+    font-weight: 500;
+  }
+  .garden-legend .lg-emoji { font-size: 15px; vertical-align: middle; }
+
+  /* ── 비밀번호 모달 ── */
+  #pw-modal .modal-box { width: 320px; }
+  .pw-display {
+    font-size: 36px;
+    letter-spacing: 12px;
+    text-align: center;
+    color: var(--mint-deep);
+    margin: 12px 0 20px;
+    min-height: 44px;
+    font-weight: 700;
+  }
+  .pw-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .pw-key {
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--mint-soft);
+    background: var(--mint-bg);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--ink);
+    transition: background 0.1s;
+    min-height: 54px;
+    font-family: inherit;
+  }
+  .pw-key:hover { background: #d4ede9; }
+  .pw-key:active { background: #c0e0d8; }
+  .pw-error { color: #e76f51; font-size: 13px; text-align: center; margin-top: 10px; min-height: 20px; }
+
+  /* ── 관리자 모달 ── */
+  #admin-modal .modal-box { width: 620px; max-width: 92vw; }
+  .admin-date-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .admin-date-input {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--mint-soft);
+    font-size: 14px;
+    color: var(--ink);
+    font-family: inherit;
+  }
+  .admin-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .admin-student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 7px;
+    margin-bottom: 16px;
+  }
+  .admin-student-btn {
+    padding: 8px 6px;
+    border-radius: 10px;
+    border: 1px solid var(--mint-soft);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.1s;
+    text-align: center;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    line-height: 1.3;
+    font-family: inherit;
+  }
+  .admin-student-btn.is-checked {
+    background: var(--mint);
+    color: white;
+    border-color: var(--mint);
+  }
+  .admin-student-btn:not(.is-checked) {
+    background: var(--mint-bg);
+    color: var(--ink);
+  }
+  .admin-student-btn:hover { opacity: 0.85; }
+  .admin-btn-action {
+    font-size: 10.5px;
+    opacity: 0.78;
+  }
+  .admin-btn-time {
+    font-size: 10.5px;
+    opacity: 0.85;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .btn-danger {
+    background: #fff0ed;
+    color: #e76f51;
+    border: 1px solid #f4c3b8;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    width: 100%;
+    min-height: 44px;
+    font-family: inherit;
+  }
+  .btn-danger:hover { background: #ffe0d9; }
+  .btn-backup {
+    background: #eef4ff;
+    color: #4a7fd4;
+    border: 1px solid #c0d4f5;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    min-height: 44px;
+    font-family: inherit;
+  }
+  .btn-backup:hover { background: #ddeaff; }
+  .btn-restore {
+    background: var(--lavender-bg);
+    color: #7c4dca;
+    border: 1px solid var(--lavender);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    min-height: 44px;
+    font-family: inherit;
+  }
+  .btn-restore:hover { background: #ebe0ff; }
+  .admin-backup-section,
+  .admin-roster-section,
+  .admin-deadline-section {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .admin-roster-section {
+    margin-top: 0;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    padding-top: 0;
+    border-top: none;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .admin-backup-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 2px;
+  }
+  .class-info-badge {
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--mint-bg);
+    border: 1px solid var(--mint-soft);
+    border-radius: 10px;
+    padding: 8px 12px;
+  }
+  .btn-roster {
+    background: var(--mint-bg);
+    color: var(--mint-deep);
+    border: 1px solid var(--mint-soft);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    min-height: 44px;
+    font-family: inherit;
+  }
+  .btn-roster:hover { background: #d4ede9; }
+  .deadline-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .deadline-input-row label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .deadline-input-row input[type="time"] {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--mint-soft);
+    font-size: 14px;
+    color: var(--ink);
+    font-family: inherit;
+  }
+  .deadline-help {
+    font-size: 12px;
+    color: var(--ink-mute);
+  }
+
+  /* ── 소감 선택 모달 ── */
+  #mood-modal .modal-box {
+    width: 360px;
+    max-width: 92vw;
+    border-radius: 24px;
+  }
+  #mood-modal .modal-body {
+    padding: 24px 22px 22px;
+  }
+  .mood-greeting {
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .mood-greeting .mg-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+  }
+  .mood-greeting .mg-time {
+    font-size: 14px;
+    color: var(--mint-deep);
+    font-weight: 700;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .mood-greeting .mg-time-label {
+    font-size: 11.5px;
+    color: var(--ink-mute);
+    margin-top: 1px;
+  }
+  .mood-question {
+    text-align: center;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 18px 0 14px;
+    font-weight: 500;
+  }
+  .mood-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .mood-btn {
+    background: var(--cream);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 10px 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: transform 0.12s, background 0.15s, border-color 0.15s;
+    font-family: inherit;
+  }
+  .mood-btn:hover {
+    background: var(--mint-bg);
+    border-color: var(--mint-soft);
+    transform: translateY(-2px);
+  }
+  .mood-btn:active { transform: scale(0.94); }
+  .mood-btn .mb-emoji { font-size: 24px; line-height: 1; }
+  .mood-btn .mb-label {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .mood-skip {
+    width: 100%;
+    padding: 10px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+  }
+  .mood-skip:hover { background: var(--cream); }
+
+  /* ── 응원 팝업 ── */
+  #cheer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(40, 35, 35, 0.28);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+  }
+  #cheer-overlay.show { display: flex; }
+  #cheer-box {
+    background: white;
+    border-radius: 28px;
+    padding: 38px 48px;
+    text-align: center;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+    animation: cheerIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 360px;
+  }
+  #cheer-box.hiding {
+    animation: cheerOut 0.4s ease forwards;
+  }
+  .cheer-emoji { font-size: 56px; margin-bottom: 12px; }
+  .cheer-text {
+    font-family: 'Gaegu', 'Gowun Dodum', 'Pretendard', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--mint-deep);
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+  }
+  .cheer-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    font-weight: 500;
+  }
+  @keyframes cheerIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes cheerOut {
+    from { opacity: 1; transform: scale(1); }
+    to   { opacity: 0; transform: scale(0.85); }
+  }
+
+  /* ── 떨어지는 이모지 비 ── */
+  .falling-emoji {
+    position: fixed;
+    top: -60px;
+    z-index: 1500;
+    pointer-events: none;
+    animation: fallDown linear forwards;
+    user-select: none;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.12));
+    will-change: transform, opacity;
+  }
+  @keyframes fallDown {
+    0%   { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { transform: translateY(105vh) rotate(var(--spin, 360deg)); opacity: 0; }
+  }
+
+  /* ── 마일스톤 축하 ── */
+  #milestone-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(40, 35, 35, 0.5);
+    z-index: 1100;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  #milestone-overlay.show { display: flex; }
+  #milestone-box {
+    background: linear-gradient(160deg, #fff9ee 0%, #fff0e8 100%);
+    border-radius: 28px;
+    padding: 40px 44px 32px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+    animation: milestoneIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 380px;
+    border: 2px solid #ffdcc7;
+  }
+  .milestone-emoji {
+    font-size: 64px;
+    margin-bottom: 14px;
+    animation: milestonePulse 1.4s ease-in-out infinite;
+  }
+  .milestone-title {
+    font-family: 'Gaegu', 'Gowun Dodum', 'Pretendard', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: #d97e4a;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+  }
+  .milestone-name {
+    font-size: 15px;
+    color: var(--ink);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .milestone-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 14px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .milestone-close {
+    margin-top: 20px;
+    padding: 11px 28px;
+    background: white;
+    border: 1.5px solid #ffb595;
+    border-radius: 14px;
+    color: #d97e4a;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .milestone-close:hover { background: #fff0e8; }
+  @keyframes milestoneIn {
+    0%   { opacity: 0; transform: scale(0.5) rotate(-6deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+  @keyframes milestonePulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+  }
+
+  /* ── 마감 배너 ── */
+  #deadline-banner {
+    display: none;
+    background: linear-gradient(90deg, #f4a261 0%, #e9967a 100%);
+    color: white;
+    text-align: center;
+    padding: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+    letter-spacing: -0.2px;
+  }
+
+  @media (max-width: 720px) {
+    #side-panel { width: 200px; padding: 12px 10px; }
+    #card-area { padding: 12px; gap: 9px; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+    .student-card { min-height: 115px; padding: 10px 6px; }
+    .card-plant { font-size: 26px; }
+    .student-card.checked .card-plant { font-size: 30px; }
+    #header { padding: 0 16px; height: 64px; }
+    #header .title { font-size: 18px; }
+    #header .bird-emoji { font-size: 24px; }
+    #clock-display { font-size: 18px; }
+    #date-display { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 상단 바 -->
+<div id="header">
+  <div class="title"><span class="bird-emoji">🐦</span><span id="header-title">얼리버드 프로젝트 · 2학년 7반</span></div>
+  <div class="header-right">
+    <div id="date-display">--</div>
+    <div id="clock-display">--:--:--</div>
+  </div>
+</div>
+
+<!-- 마감 배너 -->
+<div id="deadline-banner">🔒 오늘 얼리버드는 마감됐어요 · 내일 또 만나요 🐦</div>
+
+<!-- 메인 -->
+<div id="main">
+  <div id="card-area"></div>
+
+  <div id="side-panel">
+    <div class="panel-box">
+      <div class="panel-box-title">🌅 오늘의 얼리버드</div>
+      <div class="today-count" id="today-count">0</div>
+      <div class="today-count-label">명 출석</div>
+      <div class="today-names" id="today-names"></div>
+    </div>
+    <button class="panel-btn btn-garden" id="btn-garden">🌱 우리 학급 정원</button>
+    <button class="panel-btn btn-history" id="btn-history">📋 전체 이력 보기</button>
+    <button class="panel-btn btn-admin" id="btn-admin">🔒 관리자</button>
+    <div class="theme-switcher">
+      <div class="theme-label">테마</div>
+      <div class="theme-dots">
+        <button class="theme-dot" data-theme="yellow" title="노랑 단색"></button>
+        <button class="theme-dot" data-theme="spring" title="따뜻한 봄"></button>
+        <button class="theme-dot" data-theme="forest" title="자연 정원"></button>
+        <button class="theme-dot" data-theme="sky"    title="맑은 하늘"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 비밀번호 모달 -->
+<div class="modal-overlay" id="pw-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">🔒 관리자 로그인</div>
+      <button class="modal-close" id="pw-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="pw-display" id="pw-display">　</div>
+      <div class="pw-keypad">
+        <button class="pw-key" onclick="pwInput('1')">1</button>
+        <button class="pw-key" onclick="pwInput('2')">2</button>
+        <button class="pw-key" onclick="pwInput('3')">3</button>
+        <button class="pw-key" onclick="pwInput('4')">4</button>
+        <button class="pw-key" onclick="pwInput('5')">5</button>
+        <button class="pw-key" onclick="pwInput('6')">6</button>
+        <button class="pw-key" onclick="pwInput('7')">7</button>
+        <button class="pw-key" onclick="pwInput('8')">8</button>
+        <button class="pw-key" onclick="pwInput('9')">9</button>
+        <button class="pw-key" onclick="pwDelete()">⌫</button>
+        <button class="pw-key" onclick="pwInput('0')">0</button>
+        <button class="pw-key" onclick="pwConfirm()">확인</button>
+      </div>
+      <div class="pw-error" id="pw-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 관리자 모달 -->
+<div class="modal-overlay" id="admin-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">⚙️ 관리자</div>
+      <button class="modal-close" id="admin-close">나가기</button>
+    </div>
+    <div class="modal-body">
+      <div class="admin-roster-section">
+        <div class="admin-backup-title">🐦 프로젝트 제목</div>
+        <div class="deadline-input-row">
+          <input type="text" id="title-input" maxlength="40" placeholder="예: 얼리버드 프로젝트 · 2학년 7반" style="flex:1;padding:9px 12px;border-radius:10px;border:1px solid var(--mint-soft);font-size:14px;color:var(--ink);font-family:inherit;">
+          <button class="btn-roster" style="width:auto;flex-shrink:0;padding:9px 14px;" id="btn-save-title">저장</button>
+        </div>
+        <div class="deadline-help">상단 바에 표시되는 제목. 자유롭게 작성하세요.</div>
+      </div>
+
+      <div class="admin-roster-section">
+        <div class="admin-backup-title">👥 학급 설정</div>
+        <div class="class-info-badge" id="class-info-display">현재: 2학년 7반 (26명)</div>
+        <button class="btn-roster" id="btn-upload-roster">📋 명렬표 업로드 (.xlsx)</button>
+        <input type="file" id="roster-file-input" accept=".xlsx,.xls" style="display:none">
+      </div>
+
+      <div class="admin-deadline-section">
+        <div class="admin-backup-title">⏰ 얼리버드 마감 시간</div>
+        <div class="deadline-input-row">
+          <label>마감</label>
+          <input type="time" id="deadline-input" value="07:40">
+          <button class="btn-roster" style="width:auto;flex-shrink:0;padding:9px 14px;" id="btn-save-deadline">저장</button>
+        </div>
+        <div class="deadline-help">이 시간까지 카드를 탭한 학생만 그날 출석으로 기록됨</div>
+      </div>
+
+      <div class="admin-date-row" style="margin-top:14px;">
+        <label style="font-size:14px;font-weight:700;color:var(--ink-soft);">날짜</label>
+        <input type="date" class="admin-date-input" id="admin-date-input">
+      </div>
+      <div class="admin-section-title">학생 출석 관리 (클릭으로 추가/취소)</div>
+      <div class="admin-student-grid" id="admin-student-grid"></div>
+      <button class="btn-danger" id="btn-reset-day">🗑 이 날짜 데이터 초기화</button>
+
+      <div class="admin-backup-section">
+        <div class="admin-backup-title">💾 데이터 백업 / 복원</div>
+        <button class="btn-backup" id="btn-export-csv">📄 CSV로 내보내기</button>
+        <button class="btn-backup" id="btn-export-json">📦 JSON으로 내보내기 (전체 백업)</button>
+        <button class="btn-restore" id="btn-import-json">📂 JSON 백업 파일 불러오기</button>
+        <input type="file" id="import-file-input" accept=".json" style="display:none">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 이력 모달 -->
+<div class="modal-overlay" id="history-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">📋 전체 이력</div>
+      <button class="modal-close" id="history-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="history-tab-bar">
+        <button class="history-tab active" id="tab-date" onclick="switchHistoryTab('date')">날짜별</button>
+        <button class="history-tab" id="tab-student" onclick="switchHistoryTab('student')">학생별</button>
+        <button class="history-tab" id="tab-summary" onclick="switchHistoryTab('summary')">📊 랭킹</button>
+      </div>
+      <div id="history-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 우리 학급 정원 모달 -->
+<div class="modal-overlay" id="garden-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">🌱 우리 학급 정원</div>
+      <button class="modal-close" id="garden-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="garden-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 소감 선택 모달 -->
+<div class="modal-overlay" id="mood-modal">
+  <div class="modal-box">
+    <div class="modal-body">
+      <div class="mood-greeting">
+        <div class="mg-name" id="mood-name">－</div>
+        <div class="mg-time" id="mood-time">--:--</div>
+        <div class="mg-time-label" id="mood-time-label">도착</div>
+      </div>
+      <div class="mood-question">오늘 아침의 기분은?</div>
+      <div class="mood-grid">
+        <button class="mood-btn" onclick="moodPick('😴')"><span class="mb-emoji">😴</span><span class="mb-label">졸림</span></button>
+        <button class="mood-btn" onclick="moodPick('☺️')"><span class="mb-emoji">☺️</span><span class="mb-label">보통</span></button>
+        <button class="mood-btn" onclick="moodPick('😎')"><span class="mb-emoji">😎</span><span class="mb-label">신남</span></button>
+        <button class="mood-btn" onclick="moodPick('😆')"><span class="mb-emoji">😆</span><span class="mb-label">의욕</span></button>
+        <button class="mood-btn" onclick="moodPick('🥴')"><span class="mb-emoji">🥴</span><span class="mb-label">멍함</span></button>
+        <button class="mood-btn" onclick="moodPick('💖')"><span class="mb-emoji">💖</span><span class="mb-label">최고</span></button>
+      </div>
+      <button class="mood-skip" onclick="moodSkip()">그냥 출석</button>
+    </div>
+  </div>
+</div>
+
+<!-- 응원 팝업 -->
+<div id="cheer-overlay">
+  <div id="cheer-box">
+    <div class="cheer-emoji" id="cheer-emoji">🌟</div>
+    <div class="cheer-text" id="cheer-text">오늘도 잘 왔어</div>
+    <div class="cheer-sub" id="cheer-sub"></div>
+  </div>
+</div>
+
+<!-- 마일스톤 축하 -->
+<div id="milestone-overlay">
+  <div id="milestone-box">
+    <div class="milestone-emoji" id="milestone-emoji">🎉</div>
+    <div class="milestone-title" id="milestone-title">－</div>
+    <div class="milestone-name" id="milestone-name">－</div>
+    <div class="milestone-sub" id="milestone-sub">－</div>
+    <button class="milestone-close" id="milestone-close-btn">고마워요!</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ────────────────────────────────────────
+// 학생 데이터 / 학급 정보
+// ────────────────────────────────────────
+const DEFAULT_STUDENTS = [
+  { id: '20701', name: '권윤서' }, { id: '20702', name: '김민경' },
+  { id: '20703', name: '김민정' }, { id: '20704', name: '김시은' },
+  { id: '20705', name: '김채원' }, { id: '20706', name: '박나은' },
+  { id: '20707', name: '박세은' }, { id: '20708', name: '박효빈' },
+  { id: '20709', name: '손예원' }, { id: '20710', name: '신지민' },
+  { id: '20711', name: '양수빈' }, { id: '20712', name: '엄예주' },
+  { id: '20713', name: '엄지율' }, { id: '20714', name: '유진'   },
+  { id: '20715', name: '윤채원' }, { id: '20716', name: '이가을' },
+  { id: '20717', name: '이가현' }, { id: '20718', name: '이서현' },
+  { id: '20719', name: '이수경' }, { id: '20720', name: '이채린' },
+  { id: '20721', name: '임혜림' }, { id: '20722', name: '정예은' },
+  { id: '20723', name: '차효주' }, { id: '20724', name: '최유리' },
+  { id: '20725', name: '한서현' }, { id: '20726', name: '한예소' },
+];
+
+function loadStudents() {
+  const raw = localStorage.getItem('earlybird_students');
+  return raw ? JSON.parse(raw) : DEFAULT_STUDENTS;
+}
+function loadClassInfo() {
+  const raw = localStorage.getItem('earlybird_class_info');
+  return raw ? JSON.parse(raw) : { grade: 2, classNum: 7 };
+}
+function loadDeadline() {
+  const raw = localStorage.getItem('earlybird_deadline');
+  return raw || '07:40';
+}
+function saveDeadline(t) {
+  localStorage.setItem('earlybird_deadline', t);
+  DEADLINE = t;
+}
+function loadTitle() {
+  const raw = localStorage.getItem('earlybird_title');
+  return raw || '얼리버드 프로젝트 · 2학년 7반';
+}
+function saveTitle(t) {
+  localStorage.setItem('earlybird_title', t);
+  TITLE = t;
+}
+const VALID_THEMES = ['spring', 'forest', 'sky', 'yellow'];
+function loadTheme() {
+  const t = localStorage.getItem('earlybird_theme') || 'yellow';
+  return VALID_THEMES.includes(t) ? t : 'yellow';
+}
+function applyTheme(t) {
+  document.body.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-dot').forEach(d => {
+    d.classList.toggle('active', d.dataset.theme === t);
+  });
+  localStorage.setItem('earlybird_theme', t);
+}
+
+let STUDENTS = loadStudents();
+let CLASS_INFO = loadClassInfo();
+let DEADLINE = loadDeadline();
+let TITLE = loadTitle();
+
+// ────────────────────────────────────────
+// 데이터 구조 (중요)
+// ────────────────────────────────────────
+// localStorage["earlybird_2026-05-06"] = [{id, time, mood}, ...]
+// 기존 형식 ["20701", "20702"] 자동 변환
+//   - time: "07:23" 또는 null (관리자 수동 추가 시)
+//   - mood: "🔆" 등 또는 null (스킵 또는 마이그레이션)
+// ────────────────────────────────────────
+
+function getRecords(dateStr) {
+  const raw = localStorage.getItem('earlybird_' + dateStr);
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    // 마이그레이션: 첫 요소가 문자열이면 옛 포맷
+    if (parsed.length > 0 && typeof parsed[0] === 'string') {
+      return parsed.map(id => ({ id, time: null, mood: null }));
+    }
+    return parsed.map(r => ({
+      id: r.id,
+      time: r.time || null,
+      mood: r.mood || null,
+    }));
+  } catch {
+    return [];
+  }
+}
+function saveRecords(dateStr, records) {
+  localStorage.setItem('earlybird_' + dateStr, JSON.stringify(records));
+}
+function getCheckedIds(dateStr) {
+  return getRecords(dateStr).map(r => r.id);
+}
+
+// ────────────────────────────────────────
+// 날짜 유틸
+// ────────────────────────────────────────
+function formatDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function todayKey() { return formatDate(new Date()); }
+
+function getWeekDates() {
+  const today = new Date();
+  const dow = today.getDay();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+  const dates = [];
+  for (let i = 0; i < 5; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    dates.push(formatDate(d));
+  }
+  return dates;
+}
+
+// ────────────────────────────────────────
+// 통계: streak, 누적
+// ────────────────────────────────────────
+// streak: 오늘부터(또는 어제부터) 거꾸로 학교일(월~금)만 보며,
+// 출석한 날만 +1. 출석 안 한 학교일을 만나면 멈춤.
+// 단, 오늘 아직 출석 안 했으면 어제부터 시작 (오늘이 streak를 깨지 않음).
+function getStreak(studentId) {
+  const todayStr = todayKey();
+  const todayChecked = getCheckedIds(todayStr).includes(studentId);
+
+  let streak = 0;
+  const d = new Date();
+  // 오늘 출석 안 했으면 어제부터 시작
+  if (!todayChecked) d.setDate(d.getDate() - 1);
+
+  for (let i = 0; i < 365; i++) {
+    const dow = d.getDay();
+    if (dow === 0 || dow === 6) {
+      // 주말은 패스 (streak 안 깸, 카운트도 안 함)
+      d.setDate(d.getDate() - 1);
+      continue;
+    }
+    const dateStr = formatDate(d);
+    const checked = getCheckedIds(dateStr).includes(studentId);
+    if (checked) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
+function getTotalCount(studentId) {
+  let total = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith('earlybird_') && /^earlybird_\d{4}-\d{2}-\d{2}$/.test(k)) {
+      const dateStr = k.replace('earlybird_', '');
+      if (getCheckedIds(dateStr).includes(studentId)) total++;
+    }
+  }
+  return total;
+}
+
+function getWeeklyCount(studentId) {
+  return getWeekDates().reduce((sum, dateStr) => {
+    return sum + (getCheckedIds(dateStr).includes(studentId) ? 1 : 0);
+  }, 0);
+}
+
+// ────────────────────────────────────────
+// 식물 성장 단계 (누적 출석 기준)
+// ────────────────────────────────────────
+function getPlantStage(count) {
+  if (count === 0) return { emoji: '🪨', name: '씨앗 잠듦' };
+  if (count <= 2)  return { emoji: '🌱', name: '새싹' };
+  if (count <= 6)  return { emoji: '🌿', name: '잎' };
+  if (count <= 14) return { emoji: '🪴', name: '화분' };
+  if (count <= 29) return { emoji: '🌷', name: '꽃' };
+  if (count <= 49) return { emoji: '🌳', name: '나무' };
+  return { emoji: '🍎', name: '열매' };
+}
+
+// ────────────────────────────────────────
+// 시간대 그라데이션 (헤더)
+// ────────────────────────────────────────
+const HEADER_THEMES = [
+  // [hourFrom, hourTo, gradient, label]
+  [0,    6,    'linear-gradient(135deg, #2c3e50 0%, #4b5d75 100%)',     '깊은 새벽'],
+  [6,    6.5,  'linear-gradient(135deg, #5b6788 0%, #b388eb 100%)',     '박명'],
+  [6.5,  7,    'linear-gradient(135deg, #b388eb 0%, #ff9a8b 100%)',     '여명'],
+  [7,    7.33, 'linear-gradient(135deg, #ffaaa7 0%, #ffcb91 100%)',     '일출'],
+  [7.33, 7.67, 'linear-gradient(135deg, #ffcb91 0%, #ffe5a8 100%)',     '아침 빛'],
+  [7.67, 9,    'linear-gradient(135deg, #ffe5a8 0%, #a8d8ce 100%)',     '맑은 아침'],
+  [9,    12,   'linear-gradient(135deg, #6ec1b1 0%, #a8d8ce 100%)',     '낮'],
+  [12,   17,   'linear-gradient(135deg, #6ec1b1 0%, #4a9d8f 100%)',     '오후'],
+  [17,   19,   'linear-gradient(135deg, #ff9a8b 0%, #c8b5e3 100%)',     '저녁'],
+  [19,   24,   'linear-gradient(135deg, #4b5d75 0%, #2c3e50 100%)',     '밤'],
+];
+function applyHeaderTheme() {
+  // 헤더 배경은 테마(data-theme)에서 결정. 시간대 라벨은 사용자 요청으로 제거됨.
+}
+
+// ────────────────────────────────────────
+// 헤더 업데이트
+// ────────────────────────────────────────
+function updateHeader() {
+  document.getElementById('header-title').textContent = TITLE;
+  document.title = TITLE;
+  const el = document.getElementById('class-info-display');
+  if (el) el.textContent = `현재: ${CLASS_INFO.grade}학년 ${CLASS_INFO.classNum}반 (${STUDENTS.length}명)`;
+}
+
+// ────────────────────────────────────────
+// 명렬표 xlsx 파싱
+// ────────────────────────────────────────
+function parseRosterXlsx(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const wb = XLSX.read(e.target.result, { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      let headerRowIdx = -1, nameCol = -1, numCol = -1, gradeCol = -1, classCol = -1;
+      for (let i = 0; i < Math.min(rows.length, 5); i++) {
+        const row = rows[i].map(v => String(v).trim());
+        const ni = row.findIndex(v => v === '성명' || v === '이름');
+        if (ni >= 0) {
+          headerRowIdx = i; nameCol = ni;
+          numCol = row.findIndex(v => v === '번호');
+          gradeCol = row.findIndex(v => v === '학년');
+          classCol = row.findIndex(v => v === '반');
+          break;
+        }
+      }
+      if (headerRowIdx < 0 || nameCol < 0 || numCol < 0) {
+        alert('명렬표 형식을 인식하지 못했습니다.\n(학년/반/번호/성명 열이 필요합니다)');
+        return;
+      }
+      const students = [];
+      let grade = 0, classNum = 0;
+      for (let i = headerRowIdx + 1; i < rows.length; i++) {
+        const row = rows[i];
+        const name = String(row[nameCol] || '').trim();
+        const num = parseInt(row[numCol]);
+        const g = parseInt(row[gradeCol]);
+        const c = parseInt(row[classCol]);
+        if (!name || isNaN(num)) break;
+        if (g && !grade) grade = g;
+        if (c && !classNum) classNum = c;
+        const id = `${grade}${String(classNum).padStart(2,'0')}${String(num).padStart(2,'0')}`;
+        students.push({ id, name });
+      }
+      if (students.length === 0) { alert('학생 데이터를 찾을 수 없습니다.'); return; }
+      CLASS_INFO = { grade, classNum };
+      STUDENTS = students;
+      localStorage.setItem('earlybird_students', JSON.stringify(STUDENTS));
+      localStorage.setItem('earlybird_class_info', JSON.stringify(CLASS_INFO));
+      updateHeader(); renderAdminGrid(); renderCards(); applyDeadlineState();
+      alert(`${grade}학년 ${classNum}반 학생 ${students.length}명을 불러왔습니다.`);
+    } catch (err) {
+      alert('파일을 읽는 중 오류가 발생했습니다.\n' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ────────────────────────────────────────
+// 카드 렌더링
+// ────────────────────────────────────────
+function renderCards() {
+  const area = document.getElementById('card-area');
+  area.innerHTML = '';
+  STUDENTS.forEach((s, idx) => {
+    const card = document.createElement('div');
+    card.className = 'student-card';
+    card.dataset.id = s.id;
+    card.innerHTML = `
+      <div class="card-mood-badge" data-mood-badge></div>
+      <div class="card-number">${String(idx+1).padStart(2,'0')}</div>
+      <div class="card-plant" data-plant>🪨</div>
+      <div class="card-name">${s.name}</div>
+      <div class="card-time" data-time>--:--</div>
+      <div class="card-streak" data-streak></div>
+      <div class="card-total" data-total></div>
+    `;
+    card.addEventListener('click', () => onCardClick(s.id));
+    area.appendChild(card);
+  });
+  updateCardStates();
+}
+
+function updateCardStates() {
+  const todayStr = todayKey();
+  const todayRecords = getRecords(todayStr);
+  document.querySelectorAll('.student-card').forEach(card => {
+    const id = card.dataset.id;
+    const rec = todayRecords.find(r => r.id === id);
+    const total = getTotalCount(id);
+    const streak = getStreak(id);
+    const plant = getPlantStage(total);
+
+    card.querySelector('[data-plant]').textContent = plant.emoji;
+    card.querySelector('[data-total]').textContent = total > 0 ? `누적 ${total}회` : ' ';
+    const streakEl = card.querySelector('[data-streak]');
+    if (streak >= 1) {
+      streakEl.textContent = `🔥 ${streak}일 연속`;
+      card.classList.add('has-streak');
+    } else {
+      streakEl.textContent = '';
+      card.classList.remove('has-streak');
+    }
+
+    const timeEl = card.querySelector('[data-time]');
+    const moodBadge = card.querySelector('[data-mood-badge]');
+    if (rec) {
+      card.classList.add('checked');
+      timeEl.textContent = rec.time || '출석';
+      moodBadge.textContent = rec.mood || '';
+    } else {
+      card.classList.remove('checked');
+      timeEl.textContent = '';
+      moodBadge.textContent = '';
+    }
+  });
+  updateSidePanel();
+}
+
+// ────────────────────────────────────────
+// 사이드패널 갱신
+// ────────────────────────────────────────
+function updateSidePanel() {
+  const records = getRecords(todayKey());
+  const sorted = [...records].sort((a, b) => {
+    if (!a.time) return 1;
+    if (!b.time) return -1;
+    return a.time.localeCompare(b.time);
+  });
+  document.getElementById('today-count').textContent = records.length;
+  const namesEl = document.getElementById('today-names');
+  namesEl.innerHTML = sorted.map(r => {
+    const s = STUDENTS.find(x => x.id === r.id);
+    if (!s) return '';
+    return `
+      <div class="today-name-item">
+        <div class="tn-left">
+          <span class="tn-mood">${r.mood || '✔'}</span>
+          <span class="tn-name">${s.name}</span>
+        </div>
+        <span class="tn-time">${r.time || '--:--'}</span>
+      </div>`;
+  }).join('');
+}
+
+// ────────────────────────────────────────
+// 마감 시간 / 잠금
+// ────────────────────────────────────────
+function isDeadlinePassed() {
+  const [hh, mm] = DEADLINE.split(':').map(Number);
+  const now = new Date();
+  return now.getHours() > hh || (now.getHours() === hh && now.getMinutes() >= mm);
+}
+function applyDeadlineState() {
+  const passed = isDeadlinePassed();
+  document.getElementById('deadline-banner').style.display = passed ? 'block' : 'none';
+  document.querySelectorAll('.student-card').forEach(card => {
+    const alreadyChecked = getCheckedIds(todayKey()).includes(card.dataset.id);
+    if (passed || alreadyChecked) card.classList.add('locked');
+    else card.classList.remove('locked');
+  });
+}
+
+// ────────────────────────────────────────
+// 카드 클릭 → 소감 모달
+// ────────────────────────────────────────
+let pendingCheck = null; // { studentId, time }
+
+function onCardClick(studentId) {
+  if (isDeadlinePassed()) return;
+  const key = todayKey();
+  const ids = getCheckedIds(key);
+  if (ids.includes(studentId)) return;
+
+  // 시각 기록
+  const now = new Date();
+  const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  pendingCheck = { studentId, time };
+  openMoodModal(studentId, time);
+}
+
+function openMoodModal(studentId, time) {
+  const s = STUDENTS.find(x => x.id === studentId);
+  document.getElementById('mood-name').textContent = s ? s.name : '－';
+  document.getElementById('mood-time').textContent = time;
+  document.getElementById('mood-time-label').textContent = '도착 시각';
+  document.getElementById('mood-modal').classList.add('show');
+}
+function closeMoodModal() {
+  document.getElementById('mood-modal').classList.remove('show');
+}
+function cancelMoodCheck() {
+  pendingCheck = null;
+  closeMoodModal();
+}
+function moodPick(mood) {
+  finalizeCheck(mood);
+}
+function moodSkip() {
+  finalizeCheck(null);
+}
+
+function finalizeCheck(mood) {
+  if (!pendingCheck) { closeMoodModal(); return; }
+  const { studentId, time } = pendingCheck;
+  const key = todayKey();
+  const records = getRecords(key);
+  if (records.find(r => r.id === studentId)) {
+    pendingCheck = null;
+    closeMoodModal();
+    return;
+  }
+  records.push({ id: studentId, time, mood });
+  saveRecords(key, records);
+  pendingCheck = null;
+
+  closeMoodModal();
+  updateCardStates();
+  applyDeadlineState();
+
+  // 마일스톤 체크 (streak 기준)
+  const streak = getStreak(studentId);
+  const total = getTotalCount(studentId);
+  const milestone = checkMilestone(streak, total);
+  if (milestone) {
+    rainEmojis(32, 3.5);
+    showMilestone(studentId, milestone, time);
+  } else {
+    rainEmojis(16, 3);
+    showCheerPopup(studentId, time);
+  }
+}
+
+// ────────────────────────────────────────
+// 떨어지는 이모지 비
+// ────────────────────────────────────────
+const RAIN_EMOJIS = ['🌸','🌷','🌿','✨','🍀','⭐','🌼','💫','🍃','🌟','🌱','🦋','🌻','🍂'];
+function rainEmojis(count = 16, duration = 3) {
+  for (let i = 0; i < count; i++) {
+    const span = document.createElement('span');
+    span.className = 'falling-emoji';
+    span.textContent = RAIN_EMOJIS[Math.floor(Math.random() * RAIN_EMOJIS.length)];
+    span.style.left = (Math.random() * 100) + 'vw';
+    span.style.fontSize = (22 + Math.random() * 22) + 'px';
+    span.style.animationDuration = (duration + Math.random() * 1.2) + 's';
+    span.style.animationDelay = (Math.random() * 0.7) + 's';
+    span.style.setProperty('--spin', (Math.random() * 720 - 360) + 'deg');
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), (duration + 2) * 1000);
+  }
+}
+
+// ────────────────────────────────────────
+// 응원 메시지
+// ────────────────────────────────────────
+const CHEER_MESSAGES = [
+  { emoji: '☀️', text: '오늘도 해냈어요!' },
+  { emoji: '🐦', text: '이른 새가 멀리 봐요' },
+  { emoji: '✨', text: '벌써 도착이라니!' },
+  { emoji: '💪', text: '한 발 앞섰어요!' },
+  { emoji: '🌟', text: '오늘도 멋져요' },
+  { emoji: '🍀', text: '좋은 일이 따라올 거예요' },
+  { emoji: '🔥', text: '오늘도 화이팅!' },
+  { emoji: '💫', text: '꾸준함이 빛나요' },
+  { emoji: '🌷', text: '오늘은 너의 날!' },
+];
+function pickCheer() {
+  return CHEER_MESSAGES[Math.floor(Math.random() * CHEER_MESSAGES.length)];
+}
+function showCheerPopup(studentId, time) {
+  const msg = pickCheer();
+  const overlay = document.getElementById('cheer-overlay');
+  const box = document.getElementById('cheer-box');
+  document.getElementById('cheer-emoji').textContent = msg.emoji;
+  document.getElementById('cheer-text').textContent = msg.text;
+  const s = STUDENTS.find(x => x.id === studentId);
+  document.getElementById('cheer-sub').textContent = s ? `${s.name} · ${time} 도착` : msg.sub;
+  box.classList.remove('hiding');
+  overlay.classList.add('show');
+  setTimeout(() => {
+    box.classList.add('hiding');
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      box.classList.remove('hiding');
+    }, 400);
+  }, 1900);
+}
+
+// ────────────────────────────────────────
+// 마일스톤
+// ────────────────────────────────────────
+const STREAK_MILESTONES = {
+  3:  { emoji: '🌿', title: '사흘 연속!',       sub: '리듬이 잡히기 시작했어요.' },
+  7:  { emoji: '🌷', title: '한 주 다 채웠어요!', sub: '일주일 내내 꾸준했어요.' },
+  14: { emoji: '🌳', title: '두 주 연속!',      sub: '얼리버드의 결이 깊어지고 있어요.' },
+  30: { emoji: '⭐', title: '한 달 연속!',      sub: '대단해요. 이건 학생만의 시간이에요.' },
+};
+const TOTAL_MILESTONES = {
+  10: { emoji: '🪴', title: '누적 10회!',  sub: '식물이 화분으로 자랐어요.' },
+  20: { emoji: '🌷', title: '누적 20회!',  sub: '꽃이 폈어요.' },
+  50: { emoji: '🌳', title: '누적 50회!',  sub: '큰 나무가 됐어요.' },
+  100:{ emoji: '🍎', title: '누적 100회!', sub: '열매가 맺혔어요.' },
+};
+function checkMilestone(streak, total) {
+  if (STREAK_MILESTONES[streak]) return STREAK_MILESTONES[streak];
+  if (TOTAL_MILESTONES[total]) return TOTAL_MILESTONES[total];
+  return null;
+}
+function showMilestone(studentId, m, time) {
+  const s = STUDENTS.find(x => x.id === studentId);
+  document.getElementById('milestone-emoji').textContent = m.emoji;
+  document.getElementById('milestone-title').textContent = m.title;
+  document.getElementById('milestone-name').textContent = s ? `${s.name} · ${time}` : time;
+  document.getElementById('milestone-sub').textContent = m.sub;
+  document.getElementById('milestone-overlay').classList.add('show');
+}
+function closeMilestone() {
+  document.getElementById('milestone-overlay').classList.remove('show');
+}
+
+// ────────────────────────────────────────
+// 시계
+// ────────────────────────────────────────
+const DAYS = ['일','월','화','수','목','금','토'];
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  const ampm = h < 12 ? '오전' : '오후';
+  const h12 = (h % 12) || 12;
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const ss = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock-display').innerHTML =
+    `<span class="clock-main">${ampm} ${h12}:${mm}</span><span class="clock-sec">:${ss}</span>`;
+  const month = now.getMonth() + 1;
+  const date = now.getDate();
+  const day = DAYS[now.getDay()];
+  document.getElementById('date-display').textContent = `${month}월 ${date}일 (${day}요일)`;
+}
+
+// ────────────────────────────────────────
+// 비밀번호
+// ────────────────────────────────────────
+const ADMIN_PW = '0000';
+let pwBuffer = '';
+function openPwModal() {
+  pwBuffer = '';
+  document.getElementById('pw-display').textContent = '　';
+  document.getElementById('pw-error').textContent = '';
+  document.getElementById('pw-modal').classList.add('show');
+}
+function closePwModal() {
+  document.getElementById('pw-modal').classList.remove('show');
+  pwBuffer = '';
+}
+function pwInput(d) {
+  if (pwBuffer.length >= 4) return;
+  pwBuffer += d;
+  document.getElementById('pw-display').textContent = '●'.repeat(pwBuffer.length);
+}
+function pwDelete() {
+  pwBuffer = pwBuffer.slice(0, -1);
+  document.getElementById('pw-display').textContent = pwBuffer.length ? '●'.repeat(pwBuffer.length) : '　';
+}
+function pwConfirm() {
+  if (pwBuffer === ADMIN_PW) { closePwModal(); openAdmin(); }
+  else {
+    document.getElementById('pw-error').textContent = '비밀번호가 틀렸습니다.';
+    pwBuffer = '';
+    document.getElementById('pw-display').textContent = '　';
+  }
+}
+
+// ────────────────────────────────────────
+// 관리자 모달
+// ────────────────────────────────────────
+function openAdmin() {
+  document.getElementById('admin-date-input').value = todayKey();
+  document.getElementById('deadline-input').value = DEADLINE;
+  document.getElementById('title-input').value = TITLE;
+  document.getElementById('admin-modal').classList.add('show');
+  renderAdminGrid();
+}
+function closeAdmin() {
+  document.getElementById('admin-modal').classList.remove('show');
+  updateCardStates();
+  applyDeadlineState();
+}
+function renderAdminGrid() {
+  const dateStr = document.getElementById('admin-date-input').value;
+  const records = getRecords(dateStr);
+  const grid = document.getElementById('admin-student-grid');
+  grid.innerHTML = STUDENTS.map((s, idx) => {
+    const rec = records.find(r => r.id === s.id);
+    const isChecked = !!rec;
+    const timeStr = rec?.time || '';
+    const moodStr = rec?.mood || '';
+    return `
+      <button class="admin-student-btn ${isChecked ? 'is-checked' : ''}" onclick="adminToggle('${s.id}')">
+        <span>${String(idx+1).padStart(2,'0')} ${s.name}${moodStr ? ' ' + moodStr : ''}</span>
+        ${isChecked
+          ? `<span class="admin-btn-time">${timeStr || '시각 미기록'}</span>`
+          : `<span class="admin-btn-action">+ 추가하기</span>`}
+      </button>`;
+  }).join('');
+}
+function adminToggle(studentId) {
+  const dateStr = document.getElementById('admin-date-input').value;
+  const records = getRecords(dateStr);
+  const idx = records.findIndex(r => r.id === studentId);
+  if (idx >= 0) {
+    records.splice(idx, 1);
+  } else {
+    records.push({ id: studentId, time: null, mood: null });
+  }
+  saveRecords(dateStr, records);
+  renderAdminGrid();
+}
+
+// ────────────────────────────────────────
+// 백업 / 복원
+// ────────────────────────────────────────
+function getAllEarlybirdData() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && /^earlybird_\d{4}-\d{2}-\d{2}$/.test(k)) {
+      data[k] = getRecords(k.replace('earlybird_', ''));
+    }
+  }
+  return data;
+}
+function downloadFile(filename, content, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+function exportCSV() {
+  const data = getAllEarlybirdData();
+  const dates = Object.keys(data).map(k => k.replace('earlybird_', '')).sort();
+  if (dates.length === 0) { alert('내보낼 데이터가 없습니다.'); return; }
+  const header = ['날짜', ...STUDENTS.flatMap(s => [`${s.id} ${s.name} 출석`, `${s.id} 시각`, `${s.id} 기분`])];
+  const rows = dates.map(dateStr => {
+    const records = data[`earlybird_${dateStr}`] || [];
+    return [dateStr, ...STUDENTS.flatMap(s => {
+      const r = records.find(x => x.id === s.id);
+      return r ? ['O', r.time || '', r.mood || ''] : ['', '', ''];
+    })];
+  });
+  const csv = '﻿' + [header, ...rows].map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+  downloadFile(`얼리버드_${todayKey()}.csv`, csv, 'text/csv;charset=utf-8');
+}
+function exportJSON() {
+  const data = getAllEarlybirdData();
+  if (Object.keys(data).length === 0) { alert('내보낼 데이터가 없습니다.'); return; }
+  const json = JSON.stringify({
+    exported: new Date().toISOString(),
+    classInfo: CLASS_INFO,
+    students: STUDENTS,
+    deadline: DEADLINE,
+    data,
+  }, null, 2);
+  downloadFile(`얼리버드_백업_${todayKey()}.json`, json, 'application/json');
+}
+function importJSON(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      const incoming = parsed.data || parsed;
+      const keys = Object.keys(incoming).filter(k => k.startsWith('earlybird_'));
+      if (keys.length === 0) { alert('올바른 백업 파일이 아닙니다.'); return; }
+      if (!confirm(`총 ${keys.length}일치 데이터를 불러옵니다.\n기존 데이터와 합쳐집니다. 계속할까요?`)) return;
+      keys.forEach(k => {
+        const dateStr = k.replace('earlybird_', '');
+        const existing = getRecords(dateStr);
+        const incomingRaw = incoming[k];
+        // 마이그레이션
+        let imported;
+        if (Array.isArray(incomingRaw) && incomingRaw.length > 0 && typeof incomingRaw[0] === 'string') {
+          imported = incomingRaw.map(id => ({ id, time: null, mood: null }));
+        } else {
+          imported = incomingRaw || [];
+        }
+        // 합치기 (id 기준 중복 제거, 기존 우선)
+        const merged = [...existing];
+        imported.forEach(r => {
+          if (!merged.find(x => x.id === r.id)) merged.push(r);
+        });
+        saveRecords(dateStr, merged);
+      });
+      alert('불러오기 완료!');
+      renderAdminGrid(); updateCardStates();
+    } catch {
+      alert('파일을 읽는 중 오류가 발생했습니다.');
+    }
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+// ────────────────────────────────────────
+// 이력 모달
+// ────────────────────────────────────────
+let historyTab = 'date';
+function openHistory() {
+  document.getElementById('history-modal').classList.add('show');
+  renderHistory();
+}
+function closeHistory() {
+  document.getElementById('history-modal').classList.remove('show');
+}
+function switchHistoryTab(tab) {
+  historyTab = tab;
+  document.getElementById('tab-date').classList.toggle('active', tab === 'date');
+  document.getElementById('tab-student').classList.toggle('active', tab === 'student');
+  document.getElementById('tab-summary').classList.toggle('active', tab === 'summary');
+  renderHistory();
+}
+function getAllHistoryDates() {
+  const dates = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && /^earlybird_\d{4}-\d{2}-\d{2}$/.test(k)) {
+      dates.push(k.replace('earlybird_', ''));
+    }
+  }
+  return dates.sort((a, b) => b.localeCompare(a));
+}
+function renderSummary(content) {
+  const dates = getAllHistoryDates();
+  const totalDays = dates.length;
+  if (totalDays === 0) {
+    content.innerHTML = '<div class="history-empty">아직 기록이 없습니다.</div>';
+    return;
+  }
+  const counts = STUDENTS.map(s => {
+    const count = dates.reduce((sum, d) => sum + (getCheckedIds(d).includes(s.id) ? 1 : 0), 0);
+    return { ...s, count };
+  }).sort((a, b) => b.count - a.count);
+  const maxCount = Math.max(1, counts[0]?.count || 1);
+  content.innerHTML = `
+    <div class="summary-total-info">총 ${totalDays}일 기록 · 학생 ${STUDENTS.length}명</div>
+    <div class="summary-grid">
+      ${counts.map((s, i) => {
+        const pct = Math.round(s.count / maxCount * 100);
+        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}`;
+        const zeroClass = s.count === 0 ? ' summary-zero' : '';
+        return `<div class="summary-item${zeroClass}">
+          <div class="summary-rank">${medal}</div>
+          <div class="summary-name">${s.name}</div>
+          <div class="summary-bar-wrap"><div class="summary-bar" style="width:${pct}%"></div></div>
+          <div class="summary-count">${s.count}회</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+function renderHistory() {
+  const content = document.getElementById('history-content');
+  if (historyTab === 'summary') { renderSummary(content); return; }
+  if (historyTab === 'date') {
+    const dates = getAllHistoryDates();
+    if (dates.length === 0) { content.innerHTML = '<div class="history-empty">아직 기록이 없습니다.</div>'; return; }
+    content.innerHTML = dates.map(dateStr => {
+      const records = getRecords(dateStr);
+      const sorted = [...records].sort((a, b) => {
+        if (!a.time) return 1; if (!b.time) return -1;
+        return a.time.localeCompare(b.time);
+      });
+      const dayName = DAYS[new Date(dateStr).getDay()];
+      const chips = sorted.map(r => {
+        const s = STUDENTS.find(x => x.id === r.id);
+        const name = s ? s.name : r.id;
+        const mood = r.mood ? ` ${r.mood}` : '';
+        const time = r.time ? `<span class="chip-time">${r.time}</span>` : '';
+        return `<span class="name-chip">${name}${mood}${time}</span>`;
+      }).join('');
+      return `
+        <div class="history-date-item">
+          <div class="history-date-header">
+            <span>${dateStr} (${dayName})</span>
+            <span>${records.length}명</span>
+          </div>
+          <div class="history-date-names">${chips || '없음'}</div>
+        </div>`;
+    }).join('');
+  } else {
+    const options = STUDENTS.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+    const currentId = document.getElementById('history-student-select')?.value || STUDENTS[0].id;
+    content.innerHTML = `
+      <select class="history-student-select" id="history-student-select" onchange="renderHistory()">${options}</select>
+      <div class="history-student-summary" id="history-student-summary"></div>
+      <div class="history-student-dates" id="student-date-list"></div>`;
+    document.getElementById('history-student-select').value = currentId;
+    renderStudentHistory(currentId);
+  }
+}
+function renderStudentHistory(studentId) {
+  const allDates = getAllHistoryDates();
+  const myDates = allDates.filter(d => getCheckedIds(d).includes(studentId));
+  const total = myDates.length;
+  const streak = getStreak(studentId);
+  const plant = getPlantStage(total);
+
+  const summaryEl = document.getElementById('history-student-summary');
+  if (summaryEl) {
+    summaryEl.innerHTML = `
+      <div class="history-student-stat">
+        <div class="stat-value">${total}</div>
+        <div class="stat-label">누적 출석</div>
+      </div>
+      <div class="history-student-stat">
+        <div class="stat-value">🔥 ${streak}</div>
+        <div class="stat-label">연속</div>
+      </div>
+      <div class="history-student-stat">
+        <div class="stat-value" style="font-size:26px;">${plant.emoji}</div>
+        <div class="stat-label">${plant.name}</div>
+      </div>`;
+  }
+  const el = document.getElementById('student-date-list');
+  if (!el) return;
+  if (myDates.length === 0) { el.innerHTML = '<div class="history-empty">출석 기록이 없습니다.</div>'; return; }
+  el.innerHTML = myDates.map(d => {
+    const day = DAYS[new Date(d).getDay()];
+    const r = getRecords(d).find(x => x.id === studentId);
+    const time = r?.time ? `<span class="hsd-time">${r.time}${r.mood ? ' ' + r.mood : ''}</span>` : '<span class="hsd-time">시각 미기록</span>';
+    return `<div class="history-student-date-item"><span>✔ ${d} (${day})</span>${time}</div>`;
+  }).join('');
+}
+
+// ────────────────────────────────────────
+// 우리 학급 정원
+// ────────────────────────────────────────
+function openGarden() {
+  document.getElementById('garden-modal').classList.add('show');
+  renderGarden();
+}
+function closeGarden() {
+  document.getElementById('garden-modal').classList.remove('show');
+}
+function renderGarden() {
+  const content = document.getElementById('garden-content');
+  const allDates = getAllHistoryDates();
+  const totalDays = allDates.length;
+  const totalChecks = allDates.reduce((sum, d) => sum + getRecords(d).length, 0);
+
+  // 학급에서 가장 큰 식물
+  const studentCounts = STUDENTS.map(s => ({ ...s, count: getTotalCount(s.id), streak: getStreak(s.id) }));
+  const maxCount = studentCounts.reduce((m, s) => Math.max(m, s.count), 0);
+  const topPlant = getPlantStage(maxCount);
+
+  content.innerHTML = `
+    <div class="garden-header-stats">
+      <div class="garden-stat-box">
+        <div class="gs-value">${totalDays}</div>
+        <div class="gs-label">기록된 날</div>
+      </div>
+      <div class="garden-stat-box">
+        <div class="gs-value">${totalChecks}</div>
+        <div class="gs-label">학급 누적 출석</div>
+      </div>
+      <div class="garden-stat-box">
+        <div class="gs-value">${topPlant.emoji}</div>
+        <div class="gs-label">가장 큰 식물</div>
+      </div>
+    </div>
+    <div class="garden-grid">
+      ${studentCounts.map(s => {
+        const p = getPlantStage(s.count);
+        const empty = s.count === 0 ? ' empty' : '';
+        const streak = s.streak >= 1 ? `<div class="gt-streak">🔥 ${s.streak}일</div>` : '';
+        return `
+          <div class="garden-tile${empty}">
+            <div class="gt-plant">${p.emoji}</div>
+            <div class="gt-name">${s.name}</div>
+            <div class="gt-count">${s.count}회</div>
+            ${streak}
+          </div>`;
+      }).join('')}
+    </div>
+    <div class="garden-legend">
+      <span class="lg-item"><span class="lg-emoji">🪨</span> 0회</span>
+      <span class="lg-item"><span class="lg-emoji">🌱</span> 1~2</span>
+      <span class="lg-item"><span class="lg-emoji">🌿</span> 3~6</span>
+      <span class="lg-item"><span class="lg-emoji">🪴</span> 7~14</span>
+      <span class="lg-item"><span class="lg-emoji">🌷</span> 15~29</span>
+      <span class="lg-item"><span class="lg-emoji">🌳</span> 30~49</span>
+      <span class="lg-item"><span class="lg-emoji">🍎</span> 50+</span>
+    </div>`;
+}
+
+// ────────────────────────────────────────
+// 이벤트 바인딩
+// ────────────────────────────────────────
+document.getElementById('btn-admin').addEventListener('click', openPwModal);
+document.getElementById('pw-close').addEventListener('click', closePwModal);
+document.getElementById('admin-close').addEventListener('click', closeAdmin);
+document.getElementById('admin-date-input').addEventListener('change', renderAdminGrid);
+document.getElementById('btn-reset-day').addEventListener('click', () => {
+  const dateStr = document.getElementById('admin-date-input').value;
+  if (confirm(`${dateStr} 데이터를 초기화할까요?\n이 작업은 되돌릴 수 없습니다.`)) {
+    localStorage.removeItem('earlybird_' + dateStr);
+    renderAdminGrid();
+  }
+});
+document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
+document.getElementById('btn-export-json').addEventListener('click', exportJSON);
+document.getElementById('btn-import-json').addEventListener('click', () => document.getElementById('import-file-input').click());
+document.getElementById('import-file-input').addEventListener('change', (e) => {
+  if (e.target.files[0]) importJSON(e.target.files[0]);
+  e.target.value = '';
+});
+document.getElementById('btn-upload-roster').addEventListener('click', () => document.getElementById('roster-file-input').click());
+document.getElementById('roster-file-input').addEventListener('change', (e) => {
+  if (e.target.files[0]) parseRosterXlsx(e.target.files[0]);
+  e.target.value = '';
+});
+document.getElementById('btn-save-deadline').addEventListener('click', () => {
+  const v = document.getElementById('deadline-input').value;
+  if (!v) { alert('시간을 입력해주세요.'); return; }
+  saveDeadline(v);
+  applyDeadlineState();
+  alert(`마감 시간이 ${v}로 저장됐어요.`);
+});
+document.getElementById('btn-save-title').addEventListener('click', () => {
+  const v = document.getElementById('title-input').value.trim();
+  if (!v) { alert('제목을 입력해주세요.'); return; }
+  saveTitle(v);
+  updateHeader();
+  alert('제목이 저장됐어요.');
+});
+document.getElementById('btn-history').addEventListener('click', openHistory);
+document.getElementById('history-close').addEventListener('click', closeHistory);
+document.getElementById('btn-garden').addEventListener('click', openGarden);
+document.getElementById('garden-close').addEventListener('click', closeGarden);
+document.getElementById('milestone-close-btn').addEventListener('click', closeMilestone);
+
+// ────────────────────────────────────────
+// 테마 dot 이벤트
+// ────────────────────────────────────────
+document.querySelectorAll('.theme-dot').forEach(d => {
+  d.addEventListener('click', () => applyTheme(d.dataset.theme));
+});
+
+// 소감 모달 배경 클릭 시 출석 취소 (잘못 누른 경우)
+document.getElementById('mood-modal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) cancelMoodCheck();
+});
+
+// ────────────────────────────────────────
+// 초기화
+// ────────────────────────────────────────
+function init() {
+  applyTheme(loadTheme());
+  updateHeader();
+  applyHeaderTheme();
+  renderCards();
+  applyDeadlineState();
+  updateClock();
+  setInterval(() => {
+    updateClock();
+    applyDeadlineState();
+    applyHeaderTheme();
+  }, 1000);
+  setInterval(() => {
+    updateCardStates();
+  }, 60 * 1000);
+}
+init();
+</script>
+</body>
+</html>

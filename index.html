@@ -1363,17 +1363,25 @@
     50%      { transform: scale(1.08); }
   }
 
-  /* ── 마감 배너 ── */
+  /* ── 마감 배너 (둥근 알약, 가운데 떠있음) ── */
   #deadline-banner {
     display: none;
-    background: linear-gradient(90deg, #f4a261 0%, #e9967a 100%);
-    color: white;
+    margin: 14px auto 6px;
+    width: fit-content;
+    max-width: 92%;
+    background: linear-gradient(135deg, #fff0e6 0%, #fcdbc6 100%);
+    color: #a8633a;
     text-align: center;
-    padding: 9px;
-    font-size: 14px;
+    padding: 10px 24px 8px;
+    font-family: 'Dongle', 'Jua', 'Pretendard', sans-serif;
+    font-size: 24px;
     font-weight: 700;
     flex-shrink: 0;
-    letter-spacing: -0.2px;
+    letter-spacing: -0.3px;
+    border: 1.5px solid #f4c3b8;
+    border-radius: 99px;
+    box-shadow: 0 4px 14px rgba(244, 162, 97, 0.20);
+    line-height: 1;
   }
 
   @media (max-width: 720px) {

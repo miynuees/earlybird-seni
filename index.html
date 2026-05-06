@@ -665,6 +665,16 @@
     font-family: inherit;
   }
   .modal-close:hover { background: #ddd; }
+  /* "나가기" 같이 글자가 들어가는 close 버튼은 가로폭 자동 + 폰트 작게 */
+  .modal-close.has-text {
+    width: auto;
+    padding: 0 14px;
+    height: 32px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
   .modal-body {
     padding: 18px 22px;
     overflow-y: auto;
@@ -1453,7 +1463,7 @@
   <div class="modal-box">
     <div class="modal-header">
       <div class="modal-title">⚙️ 관리자</div>
-      <button class="modal-close" id="admin-close">나가기</button>
+      <button class="modal-close has-text" id="admin-close">나가기</button>
     </div>
     <div class="modal-body">
       <div class="admin-roster-section">
@@ -1496,6 +1506,7 @@
         <button class="btn-backup" id="btn-export-json">📦 JSON으로 내보내기 (전체 백업)</button>
         <button class="btn-restore" id="btn-import-json">📂 JSON 백업 파일 불러오기</button>
         <input type="file" id="import-file-input" accept=".json" style="display:none">
+        <button class="btn-danger" id="btn-reset-all" style="margin-top:6px;">🗑 모든 출석 기록 초기화</button>
       </div>
     </div>
   </div>
@@ -2495,6 +2506,20 @@ document.getElementById('btn-reset-day').addEventListener('click', () => {
     localStorage.removeItem('earlybird_' + dateStr);
     renderAdminGrid();
   }
+});
+document.getElementById('btn-reset-all').addEventListener('click', () => {
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && /^earlybird_\d{4}-\d{2}-\d{2}$/.test(k)) keys.push(k);
+  }
+  if (keys.length === 0) { alert('초기화할 출석 기록이 없어요.'); return; }
+  if (!confirm(`정말 모든 출석 기록을 지울까요?\n총 ${keys.length}일치 데이터가 사라져요.\n학생 명단·설정은 그대로 남아 있어요.\n이 작업은 되돌릴 수 없습니다.`)) return;
+  if (!confirm('마지막 확인이에요. 진짜 모두 지울까요?')) return;
+  keys.forEach(k => localStorage.removeItem(k));
+  alert(`${keys.length}일치 출석 기록을 모두 초기화했어요.`);
+  renderAdminGrid();
+  updateCardStates();
 });
 document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
 document.getElementById('btn-export-json').addEventListener('click', exportJSON);

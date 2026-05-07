@@ -2643,14 +2643,30 @@ function updateSidePanel() {
 }
 
 // ────────────────────────────────────────
-// (구) 마감 시간 처리 — 카드 잠금 제거. 빈 함수로 유지(호출처 호환).
+// 시간대 안내 배너 (카드 잠금은 안 함. 안내만)
 // ────────────────────────────────────────
-function isDeadlinePassed() { return false; }
+function isDeadlinePassed() { return false; } // 호출처 호환용 (잠금 안 함)
 function applyDeadlineState() {
-  // 더 이상 카드 잠금 안 함. 마감 배너도 안 띄움.
   const banner = document.getElementById('deadline-banner');
-  if (banner) banner.style.display = 'none';
+  if (!banner) return;
   document.querySelectorAll('.student-card.locked').forEach(c => c.classList.remove('locked'));
+
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const earlyMin = timeToMin(THRESHOLD_EARLY);
+  const normalMin = timeToMin(THRESHOLD_NORMAL);
+
+  // 자정~얼리버드 시간 사이는 배너 X (다음 아침 준비 중)
+  if (nowMin < earlyMin) {
+    banner.style.display = 'none';
+    return;
+  }
+  if (nowMin >= normalMin) {
+    banner.textContent = '🌆 정상 출석 시간이 지났어요 · 지금 탭하면 지각으로 기록돼요';
+  } else {
+    banner.textContent = '🌅 오늘의 얼리버드 시간은 종료됐어요 · 정상 출석 시간이에요';
+  }
+  banner.style.display = 'block';
 }
 
 // ────────────────────────────────────────

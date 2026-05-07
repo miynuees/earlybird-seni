@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>얼리버드 프로젝트</title>
 <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#f4c95d">
+<meta name="theme-color" content="#1f1f1f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="얼리버드">
@@ -18,7 +18,30 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* 깔끔 흑백 — 단색 검정 헤더 + 화이트/그레이 톤 (기본) */
   :root,
+  body[data-theme="mono"] {
+    --mint: #6e6e6e;
+    --mint-soft: #d0d0d0;
+    --mint-bg: #f4f4f4;
+    --mint-deep: #1f1f1f;
+    --lavender: #b8b8b8;
+    --lavender-bg: #ededed;
+    --peach: #888888;
+    --peach-bg: #efefef;
+    --cream: #fafafa;
+    --paper: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #555555;
+    --ink-mute: #9a9a9a;
+    --line: #e2e2e2;
+    --line-soft: #ededed;
+    --header-bg: #1f1f1f;
+    --header-text: #ffffff;
+    --bg-blob-1: radial-gradient(circle at 12% 18%, rgba(0,0,0,0.04) 0%, transparent 32%);
+    --bg-blob-2: radial-gradient(circle at 88% 82%, rgba(0,0,0,0.04) 0%, transparent 38%);
+    --bg-blob-3: radial-gradient(circle at 70% 12%, rgba(0,0,0,0.03) 0%, transparent 28%);
+  }
   body[data-theme="spring"] {
     --mint: #6ec1b1;
     --mint-soft: #a8d8ce;
@@ -64,30 +87,30 @@
     --bg-blob-2: radial-gradient(circle at 90% 85%, rgba(207, 138, 90, 0.25) 0%, transparent 38%);
     --bg-blob-3: radial-gradient(circle at 80% 20%, rgba(232, 184, 156, 0.22) 0%, transparent 30%);
   }
-  /* 노랑 단색 — 부드러운 머스타드 단색 톤 */
+  /* 코랄 핑크 단색 — 복숭아에 분홍 한 방울 (theme key는 yellow 유지) */
   body[data-theme="yellow"] {
-    --mint: #e6b94a;
-    --mint-soft: #f5dc8e;
-    --mint-bg: #fef5d4;
-    --mint-deep: #b8842a;
-    --lavender: #a8c89d;
-    --lavender-bg: #eef5ec;
-    --peach: #e8b89c;
-    --peach-bg: #fbf0e6;
-    --cream: #fffae3;
-    --paper: #fffce8;
-    --ink: #3d3520;
-    --ink-soft: #6b6045;
-    --ink-mute: #a8a085;
-    --line: #f0e6c0;
-    --line-soft: #f8f1d6;
-    --header-bg: #f4c95d;
-    --header-text: #4a3a18;
-    --bg-blob-1: radial-gradient(circle at 12% 18%, rgba(244, 201, 93, 0.22) 0%, transparent 35%);
-    --bg-blob-2: radial-gradient(circle at 88% 82%, rgba(168, 200, 157, 0.20) 0%, transparent 38%);
-    --bg-blob-3: radial-gradient(circle at 75% 15%, rgba(232, 184, 156, 0.18) 0%, transparent 30%);
+    --mint: #ed8794;
+    --mint-soft: #f4b8c4;
+    --mint-bg: #fde8ec;
+    --mint-deep: #b8475a;
+    --lavender: #c8a0d8;
+    --lavender-bg: #f5e8f9;
+    --peach: #f5b8c4;
+    --peach-bg: #fde8ec;
+    --cream: #fff5f7;
+    --paper: #fffaf9;
+    --ink: #4a2030;
+    --ink-soft: #7a4555;
+    --ink-mute: #b89aa3;
+    --line: #f0d2dc;
+    --line-soft: #f8e0e8;
+    --header-bg: #f4a4b6;
+    --header-text: #4a1828;
+    --bg-blob-1: radial-gradient(circle at 12% 18%, rgba(244, 164, 182, 0.26) 0%, transparent 35%);
+    --bg-blob-2: radial-gradient(circle at 88% 82%, rgba(237, 135, 148, 0.20) 0%, transparent 38%);
+    --bg-blob-3: radial-gradient(circle at 75% 15%, rgba(200, 160, 216, 0.16) 0%, transparent 30%);
   }
-  /* 노랑 테마는 단색 헤더라 텍스트 가독성 위한 미세 조정 */
+  /* 복숭아 테마는 단색 헤더라 텍스트 가독성 위한 미세 조정 */
   body[data-theme="yellow"] #header .title,
   body[data-theme="yellow"] #header .header-right {
     text-shadow: 0 1px 2px rgba(255,255,255,0.55);
@@ -97,13 +120,13 @@
   }
   body[data-theme="yellow"] #header::before {
     background:
-      radial-gradient(circle at 8% 30%,  rgba(74, 58, 24, 0.20) 0 1.4px, transparent 2px),
-      radial-gradient(circle at 14% 70%, rgba(74, 58, 24, 0.15) 0 1px,   transparent 1.6px),
-      radial-gradient(circle at 22% 22%, rgba(74, 58, 24, 0.13) 0 0.8px, transparent 1.4px),
-      radial-gradient(circle at 33% 80%, rgba(74, 58, 24, 0.15) 0 1px,   transparent 1.6px),
-      radial-gradient(circle at 88% 28%, rgba(74, 58, 24, 0.20) 0 1.4px, transparent 2px),
-      radial-gradient(circle at 78% 72%, rgba(74, 58, 24, 0.15) 0 1px,   transparent 1.6px),
-      radial-gradient(circle at 95% 55%, rgba(74, 58, 24, 0.12) 0 0.8px, transparent 1.4px);
+      radial-gradient(circle at 8% 30%,  rgba(120, 30, 50, 0.22) 0 1.4px, transparent 2px),
+      radial-gradient(circle at 14% 70%, rgba(120, 30, 50, 0.16) 0 1px,   transparent 1.6px),
+      radial-gradient(circle at 22% 22%, rgba(120, 30, 50, 0.14) 0 0.8px, transparent 1.4px),
+      radial-gradient(circle at 33% 80%, rgba(120, 30, 50, 0.16) 0 1px,   transparent 1.6px),
+      radial-gradient(circle at 88% 28%, rgba(120, 30, 50, 0.22) 0 1.4px, transparent 2px),
+      radial-gradient(circle at 78% 72%, rgba(120, 30, 50, 0.16) 0 1px,   transparent 1.6px),
+      radial-gradient(circle at 95% 55%, rgba(120, 30, 50, 0.13) 0 0.8px, transparent 1.4px);
   }
   /* 맑은 하늘 — 라이트 블루 + 분홍 + 흰색 */
   body[data-theme="sky"] {
@@ -342,7 +365,7 @@
     overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
-    grid-auto-rows: 134px;
+    grid-auto-rows: 148px;
     gap: 9px;
     align-content: start;
   }
@@ -351,12 +374,12 @@
     background: white;
     border: 2px solid var(--line);
     border-radius: 16px;
-    padding: 10px 8px;
+    padding: 12px 8px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 134px;
+    height: 148px;
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s, background 0.2s, border-color 0.2s;
@@ -383,17 +406,9 @@
     box-shadow: 0 1px 3px rgba(155, 145, 130, 0.05);
     border-color: var(--line);
   }
-  .card-number {
-    font-size: 10px;
-    color: var(--ink-mute);
-    margin-bottom: 4px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-  .student-card.checked .card-number { color: rgba(255,255,255,0.78); }
   .card-plant {
-    font-size: 24px;
-    margin-bottom: 7px;
+    font-size: 30px;
+    margin-bottom: 4px;
     line-height: 1;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.08));
     animation: plantWobble 4.5s ease-in-out infinite;
@@ -411,20 +426,31 @@
     50%      { transform: rotate(4deg) translateY(-1px); }
   }
   .card-name {
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     color: var(--ink);
-    margin-bottom: 5px;
-    letter-spacing: -0.3px;
-    line-height: 1.15;
+    margin-bottom: 2px;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
   }
+  .card-name .cn-mood {
+    font-size: 14px;
+    line-height: 1;
+    opacity: 0.95;
+  }
+  .card-name .cn-mood:empty { display: none; }
   .student-card.checked .card-name { color: white; }
   .card-time {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     color: var(--mint-deep);
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.3px;
+    margin-top: 3px;
     display: none;
     line-height: 1.2;
   }
@@ -432,34 +458,33 @@
     display: block;
     color: white;
   }
+  /* 카드 하단 chip 묶음 (상태 배지 + streak) */
+  .card-chips {
+    display: none;
+    gap: 4px;
+    margin-top: 6px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .student-card.checked .card-chips,
+  .student-card.has-streak .card-chips { display: flex; }
   .card-streak {
     font-size: 10.5px;
-    color: var(--peach);
-    font-weight: 600;
-    margin-top: 3px;
+    font-weight: 700;
+    background: rgba(255, 235, 220, 0.95);
+    color: #c46347;
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 1.5px 8px;
+    border-radius: 99px;
     display: none;
-    line-height: 1.2;
+    line-height: 1.5;
+    white-space: nowrap;
   }
-  .student-card.has-streak .card-streak { display: block; }
+  .student-card.has-streak .card-streak { display: inline-block; }
   .student-card.checked .card-streak {
-    color: rgba(255, 220, 195, 1);
-  }
-  .card-total {
-    font-size: 10px;
-    color: var(--ink-mute);
-    margin-top: 3px;
-    font-weight: 500;
-    line-height: 1.2;
-  }
-  .student-card.checked .card-total {
-    color: rgba(255,255,255,0.75);
-  }
-  .card-mood-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 14px;
-    opacity: 0.92;
+    background: rgba(255,255,255,0.92);
+    color: #b8533c;
   }
 
   /* ── 우측 사이드패널 ── */
@@ -620,10 +645,11 @@
     border-color: var(--ink);
     transform: scale(1.12);
   }
+  .theme-dot[data-theme="mono"]   { background: linear-gradient(135deg, #1f1f1f 0%, #1f1f1f 50%, #ffffff 50%, #ffffff 100%); }
   .theme-dot[data-theme="spring"] { background: linear-gradient(135deg, #6ec1b1 0%, #ffb595 100%); }
   .theme-dot[data-theme="forest"] { background: linear-gradient(135deg, #7ba786 0%, #d4a574 100%); }
   .theme-dot[data-theme="sky"]    { background: linear-gradient(135deg, #7eb8d4 0%, #f0a9c4 100%); }
-  .theme-dot[data-theme="yellow"] { background: #f4c95d; }
+  .theme-dot[data-theme="yellow"] { background: #f4a4b6; }
 
   /* ── 공통 모달 ── */
   .modal-overlay {
@@ -1406,6 +1432,388 @@
     #clock-display { font-size: 18px; }
     #date-display { font-size: 12px; }
   }
+
+  /* ── 상태 배지 (얼리버드/정상/지각) ── */
+  .card-status-badge {
+    font-size: 10.5px;
+    padding: 1.5px 9px;
+    border-radius: 99px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: white;
+    background: var(--mint-deep);
+    display: none;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+  }
+  .student-card.checked .card-status-badge { display: inline-block; }
+  .card-status-badge.status-early  { background: #d97e4a; }
+  .card-status-badge.status-normal { background: var(--mint-deep); }
+  .card-status-badge.status-late   { background: #8a7d6e; }
+
+  /* 상태별 카드 배경 — 얼리버드는 따뜻한 일출, 정상은 mint(기존), 지각은 차분한 베이지 */
+  .student-card.checked.status-early {
+    background: linear-gradient(155deg, #ffb87a 0%, #d97e4a 100%);
+    border-color: #d97e4a;
+  }
+  .student-card.checked.status-normal {
+    background: linear-gradient(155deg, var(--mint) 0%, var(--mint-deep) 100%);
+    border-color: var(--mint-deep);
+  }
+  .student-card.checked.status-late {
+    background: linear-gradient(155deg, #c2b8a8 0%, #8a7d6e 100%);
+    border-color: #8a7d6e;
+  }
+  .student-card.checked.status-late .card-time { opacity: 0.92; }
+  .student-card.checked.status-late .card-streak { color: rgba(255, 240, 220, 1); }
+
+  /* 카드 좌상단 쿠폰 카운트 */
+  .card-coupon {
+    position: absolute;
+    top: 7px;
+    left: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 99px;
+    padding: 1px 7px;
+    line-height: 1.4;
+  }
+  .card-coupon:empty { display: none; }
+  .card-coupon.has-star {
+    background: #fff3c4;
+    border-color: #f4d77a;
+    color: #8a6a17;
+  }
+  .student-card.checked .card-coupon {
+    background: rgba(255,255,255,0.90);
+    border-color: rgba(255,255,255,0.90);
+    color: var(--ink);
+  }
+
+
+  /* ── 사이드 패널 출결 보드 ── */
+  .status-board {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .sb-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 9px;
+    background: white;
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .sb-row.sb-early    { border-color: #f4c3a0; background: #fff5ec; }
+  .sb-row.sb-normal   { border-color: var(--mint-soft); background: var(--mint-bg); }
+  .sb-row.sb-late     { border-color: #d8cdb8; background: #f5efe2; }
+  .sb-row.sb-unchecked { border-color: var(--line); background: #faf7f0; }
+  .sb-emoji { font-size: 14px; line-height: 1; }
+  .sb-label { flex: 1; font-weight: 600; font-size: 12px; letter-spacing: -0.2px; }
+  .sb-count {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--mint-deep);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.5px;
+  }
+  .sb-row.sb-early .sb-count    { color: #b65a1f; }
+  .sb-row.sb-late .sb-count     { color: #6e5f4a; }
+  .sb-row.sb-unchecked .sb-count { color: var(--ink-mute); }
+
+  .status-board-summary {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    min-height: 20px;
+  }
+  .status-board-summary .sbs-perfect {
+    color: #d97e4a;
+    background: linear-gradient(135deg, #fff3c4 0%, #ffe5a8 100%);
+    padding: 4px 12px;
+    border-radius: 99px;
+    border: 1px solid #f4c3a0;
+  }
+  .status-board-summary .sbs-attended {
+    color: var(--mint-deep);
+    background: var(--mint-bg);
+    padding: 4px 12px;
+    border-radius: 99px;
+    border: 1px solid var(--mint-soft);
+  }
+  .status-board-summary .sbs-muted {
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+
+  /* 출석 명단 토글 버튼 */
+  .names-toggle {
+    width: 100%;
+    margin-top: 10px;
+    padding: 7px 10px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .names-toggle:hover {
+    background: var(--cream);
+    border-color: var(--mint-soft);
+    color: var(--mint-deep);
+  }
+  .names-toggle:active { transform: scale(0.98); }
+
+  /* 사이드 패널 이름 리스트 dot/쿠폰 */
+  .today-name-item .tn-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--mint);
+    flex-shrink: 0;
+  }
+  .today-name-item .tn-dot.status-early  { background: #d97e4a; }
+  .today-name-item .tn-dot.status-normal { background: var(--mint-deep); }
+  .today-name-item .tn-dot.status-late   { background: #8a7d6e; }
+  .today-name-item .tn-winner { font-size: 13px; }
+
+  /* ── 이력 모달: 날짜별 마크 / 상태별 chip ── */
+  .history-date-header { flex-wrap: wrap; gap: 8px; }
+  .history-date-stat {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .day-mark {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+  .day-mark.mark-perfect  { background: #fff3c4; color: #8a6a17; border: 1px solid #f4d77a; }
+  .day-mark.mark-attended { background: #ebe0ff; color: #7c4dca; border: 1px solid var(--lavender); }
+  .day-mark.mark-nolate   { background: var(--mint-bg); color: var(--mint-deep); border: 1px solid var(--mint-soft); }
+
+  .name-chip.chip-early   { background: #fff5ec; border-color: #f4c3a0; color: #b65a1f; }
+  .name-chip.chip-normal  { background: var(--mint-bg); border-color: var(--mint-soft); color: var(--mint-deep); }
+  .name-chip.chip-late    { background: #f5efe2; border-color: #d8cdb8; color: #6e5f4a; }
+  .name-chip.chip-absent  { background: #faf3f0; border-color: #e6c8be; color: #b06a55; opacity: 0.85; }
+  .name-chip.chip-unknown { background: var(--cream); border-color: var(--line); color: var(--ink-soft); }
+
+  .history-absent-row {
+    padding: 8px 14px 10px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    border-top: 1px dashed var(--line-soft);
+    background: #fcfaf3;
+  }
+
+  /* 학생별 통계 stat 자리 — 6칸으로 늘어나니 grid 변경 */
+  .history-student-summary {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .history-student-summary .stat-value { font-size: 18px; }
+  @media (max-width: 600px) {
+    .history-student-summary { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .history-student-date-item.hsd-early  { background: #fff5ec; color: #b65a1f; }
+  .history-student-date-item.hsd-late   { background: #f5efe2; color: #6e5f4a; }
+  .history-student-date-item.hsd-early .hsd-time,
+  .history-student-date-item.hsd-late .hsd-time { color: inherit; opacity: 0.85; }
+
+  /* 랭킹 모드 토글 */
+  .summary-mode-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .summary-mode-tab {
+    flex: 1;
+    padding: 7px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: white;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .summary-mode-tab.active {
+    background: var(--mint-bg);
+    border-color: var(--mint-soft);
+    color: var(--mint-deep);
+    font-weight: 700;
+  }
+
+  /* ── 특별한 날 탭 ── */
+  .special-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    margin-bottom: 16px;
+  }
+  .special-stat-box {
+    background: linear-gradient(160deg, #fff9ee 0%, var(--cream) 100%);
+    border: 1px solid #f4d77a;
+    border-radius: 14px;
+    padding: 12px 8px 10px;
+    text-align: center;
+  }
+  .special-stat-box .ssb-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: #d97e4a;
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  .special-stat-box .ssb-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 5px;
+  }
+  .special-stat-box .ssb-sub {
+    font-size: 10.5px;
+    color: var(--ink-mute);
+    margin-top: 2px;
+  }
+  .special-section-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin: 14px 0 8px;
+  }
+  .special-date-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .special-date-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    font-size: 13px;
+  }
+  .special-date-item .sd-emoji { font-size: 14px; }
+  .special-date-item .sd-date { font-weight: 600; color: var(--ink); }
+  .special-date-item .sd-stats {
+    margin-left: auto;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .special-empty {
+    padding: 14px 12px;
+    background: #faf7f0;
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    font-size: 12.5px;
+    color: var(--ink-mute);
+    text-align: center;
+  }
+
+  /* ── 정원 tile 쿠폰 ── */
+  .gt-coupon {
+    font-size: 11px;
+    color: #8a6a17;
+    font-weight: 700;
+    background: #fff3c4;
+    border: 1px solid #f4d77a;
+    border-radius: 99px;
+    padding: 1px 7px;
+    margin-top: 2px;
+  }
+
+  /* ── 관리자: 출결 시간 / 쿠폰 그리드 ── */
+  .threshold-arrow {
+    font-size: 12px;
+    color: var(--ink-mute);
+    flex-shrink: 0;
+  }
+  .admin-coupon-section {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .admin-coupon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 6px;
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 4px 2px;
+  }
+  .admin-coupon-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 9px;
+    background: white;
+    border: 1px solid var(--line-soft);
+    border-radius: 9px;
+    font-size: 12.5px;
+  }
+  .admin-coupon-row.has-star {
+    background: #fff8e1;
+    border-color: #f4d77a;
+  }
+  .admin-coupon-row .acr-name {
+    flex: 1;
+    font-weight: 600;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .admin-coupon-row .acr-count {
+    font-weight: 700;
+    color: var(--mint-deep);
+    font-variant-numeric: tabular-nums;
+    min-width: 38px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .admin-coupon-row.has-star .acr-count { color: #8a6a17; }
+  .admin-coupon-row .acr-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--mint-soft);
+    background: var(--mint-bg);
+    color: var(--mint-deep);
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  .admin-coupon-row .acr-btn:hover { background: #d4ede9; }
 </style>
 </head>
 <body>
@@ -1428,10 +1836,19 @@
 
   <div id="side-panel">
     <div class="panel-box">
-      <div class="panel-box-title">🌅 오늘의 얼리버드</div>
-      <div class="today-count" id="today-count">0</div>
-      <div class="today-count-label">명 출석</div>
-      <div class="today-names" id="today-names"></div>
+      <div class="panel-box-title">📊 오늘의 출결</div>
+      <div class="status-board" id="status-board">
+        <div class="sb-row sb-early"><span class="sb-emoji">🌅</span><span class="sb-label">얼리버드</span><span class="sb-count" id="sb-count-early">0</span></div>
+        <div class="sb-row sb-normal"><span class="sb-emoji">☀️</span><span class="sb-label">정상</span><span class="sb-count" id="sb-count-normal">0</span></div>
+        <div class="sb-row sb-late"><span class="sb-emoji">🌆</span><span class="sb-label">지각</span><span class="sb-count" id="sb-count-late">0</span></div>
+        <div class="sb-row sb-unchecked"><span class="sb-emoji">⏳</span><span class="sb-label">미등교</span><span class="sb-count" id="sb-count-unchecked">0</span></div>
+      </div>
+      <div class="status-board-summary" id="status-board-summary"></div>
+      <button class="names-toggle" id="names-toggle" onclick="toggleNamesList()">
+        <span id="names-toggle-label">출석 명단 펼치기</span>
+        <span id="names-toggle-icon">▾</span>
+      </button>
+      <div class="today-names" id="today-names" style="display:none;"></div>
     </div>
     <button class="panel-btn btn-garden" id="btn-garden">🌱 우리 학급 정원</button>
     <button class="panel-btn btn-history" id="btn-history">📋 전체 이력 보기</button>
@@ -1439,7 +1856,8 @@
     <div class="theme-switcher">
       <div class="theme-label">테마</div>
       <div class="theme-dots">
-        <button class="theme-dot" data-theme="yellow" title="노랑 단색"></button>
+        <button class="theme-dot" data-theme="mono"   title="깔끔 흑백"></button>
+        <button class="theme-dot" data-theme="yellow" title="복숭아"></button>
         <button class="theme-dot" data-theme="spring" title="따뜻한 봄"></button>
         <button class="theme-dot" data-theme="forest" title="자연 정원"></button>
         <button class="theme-dot" data-theme="sky"    title="맑은 하늘"></button>
@@ -1501,13 +1919,28 @@
       </div>
 
       <div class="admin-deadline-section">
-        <div class="admin-backup-title">⏰ 얼리버드 마감 시간</div>
+        <div class="admin-backup-title">⏰ 출결 시간 기준</div>
         <div class="deadline-input-row">
-          <label>마감</label>
-          <input type="time" id="deadline-input" value="07:40">
-          <button class="btn-roster" style="width:auto;flex-shrink:0;padding:9px 14px;" id="btn-save-deadline">저장</button>
+          <label>얼리버드</label>
+          <input type="time" id="threshold-early-input" value="07:30">
+          <span class="threshold-arrow">이전</span>
         </div>
-        <div class="deadline-help">이 시간까지 카드를 탭한 학생만 그날 출석으로 기록됨</div>
+        <div class="deadline-input-row" style="margin-top:6px;">
+          <label>정상</label>
+          <input type="time" id="threshold-normal-input" value="08:00">
+          <span class="threshold-arrow">이전</span>
+        </div>
+        <div class="deadline-input-row" style="margin-top:6px;">
+          <span style="flex:1;font-size:12px;color:var(--ink-mute);">정상 시각 이후는 자동 지각 처리</span>
+          <button class="btn-roster" style="width:auto;flex-shrink:0;padding:9px 14px;" id="btn-save-thresholds">저장</button>
+        </div>
+        <div class="deadline-help">예: 07:30 / 08:00 → 7:30 이전 얼리버드, 7:30~7:59 정상, 8:00 이후 지각</div>
+      </div>
+
+      <div class="admin-coupon-section">
+        <div class="admin-backup-title">🎟 쿠폰 관리</div>
+        <div class="deadline-help" style="margin-bottom:8px;">상품을 줬을 때 학생 쿠폰을 차감하거나 직접 지급할 수 있어요.</div>
+        <div class="admin-coupon-grid" id="admin-coupon-grid"></div>
       </div>
 
       <div class="admin-date-row" style="margin-top:14px;">
@@ -1542,6 +1975,7 @@
         <button class="history-tab active" id="tab-date" onclick="switchHistoryTab('date')">날짜별</button>
         <button class="history-tab" id="tab-student" onclick="switchHistoryTab('student')">학생별</button>
         <button class="history-tab" id="tab-summary" onclick="switchHistoryTab('summary')">📊 랭킹</button>
+        <button class="history-tab" id="tab-special" onclick="switchHistoryTab('special')">✨ 특별한 날</button>
       </div>
       <div id="history-content"></div>
     </div>
@@ -1621,12 +2055,45 @@ function loadClassInfo() {
   return raw ? JSON.parse(raw) : { grade: 0, classNum: 0 };
 }
 function loadDeadline() {
+  // deprecated: 백업 호환용으로만 유지. 카드 잠금에 사용 안 함.
   const raw = localStorage.getItem('earlybird_deadline');
   return raw || '07:40';
 }
 function saveDeadline(t) {
   localStorage.setItem('earlybird_deadline', t);
   DEADLINE = t;
+}
+// 출석 상태 분류 시간대 (얼리버드 컷오프 / 정상 컷오프)
+function loadThresholdEarly() {
+  const raw = localStorage.getItem('earlybird_threshold_early');
+  return raw || '07:30';
+}
+function saveThresholdEarly(t) {
+  localStorage.setItem('earlybird_threshold_early', t);
+  THRESHOLD_EARLY = t;
+}
+function loadThresholdNormal() {
+  const raw = localStorage.getItem('earlybird_threshold_normal');
+  return raw || '08:00';
+}
+function saveThresholdNormal(t) {
+  localStorage.setItem('earlybird_threshold_normal', t);
+  THRESHOLD_NORMAL = t;
+}
+// 쿠폰 데이터 (학생별 적립 / 사용 이력)
+function loadCoupons() {
+  const raw = localStorage.getItem('earlybird_coupons');
+  try { return raw ? JSON.parse(raw) : {}; } catch { return {}; }
+}
+function saveCoupons(obj) {
+  localStorage.setItem('earlybird_coupons', JSON.stringify(obj));
+}
+function loadCouponHistory() {
+  const raw = localStorage.getItem('earlybird_coupon_history');
+  try { return raw ? JSON.parse(raw) : {}; } catch { return {}; }
+}
+function saveCouponHistory(obj) {
+  localStorage.setItem('earlybird_coupon_history', JSON.stringify(obj));
 }
 function loadTitle() {
   const raw = localStorage.getItem('earlybird_title');
@@ -1636,10 +2103,10 @@ function saveTitle(t) {
   localStorage.setItem('earlybird_title', t);
   TITLE = t;
 }
-const VALID_THEMES = ['spring', 'forest', 'sky', 'yellow'];
+const VALID_THEMES = ['mono', 'yellow', 'spring', 'forest', 'sky'];
 function loadTheme() {
-  const t = localStorage.getItem('earlybird_theme') || 'yellow';
-  return VALID_THEMES.includes(t) ? t : 'yellow';
+  const t = localStorage.getItem('earlybird_theme') || 'mono';
+  return VALID_THEMES.includes(t) ? t : 'mono';
 }
 function applyTheme(t) {
   document.body.setAttribute('data-theme', t);
@@ -1652,6 +2119,8 @@ function applyTheme(t) {
 let STUDENTS = loadStudents();
 let CLASS_INFO = loadClassInfo();
 let DEADLINE = loadDeadline();
+let THRESHOLD_EARLY = loadThresholdEarly();
+let THRESHOLD_NORMAL = loadThresholdNormal();
 let TITLE = loadTitle();
 
 // ────────────────────────────────────────
@@ -1712,30 +2181,61 @@ function getWeekDates() {
 }
 
 // ────────────────────────────────────────
+// 출석 상태 분류 (시각 → early/normal/late)
+// ────────────────────────────────────────
+// 시각 문자열 "HH:MM"을 분 단위 숫자로 변환 (07:30 → 450)
+function timeToMin(t) {
+  if (!t || typeof t !== 'string') return null;
+  const [h, m] = t.split(':').map(Number);
+  if (isNaN(h) || isNaN(m)) return null;
+  return h * 60 + m;
+}
+// 시각으로 상태 판정. early < THRESHOLD_EARLY ≤ normal < THRESHOLD_NORMAL ≤ late
+// time이 없으면 'unknown' (관리자가 시각 없이 추가한 경우 — 기본 정상으로 친다)
+function getStatus(time) {
+  const t = timeToMin(time);
+  if (t === null) return 'unknown';
+  const e = timeToMin(THRESHOLD_EARLY);
+  const n = timeToMin(THRESHOLD_NORMAL);
+  if (t < e) return 'early';
+  if (t < n) return 'normal';
+  return 'late';
+}
+// 'unknown'은 정상 출석 처리 (관리자 수동 추가)
+function getStatusForRecord(rec) {
+  if (!rec) return null;
+  const s = getStatus(rec.time);
+  return s === 'unknown' ? 'normal' : s;
+}
+// 정상 이상으로 친 출석인가? (얼리버드, 정상, unknown)
+function isOnTime(rec) {
+  const s = getStatusForRecord(rec);
+  return s === 'early' || s === 'normal';
+}
+
+// ────────────────────────────────────────
 // 통계: streak, 누적
 // ────────────────────────────────────────
-// streak: 오늘부터(또는 어제부터) 거꾸로 학교일(월~금)만 보며,
-// 출석한 날만 +1. 출석 안 한 학교일을 만나면 멈춤.
-// 단, 오늘 아직 출석 안 했으면 어제부터 시작 (오늘이 streak를 깨지 않음).
+// streak: "정상 출석 이상" 연속 학교일 수 (지각하면 끊김, 결석하면 끊김).
+// 오늘 아직 출석 안 했으면 어제부터 시작 (오늘이 streak를 깨지 않음).
 function getStreak(studentId) {
   const todayStr = todayKey();
-  const todayChecked = getCheckedIds(todayStr).includes(studentId);
+  const todayRec = getRecords(todayStr).find(r => r.id === studentId);
+  const todayCounts = todayRec && isOnTime(todayRec);
 
   let streak = 0;
   const d = new Date();
-  // 오늘 출석 안 했으면 어제부터 시작
-  if (!todayChecked) d.setDate(d.getDate() - 1);
+  if (!todayCounts) d.setDate(d.getDate() - 1);
 
   for (let i = 0; i < 365; i++) {
     const dow = d.getDay();
     if (dow === 0 || dow === 6) {
-      // 주말은 패스 (streak 안 깸, 카운트도 안 함)
       d.setDate(d.getDate() - 1);
       continue;
     }
     const dateStr = formatDate(d);
-    const checked = getCheckedIds(dateStr).includes(studentId);
-    if (checked) {
+    const rec = getRecords(dateStr).find(r => r.id === studentId);
+    if (rec && isOnTime(rec)) {
       streak++;
       d.setDate(d.getDate() - 1);
     } else {
@@ -1743,6 +2243,100 @@ function getStreak(studentId) {
     }
   }
   return streak;
+}
+
+// 식물용 — 얼리버드 누적 일수
+function getEarlybirdCount(studentId) {
+  let count = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && /^earlybird_\d{4}-\d{2}-\d{2}$/.test(k)) {
+      const dateStr = k.replace('earlybird_', '');
+      const rec = getRecords(dateStr).find(r => r.id === studentId);
+      if (rec && getStatus(rec.time) === 'early') count++;
+    }
+  }
+  return count;
+}
+
+// 하루 출결 요약 (early/normal/late/attended/unchecked)
+function getDayStats(dateStr) {
+  const records = getRecords(dateStr);
+  const stats = { early: 0, normal: 0, late: 0, attended: 0 };
+  records.forEach(r => {
+    const s = getStatusForRecord(r);
+    if (s === 'early') stats.early++;
+    else if (s === 'normal') stats.normal++;
+    else if (s === 'late') stats.late++;
+    stats.attended++;
+  });
+  stats.unchecked = Math.max(0, STUDENTS.length - stats.attended);
+  return stats;
+}
+// 지각 0명인 날인지 (출석은 한 명 이상 있어야)
+function isNoLateDay(dateStr) {
+  const stats = getDayStats(dateStr);
+  return stats.attended > 0 && stats.late === 0;
+}
+// 전원 출석한 날인지 (학생 명단 다 출석)
+function isPerfectDay(dateStr) {
+  if (STUDENTS.length === 0) return false;
+  const stats = getDayStats(dateStr);
+  return stats.attended === STUDENTS.length;
+}
+// 전원 출석 + 지각 0
+function isAllOnTimeDay(dateStr) {
+  return isPerfectDay(dateStr) && isNoLateDay(dateStr);
+}
+
+// ────────────────────────────────────────
+// 쿠폰
+// ────────────────────────────────────────
+function getCouponCount(studentId) {
+  return loadCoupons()[studentId] || 0;
+}
+function addCoupon(studentId, n = 1) {
+  const c = loadCoupons();
+  c[studentId] = (c[studentId] || 0) + n;
+  saveCoupons(c);
+  return c[studentId];
+}
+function setCouponCount(studentId, n) {
+  const c = loadCoupons();
+  if (n <= 0) delete c[studentId];
+  else c[studentId] = n;
+  saveCoupons(c);
+}
+// 그날 쿠폰을 받은 학생ID (없으면 null)
+function getCouponWinner(dateStr) {
+  return loadCouponHistory()[dateStr] || null;
+}
+function setCouponWinner(dateStr, studentId) {
+  const h = loadCouponHistory();
+  if (studentId) h[dateStr] = studentId;
+  else delete h[dateStr];
+  saveCouponHistory(h);
+}
+// 오늘 카드를 탭한 학생이 "정상 이상 + 첫 번째"라면 쿠폰 적립.
+// 반환: { winner: bool, count: number, justReached10: bool }
+function awardCouponIfFirst(studentId, time) {
+  const status = getStatus(time);
+  if (status !== 'early' && status !== 'normal') return { winner: false };
+  const today = todayKey();
+  // 이미 그날 쿠폰 수령자가 있으면 패스 (보통 이 시점엔 없음)
+  if (getCouponWinner(today)) return { winner: false };
+  // 이 record는 이미 저장된 상태에서 호출 — 다른 출석자가 있으면 1등 아님
+  const records = getRecords(today);
+  const others = records.filter(r => r.id !== studentId && isOnTime(r));
+  if (others.length > 0) return { winner: false };
+  const before = getCouponCount(studentId);
+  const after = addCoupon(studentId);
+  setCouponWinner(today, studentId);
+  return {
+    winner: true,
+    count: after,
+    justReached10: Math.floor(after / 10) > Math.floor(before / 10),
+  };
 }
 
 function getTotalCount(studentId) {
@@ -1764,15 +2358,15 @@ function getWeeklyCount(studentId) {
 }
 
 // ────────────────────────────────────────
-// 식물 성장 단계 (누적 출석 기준)
+// 식물 성장 단계 (얼리버드 누적 일수 기준)
 // ────────────────────────────────────────
 function getPlantStage(count) {
   if (count === 0) return { emoji: '🪨', name: '씨앗 잠듦' };
   if (count <= 2)  return { emoji: '🌱', name: '새싹' };
-  if (count <= 6)  return { emoji: '🌿', name: '잎' };
-  if (count <= 14) return { emoji: '🪴', name: '화분' };
-  if (count <= 29) return { emoji: '🌷', name: '꽃' };
-  if (count <= 49) return { emoji: '🌳', name: '나무' };
+  if (count <= 5)  return { emoji: '🌿', name: '잎' };
+  if (count <= 10) return { emoji: '🪴', name: '화분' };
+  if (count <= 20) return { emoji: '🌷', name: '꽃' };
+  if (count <= 34) return { emoji: '🌳', name: '나무' };
   return { emoji: '🍎', name: '열매' };
 }
 
@@ -1887,13 +2481,17 @@ function renderCards() {
     card.className = 'student-card';
     card.dataset.id = s.id;
     card.innerHTML = `
-      <div class="card-mood-badge" data-mood-badge></div>
-      <div class="card-number">${String(idx+1).padStart(2,'0')}</div>
+      <div class="card-coupon" data-coupon></div>
       <div class="card-plant" data-plant>🪨</div>
-      <div class="card-name">${s.name}</div>
-      <div class="card-time" data-time>--:--</div>
-      <div class="card-streak" data-streak></div>
-      <div class="card-total" data-total></div>
+      <div class="card-name">
+        <span class="cn-text">${s.name}</span>
+        <span class="cn-mood" data-mood-badge></span>
+      </div>
+      <div class="card-time" data-time></div>
+      <div class="card-chips">
+        <span class="card-status-badge" data-status-badge></span>
+        <span class="card-streak" data-streak></span>
+      </div>
     `;
     card.addEventListener('click', () => onCardClick(s.id));
     area.appendChild(card);
@@ -1901,21 +2499,43 @@ function renderCards() {
   updateCardStates();
 }
 
+// 상태별 라벨/이모지 (배지 표시용)
+const STATUS_INFO = {
+  early:  { label: '얼리버드', emoji: '🌅', cls: 'status-early' },
+  normal: { label: '정상',     emoji: '☀️', cls: 'status-normal' },
+  late:   { label: '지각',     emoji: '🌆', cls: 'status-late' },
+};
+
 function updateCardStates() {
   const todayStr = todayKey();
   const todayRecords = getRecords(todayStr);
   document.querySelectorAll('.student-card').forEach(card => {
     const id = card.dataset.id;
     const rec = todayRecords.find(r => r.id === id);
+    const earlyCount = getEarlybirdCount(id);
     const total = getTotalCount(id);
     const streak = getStreak(id);
-    const plant = getPlantStage(total);
+    const plant = getPlantStage(earlyCount);
+    const coupons = getCouponCount(id);
 
     card.querySelector('[data-plant]').textContent = plant.emoji;
-    card.querySelector('[data-total]').textContent = total > 0 ? `누적 ${total}회` : ' ';
+
+    // 쿠폰 카운트 (있을 때만)
+    const couponEl = card.querySelector('[data-coupon]');
+    if (coupons >= 10) {
+      couponEl.textContent = `⭐ ${coupons}`;
+      couponEl.classList.add('has-star');
+    } else if (coupons > 0) {
+      couponEl.textContent = `🎟 ${coupons}`;
+      couponEl.classList.remove('has-star');
+    } else {
+      couponEl.textContent = '';
+      couponEl.classList.remove('has-star');
+    }
+
     const streakEl = card.querySelector('[data-streak]');
     if (streak >= 1) {
-      streakEl.textContent = `🔥 ${streak}일 연속`;
+      streakEl.textContent = `🔥 ${streak}`;
       card.classList.add('has-streak');
     } else {
       streakEl.textContent = '';
@@ -1924,39 +2544,98 @@ function updateCardStates() {
 
     const timeEl = card.querySelector('[data-time]');
     const moodBadge = card.querySelector('[data-mood-badge]');
+    const statusBadge = card.querySelector('[data-status-badge]');
+
+    // 기존 상태 클래스 제거
+    card.classList.remove('checked', 'status-early', 'status-normal', 'status-late');
+    statusBadge.classList.remove('status-early', 'status-normal', 'status-late');
+
     if (rec) {
-      card.classList.add('checked');
+      const statusKey = getStatusForRecord(rec);
+      const info = STATUS_INFO[statusKey] || STATUS_INFO.normal;
+      card.classList.add('checked', info.cls);
+      statusBadge.classList.add(info.cls);
+      statusBadge.textContent = info.label;
       timeEl.textContent = rec.time || '출석';
       moodBadge.textContent = rec.mood || '';
     } else {
-      card.classList.remove('checked');
       timeEl.textContent = '';
       moodBadge.textContent = '';
+      statusBadge.textContent = '';
     }
   });
   updateSidePanel();
 }
 
 // ────────────────────────────────────────
+// 출석 명단 토글 (사이드패널)
+// ────────────────────────────────────────
+let namesListOpen = false;
+function toggleNamesList() {
+  namesListOpen = !namesListOpen;
+  const list = document.getElementById('today-names');
+  const label = document.getElementById('names-toggle-label');
+  const icon = document.getElementById('names-toggle-icon');
+  if (list) list.style.display = namesListOpen ? 'flex' : 'none';
+  if (label) label.textContent = namesListOpen ? '출석 명단 접기' : '출석 명단 펼치기';
+  if (icon) icon.textContent = namesListOpen ? '▴' : '▾';
+}
+
+// ────────────────────────────────────────
 // 사이드패널 갱신
 // ────────────────────────────────────────
 function updateSidePanel() {
-  const records = getRecords(todayKey());
+  const today = todayKey();
+  const records = getRecords(today);
+  const stats = getDayStats(today);
+  const winnerId = getCouponWinner(today);
+
+  // 보드 카운트
+  const sbE = document.getElementById('sb-count-early');
+  const sbN = document.getElementById('sb-count-normal');
+  const sbL = document.getElementById('sb-count-late');
+  const sbU = document.getElementById('sb-count-unchecked');
+  if (sbE) sbE.textContent = stats.early;
+  if (sbN) sbN.textContent = stats.normal;
+  if (sbL) sbL.textContent = stats.late;
+  if (sbU) sbU.textContent = stats.unchecked;
+
+  // 요약 한 줄 (특별한 날 강조)
+  const summaryEl = document.getElementById('status-board-summary');
+  if (summaryEl) {
+    if (STUDENTS.length === 0) {
+      summaryEl.innerHTML = '';
+    } else if (stats.attended === 0) {
+      summaryEl.innerHTML = '<span class="sbs-muted">아직 아무도 안 왔어요</span>';
+    } else if (stats.unchecked === 0 && stats.late === 0) {
+      summaryEl.innerHTML = '<span class="sbs-perfect">🌟 전원 정시 출석!</span>';
+    } else if (stats.unchecked === 0) {
+      summaryEl.innerHTML = '<span class="sbs-attended">전원 출석 완료</span>';
+    } else {
+      summaryEl.innerHTML = `<span class="sbs-muted">${stats.attended}/${STUDENTS.length}명 출석</span>`;
+    }
+  }
+
   const sorted = [...records].sort((a, b) => {
     if (!a.time) return 1;
     if (!b.time) return -1;
     return a.time.localeCompare(b.time);
   });
-  document.getElementById('today-count').textContent = records.length;
   const namesEl = document.getElementById('today-names');
+  if (!namesEl) return;
   namesEl.innerHTML = sorted.map(r => {
     const s = STUDENTS.find(x => x.id === r.id);
     if (!s) return '';
+    const status = getStatusForRecord(r);
+    const dot = `<span class="tn-dot ${STATUS_INFO[status]?.cls || ''}"></span>`;
+    const winnerMark = winnerId === r.id ? '<span class="tn-winner">🎟</span>' : '';
     return `
       <div class="today-name-item">
         <div class="tn-left">
+          ${dot}
           <span class="tn-mood">${r.mood || '✔'}</span>
           <span class="tn-name">${s.name}</span>
+          ${winnerMark}
         </div>
         <span class="tn-time">${r.time || '--:--'}</span>
       </div>`;
@@ -1964,21 +2643,14 @@ function updateSidePanel() {
 }
 
 // ────────────────────────────────────────
-// 마감 시간 / 잠금
+// (구) 마감 시간 처리 — 카드 잠금 제거. 빈 함수로 유지(호출처 호환).
 // ────────────────────────────────────────
-function isDeadlinePassed() {
-  const [hh, mm] = DEADLINE.split(':').map(Number);
-  const now = new Date();
-  return now.getHours() > hh || (now.getHours() === hh && now.getMinutes() >= mm);
-}
+function isDeadlinePassed() { return false; }
 function applyDeadlineState() {
-  const passed = isDeadlinePassed();
-  document.getElementById('deadline-banner').style.display = passed ? 'block' : 'none';
-  document.querySelectorAll('.student-card').forEach(card => {
-    const alreadyChecked = getCheckedIds(todayKey()).includes(card.dataset.id);
-    if (passed || alreadyChecked) card.classList.add('locked');
-    else card.classList.remove('locked');
-  });
+  // 더 이상 카드 잠금 안 함. 마감 배너도 안 띄움.
+  const banner = document.getElementById('deadline-banner');
+  if (banner) banner.style.display = 'none';
+  document.querySelectorAll('.student-card.locked').forEach(c => c.classList.remove('locked'));
 }
 
 // ────────────────────────────────────────
@@ -1987,12 +2659,10 @@ function applyDeadlineState() {
 let pendingCheck = null; // { studentId, time }
 
 function onCardClick(studentId) {
-  if (isDeadlinePassed()) return;
   const key = todayKey();
   const ids = getCheckedIds(key);
-  if (ids.includes(studentId)) return;
+  if (ids.includes(studentId)) return; // 이미 출석 처리
 
-  // 시각 기록
   const now = new Date();
   const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
@@ -2036,19 +2706,44 @@ function finalizeCheck(mood) {
   pendingCheck = null;
 
   closeMoodModal();
+
+  const status = getStatus(time);
+
+  // 1등 쿠폰 (정상 이상 + 그날 첫 정상 이상 출석자)
+  const couponResult = awardCouponIfFirst(studentId, time);
+
   updateCardStates();
   applyDeadlineState();
 
-  // 마일스톤 체크 (streak 기준)
+  // 쿠폰 10개(20·30…) 도달 → 별도 축하 (마일스톤보다 우선)
+  if (couponResult.justReached10) {
+    rainEmojis(40, 3.8);
+    showCouponMilestone(studentId, couponResult.count, time);
+    return;
+  }
+
+  // 1등 쿠폰 받은 경우 → 쿠폰 축하 (마일스톤 자체는 그 다음에 체크 안 함, 카드 갱신만)
+  if (couponResult.winner) {
+    rainEmojis(28, 3.4);
+    showCouponWin(studentId, couponResult.count, time);
+    return;
+  }
+
+  // 일반 마일스톤 체크 (streak/얼리버드 누적 기준)
   const streak = getStreak(studentId);
-  const total = getTotalCount(studentId);
-  const milestone = checkMilestone(streak, total);
+  const earlyCount = getEarlybirdCount(studentId);
+  const milestone = checkMilestone(streak, earlyCount);
   if (milestone) {
     rainEmojis(32, 3.5);
     showMilestone(studentId, milestone, time);
   } else {
-    rainEmojis(16, 3);
-    showCheerPopup(studentId, time);
+    // 지각이면 비 작게, 응원도 부담 없이
+    if (status === 'late') {
+      rainEmojis(8, 2.6);
+    } else {
+      rainEmojis(16, 3);
+    }
+    showCheerPopup(studentId, time, status);
   }
 }
 
@@ -2072,30 +2767,48 @@ function rainEmojis(count = 16, duration = 3) {
 }
 
 // ────────────────────────────────────────
-// 응원 메시지
+// 응원 메시지 (상태별)
 // ────────────────────────────────────────
-const CHEER_MESSAGES = [
-  { emoji: '☀️', text: '오늘도 해냈어요!' },
+const CHEER_MESSAGES_EARLY = [
+  { emoji: '🌅', text: '벌써 왔다니!' },
   { emoji: '🐦', text: '이른 새가 멀리 봐요' },
-  { emoji: '✨', text: '벌써 도착이라니!' },
-  { emoji: '💪', text: '한 발 앞섰어요!' },
-  { emoji: '🌟', text: '오늘도 멋져요' },
+  { emoji: '☀️', text: '오늘 하루 잘 부탁해' },
+  { emoji: '✨', text: '한 발 앞섰어요' },
+  { emoji: '🌟', text: '오늘도 멋져' },
   { emoji: '🍀', text: '좋은 일이 따라올 거예요' },
-  { emoji: '🔥', text: '오늘도 화이팅!' },
   { emoji: '💫', text: '꾸준함이 빛나요' },
-  { emoji: '🌷', text: '오늘은 너의 날!' },
+  { emoji: '🌷', text: '오늘은 너의 날' },
 ];
-function pickCheer() {
-  return CHEER_MESSAGES[Math.floor(Math.random() * CHEER_MESSAGES.length)];
+const CHEER_MESSAGES_NORMAL = [
+  { emoji: '☺️', text: '오늘도 잘 왔어요' },
+  { emoji: '🌿', text: '늘 그 자리에 있어줘서 고마워' },
+  { emoji: '☀️', text: '오늘도 화이팅' },
+  { emoji: '🌼', text: '딱 맞춰 왔네' },
+  { emoji: '🍀', text: '오늘 하루 응원할게' },
+  { emoji: '✨', text: '오늘도 잘 부탁해' },
+];
+const CHEER_MESSAGES_LATE = [
+  { emoji: '🌿', text: '와줘서 고마워' },
+  { emoji: '☕', text: '한 숨 돌리고 시작하자' },
+  { emoji: '🌼', text: '내일 조금 더 일찍 와볼까' },
+  { emoji: '🪴', text: '천천히 하루 시작하자' },
+  { emoji: '🍀', text: '잘 도착했어요' },
+];
+function pickCheer(status) {
+  const arr = status === 'early' ? CHEER_MESSAGES_EARLY
+            : status === 'late'  ? CHEER_MESSAGES_LATE
+            : CHEER_MESSAGES_NORMAL;
+  return arr[Math.floor(Math.random() * arr.length)];
 }
-function showCheerPopup(studentId, time) {
-  const msg = pickCheer();
+function showCheerPopup(studentId, time, status) {
+  const msg = pickCheer(status);
   const overlay = document.getElementById('cheer-overlay');
   const box = document.getElementById('cheer-box');
   document.getElementById('cheer-emoji').textContent = msg.emoji;
   document.getElementById('cheer-text').textContent = msg.text;
   const s = STUDENTS.find(x => x.id === studentId);
-  document.getElementById('cheer-sub').textContent = s ? `${s.name} · ${time} 도착` : msg.sub;
+  const statusLabel = STATUS_INFO[status]?.label || '출석';
+  document.getElementById('cheer-sub').textContent = s ? `${s.name} · ${time} · ${statusLabel}` : `${time} · ${statusLabel}`;
   box.classList.remove('hiding');
   overlay.classList.add('show');
   setTimeout(() => {
@@ -2107,24 +2820,56 @@ function showCheerPopup(studentId, time) {
   }, 1900);
 }
 
+// 1등 쿠폰 받은 경우 — 응원 팝업과 같은 형태로 짧게 알림
+function showCouponWin(studentId, count, time) {
+  const overlay = document.getElementById('cheer-overlay');
+  const box = document.getElementById('cheer-box');
+  document.getElementById('cheer-emoji').textContent = '🎟';
+  document.getElementById('cheer-text').textContent = `오늘 1등! 쿠폰 +1`;
+  const s = STUDENTS.find(x => x.id === studentId);
+  document.getElementById('cheer-sub').textContent = s ? `${s.name} · 누적 ${count}장 · ${time}` : `누적 ${count}장 · ${time}`;
+  box.classList.remove('hiding');
+  overlay.classList.add('show');
+  setTimeout(() => {
+    box.classList.add('hiding');
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      box.classList.remove('hiding');
+    }, 400);
+  }, 2400);
+}
+
+// 쿠폰 10/20/30… 도달 — 마일스톤 모달 사용
+function showCouponMilestone(studentId, count, time) {
+  const s = STUDENTS.find(x => x.id === studentId);
+  document.getElementById('milestone-emoji').textContent = '🎁';
+  document.getElementById('milestone-title').textContent = `쿠폰 ${count}장 모음!`;
+  document.getElementById('milestone-name').textContent = s ? `${s.name} · ${time}` : time;
+  document.getElementById('milestone-sub').textContent = '선생님께 쿠폰을 보여주세요.';
+  document.getElementById('milestone-overlay').classList.add('show');
+}
+
 // ────────────────────────────────────────
 // 마일스톤
 // ────────────────────────────────────────
+// streak는 "정상 출석 이상 연속일"
 const STREAK_MILESTONES = {
-  3:  { emoji: '🌿', title: '사흘 연속!',       sub: '리듬이 잡히기 시작했어요.' },
-  7:  { emoji: '🌷', title: '한 주 다 채웠어요!', sub: '일주일 내내 꾸준했어요.' },
-  14: { emoji: '🌳', title: '두 주 연속!',      sub: '얼리버드의 결이 깊어지고 있어요.' },
-  30: { emoji: '⭐', title: '한 달 연속!',      sub: '대단해요. 이건 학생만의 시간이에요.' },
+  3:  { emoji: '🌿', title: '사흘 연속!',       sub: '지각 없이 사흘째예요.' },
+  7:  { emoji: '🌷', title: '한 주 다 채웠어요!', sub: '일주일 내내 정시 출석.' },
+  14: { emoji: '🌳', title: '두 주 연속!',      sub: '리듬이 단단해졌어요.' },
+  30: { emoji: '⭐', title: '한 달 연속!',      sub: '대단해요. 학생만의 시간이에요.' },
 };
-const TOTAL_MILESTONES = {
-  10: { emoji: '🪴', title: '누적 10회!',  sub: '식물이 화분으로 자랐어요.' },
-  20: { emoji: '🌷', title: '누적 20회!',  sub: '꽃이 폈어요.' },
-  50: { emoji: '🌳', title: '누적 50회!',  sub: '큰 나무가 됐어요.' },
-  100:{ emoji: '🍎', title: '누적 100회!', sub: '열매가 맺혔어요.' },
+// 식물 마일스톤은 "얼리버드 누적 일수"
+const EARLY_MILESTONES = {
+  5:  { emoji: '🌿', title: '얼리버드 5회!',  sub: '식물이 잎을 펼쳤어요.' },
+  10: { emoji: '🪴', title: '얼리버드 10회!', sub: '식물이 화분으로 자랐어요.' },
+  20: { emoji: '🌷', title: '얼리버드 20회!', sub: '꽃이 폈어요.' },
+  35: { emoji: '🌳', title: '얼리버드 35회!', sub: '큰 나무가 됐어요.' },
+  50: { emoji: '🍎', title: '얼리버드 50회!', sub: '열매가 맺혔어요.' },
 };
-function checkMilestone(streak, total) {
+function checkMilestone(streak, earlyCount) {
   if (STREAK_MILESTONES[streak]) return STREAK_MILESTONES[streak];
-  if (TOTAL_MILESTONES[total]) return TOTAL_MILESTONES[total];
+  if (EARLY_MILESTONES[earlyCount]) return EARLY_MILESTONES[earlyCount];
   return null;
 }
 function showMilestone(studentId, m, time) {
@@ -2196,15 +2941,43 @@ function pwConfirm() {
 // ────────────────────────────────────────
 function openAdmin() {
   document.getElementById('admin-date-input').value = todayKey();
-  document.getElementById('deadline-input').value = DEADLINE;
+  document.getElementById('threshold-early-input').value = THRESHOLD_EARLY;
+  document.getElementById('threshold-normal-input').value = THRESHOLD_NORMAL;
   document.getElementById('title-input').value = TITLE;
   document.getElementById('admin-modal').classList.add('show');
   renderAdminGrid();
+  renderAdminCouponGrid();
 }
 function closeAdmin() {
   document.getElementById('admin-modal').classList.remove('show');
   updateCardStates();
   applyDeadlineState();
+}
+function renderAdminCouponGrid() {
+  const grid = document.getElementById('admin-coupon-grid');
+  if (!grid) return;
+  if (STUDENTS.length === 0) {
+    grid.innerHTML = '<div class="deadline-help">학생 명단을 먼저 업로드해주세요.</div>';
+    return;
+  }
+  grid.innerHTML = STUDENTS.map(s => {
+    const c = getCouponCount(s.id);
+    const star = c >= 10 ? ' has-star' : '';
+    return `
+      <div class="admin-coupon-row${star}">
+        <span class="acr-name">${s.name}</span>
+        <button class="acr-btn" onclick="adjustCoupon('${s.id}', -1)">−</button>
+        <span class="acr-count">${c >= 10 ? '⭐' : '🎟'} ${c}</span>
+        <button class="acr-btn" onclick="adjustCoupon('${s.id}', 1)">＋</button>
+      </div>`;
+  }).join('');
+}
+function adjustCoupon(studentId, delta) {
+  const cur = getCouponCount(studentId);
+  const next = Math.max(0, cur + delta);
+  setCouponCount(studentId, next);
+  renderAdminCouponGrid();
+  updateCardStates();
 }
 function renderAdminGrid() {
   const dateStr = document.getElementById('admin-date-input').value;
@@ -2279,7 +3052,9 @@ function exportJSON() {
     exported: new Date().toISOString(),
     classInfo: CLASS_INFO,
     students: STUDENTS,
-    deadline: DEADLINE,
+    thresholds: { early: THRESHOLD_EARLY, normal: THRESHOLD_NORMAL },
+    coupons: loadCoupons(),
+    couponHistory: loadCouponHistory(),
     data,
   }, null, 2);
   downloadFile(`얼리버드_백업_${todayKey()}.json`, json, 'application/json');
@@ -2304,15 +3079,34 @@ function importJSON(file) {
         } else {
           imported = incomingRaw || [];
         }
-        // 합치기 (id 기준 중복 제거, 기존 우선)
         const merged = [...existing];
         imported.forEach(r => {
           if (!merged.find(x => x.id === r.id)) merged.push(r);
         });
         saveRecords(dateStr, merged);
       });
+      // 쿠폰/이력 합치기 (있으면)
+      if (parsed.coupons && typeof parsed.coupons === 'object') {
+        const cur = loadCoupons();
+        Object.entries(parsed.coupons).forEach(([id, n]) => {
+          cur[id] = Math.max(cur[id] || 0, n); // 더 큰 값 유지
+        });
+        saveCoupons(cur);
+      }
+      if (parsed.couponHistory && typeof parsed.couponHistory === 'object') {
+        const cur = loadCouponHistory();
+        Object.entries(parsed.couponHistory).forEach(([d, id]) => {
+          if (!cur[d]) cur[d] = id;
+        });
+        saveCouponHistory(cur);
+      }
+      // threshold 복원 (있으면)
+      if (parsed.thresholds) {
+        if (parsed.thresholds.early) saveThresholdEarly(parsed.thresholds.early);
+        if (parsed.thresholds.normal) saveThresholdNormal(parsed.thresholds.normal);
+      }
       alert('불러오기 완료!');
-      renderAdminGrid(); updateCardStates();
+      renderAdminGrid(); renderAdminCouponGrid(); updateCardStates();
     } catch {
       alert('파일을 읽는 중 오류가 발생했습니다.');
     }
@@ -2333,9 +3127,15 @@ function closeHistory() {
 }
 function switchHistoryTab(tab) {
   historyTab = tab;
-  document.getElementById('tab-date').classList.toggle('active', tab === 'date');
-  document.getElementById('tab-student').classList.toggle('active', tab === 'student');
-  document.getElementById('tab-summary').classList.toggle('active', tab === 'summary');
+  ['date','student','summary','special'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    if (el) el.classList.toggle('active', tab === t);
+  });
+  renderHistory();
+}
+let summaryMode = 'attended'; // 'attended' | 'early' | 'coupon'
+function switchSummaryMode(mode) {
+  summaryMode = mode;
   renderHistory();
 }
 function getAllHistoryDates() {
@@ -2355,13 +3155,30 @@ function renderSummary(content) {
     content.innerHTML = '<div class="history-empty">아직 기록이 없습니다.</div>';
     return;
   }
+  // 모드별 카운트
   const counts = STUDENTS.map(s => {
-    const count = dates.reduce((sum, d) => sum + (getCheckedIds(d).includes(s.id) ? 1 : 0), 0);
-    return { ...s, count };
+    let count = 0, unit = '회';
+    if (summaryMode === 'attended') {
+      count = dates.reduce((sum, d) => sum + (getCheckedIds(d).includes(s.id) ? 1 : 0), 0);
+    } else if (summaryMode === 'early') {
+      count = getEarlybirdCount(s.id);
+    } else if (summaryMode === 'coupon') {
+      count = getCouponCount(s.id);
+      unit = '장';
+    }
+    return { ...s, count, unit };
   }).sort((a, b) => b.count - a.count);
   const maxCount = Math.max(1, counts[0]?.count || 1);
+  const modeLabel = summaryMode === 'attended' ? '누적 출석'
+                  : summaryMode === 'early' ? '얼리버드 일수'
+                  : '쿠폰 보유';
   content.innerHTML = `
-    <div class="summary-total-info">총 ${totalDays}일 기록 · 학생 ${STUDENTS.length}명</div>
+    <div class="summary-mode-tabs">
+      <button class="summary-mode-tab ${summaryMode==='attended'?'active':''}" onclick="switchSummaryMode('attended')">누적 출석</button>
+      <button class="summary-mode-tab ${summaryMode==='early'?'active':''}" onclick="switchSummaryMode('early')">🌅 얼리버드</button>
+      <button class="summary-mode-tab ${summaryMode==='coupon'?'active':''}" onclick="switchSummaryMode('coupon')">🎟 쿠폰</button>
+    </div>
+    <div class="summary-total-info">총 ${totalDays}일 기록 · 학생 ${STUDENTS.length}명 · ${modeLabel} 기준</div>
     <div class="summary-grid">
       ${counts.map((s, i) => {
         const pct = Math.round(s.count / maxCount * 100);
@@ -2371,17 +3188,72 @@ function renderSummary(content) {
           <div class="summary-rank">${medal}</div>
           <div class="summary-name">${s.name}</div>
           <div class="summary-bar-wrap"><div class="summary-bar" style="width:${pct}%"></div></div>
-          <div class="summary-count">${s.count}회</div>
+          <div class="summary-count">${s.count}${s.unit}</div>
         </div>`;
       }).join('')}
     </div>`;
 }
+
+function renderSpecial(content) {
+  const dates = getAllHistoryDates();
+  if (dates.length === 0) {
+    content.innerHTML = '<div class="history-empty">아직 기록이 없습니다.</div>';
+    return;
+  }
+  const allOnTimeDays = dates.filter(isAllOnTimeDay);
+  const perfectDays = dates.filter(isPerfectDay);
+  const noLateDays = dates.filter(isNoLateDay);
+
+  const renderDateList = (list, emoji, emptyMsg) => {
+    if (list.length === 0) return `<div class="special-empty">${emptyMsg}</div>`;
+    return list.map(d => {
+      const day = DAYS[new Date(d).getDay()];
+      const stats = getDayStats(d);
+      return `<div class="special-date-item">
+        <span class="sd-emoji">${emoji}</span>
+        <span class="sd-date">${d} (${day})</span>
+        <span class="sd-stats">🌅 ${stats.early} · ☀️ ${stats.normal}${stats.late ? ' · 🌆 ' + stats.late : ''}</span>
+      </div>`;
+    }).join('');
+  };
+
+  content.innerHTML = `
+    <div class="special-stat-grid">
+      <div class="special-stat-box">
+        <div class="ssb-value">${allOnTimeDays.length}</div>
+        <div class="ssb-label">전원 정시 출석</div>
+        <div class="ssb-sub">전원 출석 + 지각 0</div>
+      </div>
+      <div class="special-stat-box">
+        <div class="ssb-value">${perfectDays.length}</div>
+        <div class="ssb-label">전원 출석</div>
+        <div class="ssb-sub">결석 0</div>
+      </div>
+      <div class="special-stat-box">
+        <div class="ssb-value">${noLateDays.length}</div>
+        <div class="ssb-label">지각 0명</div>
+        <div class="ssb-sub">지각자 없는 날</div>
+      </div>
+    </div>
+
+    <div class="special-section-title">🌟 전원 정시 출석한 날</div>
+    <div class="special-date-list">${renderDateList(allOnTimeDays, '🌟', '아직 없어요. 첫 번째 날을 만들어봐요.')}</div>
+
+    <div class="special-section-title">🎉 전원 출석한 날</div>
+    <div class="special-date-list">${renderDateList(perfectDays, '🎉', '아직 없어요.')}</div>
+
+    <div class="special-section-title">☀️ 지각 0명인 날</div>
+    <div class="special-date-list">${renderDateList(noLateDays, '☀️', '아직 없어요.')}</div>
+  `;
+}
 function renderHistory() {
   const content = document.getElementById('history-content');
   if (historyTab === 'summary') { renderSummary(content); return; }
+  if (historyTab === 'special') { renderSpecial(content); return; }
   if (historyTab === 'date') {
     const dates = getAllHistoryDates();
     if (dates.length === 0) { content.innerHTML = '<div class="history-empty">아직 기록이 없습니다.</div>'; return; }
+    const today = todayKey();
     content.innerHTML = dates.map(dateStr => {
       const records = getRecords(dateStr);
       const sorted = [...records].sort((a, b) => {
@@ -2389,20 +3261,44 @@ function renderHistory() {
         return a.time.localeCompare(b.time);
       });
       const dayName = DAYS[new Date(dateStr).getDay()];
+      const stats = getDayStats(dateStr);
+      const winnerId = getCouponWinner(dateStr);
+      const winnerName = winnerId ? (STUDENTS.find(x => x.id === winnerId)?.name || '') : '';
+
+      // 날짜별 마크
+      let dayMark = '';
+      if (isAllOnTimeDay(dateStr)) dayMark = '<span class="day-mark mark-perfect">🌟 전원 정시</span>';
+      else if (isPerfectDay(dateStr)) dayMark = '<span class="day-mark mark-attended">🎉 전원 출석</span>';
+      else if (isNoLateDay(dateStr) && stats.attended > 0) dayMark = '<span class="day-mark mark-nolate">☀️ 지각 0명</span>';
+
       const chips = sorted.map(r => {
         const s = STUDENTS.find(x => x.id === r.id);
         const name = s ? s.name : r.id;
+        const status = getStatusForRecord(r);
+        const statusEmoji = STATUS_INFO[status]?.emoji || '';
         const mood = r.mood ? ` ${r.mood}` : '';
         const time = r.time ? `<span class="chip-time">${r.time}</span>` : '';
-        return `<span class="name-chip">${name}${mood}${time}</span>`;
+        const win = winnerId === r.id ? ' 🎟' : '';
+        return `<span class="name-chip chip-${status}">${statusEmoji} ${name}${mood}${win}${time}</span>`;
       }).join('');
+
+      // 미체크(결석) 학생 — 오늘이 아닌 날만 결석 표시
+      const checkedIds = records.map(r => r.id);
+      const absentList = (dateStr !== today)
+        ? STUDENTS.filter(s => !checkedIds.includes(s.id))
+        : [];
+      const absentChips = absentList.length > 0
+        ? `<div class="history-absent-row">결석 ${absentList.length}명: ${absentList.map(s => `<span class="name-chip chip-absent">✗ ${s.name}</span>`).join('')}</div>`
+        : '';
+
       return `
         <div class="history-date-item">
           <div class="history-date-header">
-            <span>${dateStr} (${dayName})</span>
-            <span>${records.length}명</span>
+            <span>${dateStr} (${dayName}) ${dayMark}</span>
+            <span class="history-date-stat">🌅 ${stats.early} · ☀️ ${stats.normal} · 🌆 ${stats.late}${winnerName ? ' · 🎟 ' + winnerName : ''}</span>
           </div>
           <div class="history-date-names">${chips || '없음'}</div>
+          ${absentChips}
         </div>`;
     }).join('');
   } else {
@@ -2421,7 +3317,16 @@ function renderStudentHistory(studentId) {
   const myDates = allDates.filter(d => getCheckedIds(d).includes(studentId));
   const total = myDates.length;
   const streak = getStreak(studentId);
-  const plant = getPlantStage(total);
+  const earlyCount = getEarlybirdCount(studentId);
+  const plant = getPlantStage(earlyCount);
+  const coupons = getCouponCount(studentId);
+
+  // 지각 카운트
+  let lateCount = 0;
+  myDates.forEach(d => {
+    const r = getRecords(d).find(x => x.id === studentId);
+    if (r && getStatus(r.time) === 'late') lateCount++;
+  });
 
   const summaryEl = document.getElementById('history-student-summary');
   if (summaryEl) {
@@ -2431,8 +3336,20 @@ function renderStudentHistory(studentId) {
         <div class="stat-label">누적 출석</div>
       </div>
       <div class="history-student-stat">
+        <div class="stat-value">🌅 ${earlyCount}</div>
+        <div class="stat-label">얼리버드</div>
+      </div>
+      <div class="history-student-stat">
+        <div class="stat-value">🌆 ${lateCount}</div>
+        <div class="stat-label">지각</div>
+      </div>
+      <div class="history-student-stat">
         <div class="stat-value">🔥 ${streak}</div>
         <div class="stat-label">연속</div>
+      </div>
+      <div class="history-student-stat">
+        <div class="stat-value">🎟 ${coupons}</div>
+        <div class="stat-label">쿠폰</div>
       </div>
       <div class="history-student-stat">
         <div class="stat-value" style="font-size:26px;">${plant.emoji}</div>
@@ -2445,8 +3362,10 @@ function renderStudentHistory(studentId) {
   el.innerHTML = myDates.map(d => {
     const day = DAYS[new Date(d).getDay()];
     const r = getRecords(d).find(x => x.id === studentId);
+    const status = getStatusForRecord(r);
+    const emoji = STATUS_INFO[status]?.emoji || '✔';
     const time = r?.time ? `<span class="hsd-time">${r.time}${r.mood ? ' ' + r.mood : ''}</span>` : '<span class="hsd-time">시각 미기록</span>';
-    return `<div class="history-student-date-item"><span>✔ ${d} (${day})</span>${time}</div>`;
+    return `<div class="history-student-date-item hsd-${status}"><span>${emoji} ${d} (${day})</span>${time}</div>`;
   }).join('');
 }
 
@@ -2466,10 +3385,15 @@ function renderGarden() {
   const totalDays = allDates.length;
   const totalChecks = allDates.reduce((sum, d) => sum + getRecords(d).length, 0);
 
-  // 학급에서 가장 큰 식물
-  const studentCounts = STUDENTS.map(s => ({ ...s, count: getTotalCount(s.id), streak: getStreak(s.id) }));
-  const maxCount = studentCounts.reduce((m, s) => Math.max(m, s.count), 0);
-  const topPlant = getPlantStage(maxCount);
+  // 학급에서 가장 큰 식물 (얼리버드 카운트 기준)
+  const studentCounts = STUDENTS.map(s => ({
+    ...s,
+    earlyCount: getEarlybirdCount(s.id),
+    streak: getStreak(s.id),
+    coupons: getCouponCount(s.id),
+  }));
+  const maxEarly = studentCounts.reduce((m, s) => Math.max(m, s.earlyCount), 0);
+  const topPlant = getPlantStage(maxEarly);
 
   content.innerHTML = `
     <div class="garden-header-stats">
@@ -2488,26 +3412,29 @@ function renderGarden() {
     </div>
     <div class="garden-grid">
       ${studentCounts.map(s => {
-        const p = getPlantStage(s.count);
-        const empty = s.count === 0 ? ' empty' : '';
+        const p = getPlantStage(s.earlyCount);
+        const empty = s.earlyCount === 0 ? ' empty' : '';
         const streak = s.streak >= 1 ? `<div class="gt-streak">🔥 ${s.streak}일</div>` : '';
+        const coupon = s.coupons > 0 ? `<div class="gt-coupon">${s.coupons >= 10 ? '⭐' : '🎟'} ${s.coupons}</div>` : '';
         return `
           <div class="garden-tile${empty}">
             <div class="gt-plant">${p.emoji}</div>
             <div class="gt-name">${s.name}</div>
-            <div class="gt-count">${s.count}회</div>
+            <div class="gt-count">🌅 ${s.earlyCount}회</div>
             ${streak}
+            ${coupon}
           </div>`;
       }).join('')}
     </div>
     <div class="garden-legend">
-      <span class="lg-item"><span class="lg-emoji">🪨</span> 0회</span>
+      식물은 얼리버드(${THRESHOLD_EARLY} 이전 도착) 일수로 자라요<br>
+      <span class="lg-item"><span class="lg-emoji">🪨</span> 0</span>
       <span class="lg-item"><span class="lg-emoji">🌱</span> 1~2</span>
-      <span class="lg-item"><span class="lg-emoji">🌿</span> 3~6</span>
-      <span class="lg-item"><span class="lg-emoji">🪴</span> 7~14</span>
-      <span class="lg-item"><span class="lg-emoji">🌷</span> 15~29</span>
-      <span class="lg-item"><span class="lg-emoji">🌳</span> 30~49</span>
-      <span class="lg-item"><span class="lg-emoji">🍎</span> 50+</span>
+      <span class="lg-item"><span class="lg-emoji">🌿</span> 3~5</span>
+      <span class="lg-item"><span class="lg-emoji">🪴</span> 6~10</span>
+      <span class="lg-item"><span class="lg-emoji">🌷</span> 11~20</span>
+      <span class="lg-item"><span class="lg-emoji">🌳</span> 21~34</span>
+      <span class="lg-item"><span class="lg-emoji">🍎</span> 35+</span>
     </div>`;
 }
 
@@ -2551,12 +3478,18 @@ document.getElementById('roster-file-input').addEventListener('change', (e) => {
   if (e.target.files[0]) parseRosterXlsx(e.target.files[0]);
   e.target.value = '';
 });
-document.getElementById('btn-save-deadline').addEventListener('click', () => {
-  const v = document.getElementById('deadline-input').value;
-  if (!v) { alert('시간을 입력해주세요.'); return; }
-  saveDeadline(v);
-  applyDeadlineState();
-  alert(`마감 시간이 ${v}로 저장됐어요.`);
+document.getElementById('btn-save-thresholds').addEventListener('click', () => {
+  const e = document.getElementById('threshold-early-input').value;
+  const n = document.getElementById('threshold-normal-input').value;
+  if (!e || !n) { alert('두 시간을 모두 입력해주세요.'); return; }
+  if (timeToMin(e) >= timeToMin(n)) {
+    alert('얼리버드 시간이 정상 시간보다 빨라야 해요.');
+    return;
+  }
+  saveThresholdEarly(e);
+  saveThresholdNormal(n);
+  updateCardStates();
+  alert(`출결 기준이 저장됐어요.\n· 얼리버드: ${e} 이전\n· 정상: ${e} ~ ${n} 이전\n· 지각: ${n} 이후`);
 });
 document.getElementById('btn-save-title').addEventListener('click', () => {
   const v = document.getElementById('title-input').value.trim();

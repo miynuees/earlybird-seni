@@ -425,6 +425,20 @@
     0%, 100% { transform: rotate(-4deg) translateY(0); }
     50%      { transform: rotate(4deg) translateY(-1px); }
   }
+  /* 식물 SVG 일러스트 — 글자 크기(font-size)에 맞춰 커짐 */
+  .plant-svg {
+    width: 1.25em;
+    height: 1.25em;
+    display: inline-block;
+    vertical-align: -0.2em;
+    overflow: visible;
+  }
+  .card-plant .plant-svg { display: block; margin: 0 auto; }
+  .card-plant.is-gold { animation: goldGlow 2.4s ease-in-out infinite; }
+  @keyframes goldGlow {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 200, 80, 0.55)); transform: rotate(-2deg); }
+    50%      { filter: drop-shadow(0 0 10px rgba(255, 190, 60, 0.95)); transform: rotate(2deg); }
+  }
   .card-name {
     font-size: 16px;
     font-weight: 800;
@@ -935,6 +949,7 @@
     line-height: 1;
     margin-bottom: 2px;
   }
+  .gt-plant.is-gold { filter: drop-shadow(0 0 6px rgba(255, 200, 80, 0.8)); }
   .gt-name {
     font-size: 13px;
     font-weight: 700;
@@ -1356,6 +1371,7 @@
     margin-bottom: 14px;
     animation: milestonePulse 1.4s ease-in-out infinite;
   }
+  .milestone-emoji .plant-svg { width: 1.7em; height: 1.7em; }
   .milestone-title {
     font-family: 'Gaegu', 'Gowun Dodum', 'Pretendard', sans-serif;
     font-size: 30px;
@@ -1491,6 +1507,18 @@
     background: rgba(255,255,255,0.90);
     border-color: rgba(255,255,255,0.90);
     color: var(--ink);
+  }
+  /* 쿠폰 가득(20장) — 교환 필요 */
+  .card-coupon.is-max,
+  .student-card.checked .card-coupon.is-max {
+    background: #ffe3ec;
+    border-color: #ffb3c9;
+    color: #b8405f;
+    animation: couponMaxPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes couponMaxPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 140, 170, 0.0); }
+    50%      { box-shadow: 0 0 0 4px rgba(255, 140, 170, 0.28); }
   }
 
 
@@ -1762,7 +1790,7 @@
   }
   .admin-coupon-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 6px;
     max-height: 240px;
     overflow-y: auto;
@@ -1814,6 +1842,123 @@
     flex-shrink: 0;
   }
   .admin-coupon-row .acr-btn:hover { background: #d4ede9; }
+  .admin-coupon-row.is-max { background: #ffe3ec; border-color: #ffb3c9; }
+  .admin-coupon-row.is-max .acr-count { color: #b8405f; }
+  .admin-coupon-row .acr-exchange {
+    height: 24px;
+    border-radius: 12px;
+    border: 1px solid #ffb3c9;
+    background: #fff0f5;
+    color: #b8405f;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 0 8px;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .admin-coupon-row .acr-exchange:disabled { opacity: 0.35; cursor: default; }
+  .admin-coupon-row .acr-exchange:not(:disabled):hover { background: #ffe3ec; }
+
+  /* ── 관리자: 상품 목록 편집 ── */
+  .prize-edit-list { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+  .prize-edit-row { display: flex; align-items: center; gap: 6px; }
+  .prize-edit-row input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    font-size: 13px;
+    font-family: inherit;
+    background: white;
+  }
+  .prize-edit-row input[type="number"] {
+    width: 58px;
+    padding: 8px 6px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    font-size: 13px;
+    font-family: inherit;
+    text-align: center;
+    background: white;
+  }
+  .prize-edit-row .pe-unit { font-size: 12px; color: var(--ink-mute); flex-shrink: 0; }
+  .prize-edit-row .pe-del {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1px solid var(--line); background: #f6f6f6; color: var(--ink-soft);
+    cursor: pointer; font-family: inherit; font-size: 13px; line-height: 1; padding: 0; flex-shrink: 0;
+  }
+  .prize-edit-row .pe-del:hover { background: #ffe3ec; color: #b8405f; border-color: #ffb3c9; }
+  .prize-edit-actions { display: flex; gap: 6px; }
+  .prize-edit-actions .btn-roster { width: auto; flex: 1; min-height: 38px; padding: 8px 12px; }
+  .exchange-log { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto; }
+  .exchange-log-row {
+    font-size: 12px;
+    color: var(--ink-soft);
+    background: white;
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    padding: 5px 9px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .exchange-log-row b { color: var(--ink); font-weight: 700; }
+  .exchange-log-row .el-date { color: var(--ink-mute); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  .exchange-log-row .el-undo {
+    border: none; background: none; color: var(--ink-mute); cursor: pointer; font-family: inherit; font-size: 11px; padding: 0 2px; flex-shrink: 0;
+  }
+  .exchange-log-row .el-undo:hover { color: #b8405f; }
+
+  /* ── 상품 교환 모달 ── */
+  #prize-modal { z-index: 700; }
+  #prize-modal .modal-box { width: 380px; max-width: 92vw; }
+  .prize-student-head { text-align: center; padding: 4px 0 12px; }
+  .prize-student-head .psh-name { font-size: 17px; font-weight: 800; color: var(--ink); }
+  .prize-student-head .psh-count { font-size: 13px; color: #b8405f; font-weight: 700; margin-top: 4px; }
+  .prize-pick-list { display: flex; flex-direction: column; gap: 8px; }
+  .prize-pick {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    background: white;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    width: 100%;
+    transition: transform 0.12s, border-color 0.12s;
+  }
+  .prize-pick:not(:disabled):hover { transform: translateY(-1px); border-color: #ffb3c9; background: #fff7fa; }
+  .prize-pick:disabled { opacity: 0.4; cursor: default; }
+  .prize-pick .pp-icon { font-size: 22px; flex-shrink: 0; }
+  .prize-pick .pp-name { flex: 1; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .prize-pick .pp-cost {
+    font-size: 12px; font-weight: 700; color: #b8405f;
+    background: #ffe3ec; border: 1px solid #ffb3c9; border-radius: 99px; padding: 2px 9px; flex-shrink: 0;
+  }
+  .prize-pick-help { font-size: 12px; color: var(--ink-mute); text-align: center; margin-top: 12px; }
+
+  /* ── 정원 모달: 상품 안내 ── */
+  .garden-prizes {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: #fff7fa;
+    border: 1px solid #ffd6e2;
+    border-radius: 14px;
+  }
+  .garden-prizes .gp-title { font-size: 13px; font-weight: 800; color: #b8405f; margin-bottom: 6px; }
+  .garden-prizes .gp-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .garden-prizes .gp-item {
+    font-size: 12px; color: var(--ink); background: white; border: 1px solid #ffd6e2;
+    border-radius: 99px; padding: 3px 10px;
+  }
+  .garden-prizes .gp-item b { color: #b8405f; }
+  .garden-prizes .gp-note { font-size: 11.5px; color: var(--ink-mute); margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -1938,9 +2083,20 @@
       </div>
 
       <div class="admin-coupon-section">
-        <div class="admin-backup-title">🎟 쿠폰 관리</div>
-        <div class="deadline-help" style="margin-bottom:8px;">상품을 줬을 때 학생 쿠폰을 차감하거나 직접 지급할 수 있어요.</div>
+        <div class="admin-backup-title">🎁 쿠폰 상품 목록</div>
+        <div class="deadline-help">한 명이 최대 <b id="coupon-max-label">20</b>장까지 모을 수 있어요. 가득 차면 상품으로 교환해야 다시 모여요.</div>
+        <div class="prize-edit-list" id="prize-edit-list"></div>
+        <div class="prize-edit-actions">
+          <button class="btn-roster" onclick="addPrizeRow()">＋ 상품 추가</button>
+          <button class="btn-roster" onclick="savePrizes()">상품 저장</button>
+        </div>
+      </div>
+
+      <div class="admin-coupon-section">
+        <div class="admin-backup-title">🎟 쿠폰 관리 · 상품 교환</div>
+        <div class="deadline-help" style="margin-bottom:8px;">「교환」을 누르면 상품을 고르고 쿠폰이 차감돼요. ＋/− 로 직접 조정도 가능해요.</div>
         <div class="admin-coupon-grid" id="admin-coupon-grid"></div>
+        <div class="exchange-log" id="exchange-log"></div>
       </div>
 
       <div class="admin-date-row" style="margin-top:14px;">
@@ -1983,6 +2139,23 @@
 </div>
 
 <!-- 우리 학급 정원 모달 -->
+<div class="modal-overlay" id="prize-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">🎁 상품 교환</div>
+      <button class="modal-close" onclick="closePrizeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="prize-student-head">
+        <div class="psh-name" id="prize-student-name">－</div>
+        <div class="psh-count" id="prize-student-count">－</div>
+      </div>
+      <div class="prize-pick-list" id="prize-pick-list"></div>
+      <div class="prize-pick-help">교환하면 쿠폰이 바로 차감돼요. 실수했으면 교환 기록에서 되돌릴 수 있어요.</div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="garden-modal">
   <div class="modal-box">
     <div class="modal-header">
@@ -2094,6 +2267,35 @@ function loadCouponHistory() {
 }
 function saveCouponHistory(obj) {
   localStorage.setItem('earlybird_coupon_history', JSON.stringify(obj));
+}
+// 쿠폰 최대 보유 수 — 가득 차면 상품으로 교환해야 다시 모임
+const COUPON_MAX = 20;
+// 상품 목록 (관리자에서 편집 가능)
+const DEFAULT_PRIZES = [
+  { icon: '🍬', name: '간식 교환권',        cost: 3 },
+  { icon: '🍩', name: '큰 간식 교환권',     cost: 5 },
+  { icon: '🧹', name: '청소 면제권',        cost: 10 },
+  { icon: '🧶', name: '세은쌤 뜨개 소품',   cost: 15 },
+];
+function loadPrizes() {
+  const raw = localStorage.getItem('earlybird_prizes');
+  if (!raw) return DEFAULT_PRIZES.map(p => ({ ...p }));
+  try {
+    const arr = JSON.parse(raw);
+    if (Array.isArray(arr)) return arr.filter(p => p && p.name).map(p => ({ icon: p.icon || '🎁', name: p.name, cost: Math.max(1, parseInt(p.cost) || 1) }));
+  } catch (e) {}
+  return DEFAULT_PRIZES.map(p => ({ ...p }));
+}
+function savePrizesToStorage(arr) {
+  localStorage.setItem('earlybird_prizes', JSON.stringify(arr));
+}
+// 교환 기록: [{date, id, prize, icon, cost, at}]
+function loadExchangeLog() {
+  const raw = localStorage.getItem('earlybird_exchange_log');
+  try { const a = raw ? JSON.parse(raw) : []; return Array.isArray(a) ? a : []; } catch (e) { return []; }
+}
+function saveExchangeLog(arr) {
+  localStorage.setItem('earlybird_exchange_log', JSON.stringify(arr));
 }
 function loadTitle() {
   const raw = localStorage.getItem('earlybird_title');
@@ -2297,12 +2499,13 @@ function getCouponCount(studentId) {
 }
 function addCoupon(studentId, n = 1) {
   const c = loadCoupons();
-  c[studentId] = (c[studentId] || 0) + n;
+  c[studentId] = Math.min(COUPON_MAX, (c[studentId] || 0) + n);
   saveCoupons(c);
   return c[studentId];
 }
 function setCouponCount(studentId, n) {
   const c = loadCoupons();
+  n = Math.min(COUPON_MAX, n);
   if (n <= 0) delete c[studentId];
   else c[studentId] = n;
   saveCoupons(c);
@@ -2317,26 +2520,60 @@ function setCouponWinner(dateStr, studentId) {
   else delete h[dateStr];
   saveCouponHistory(h);
 }
+function isCouponFull(studentId) {
+  return getCouponCount(studentId) >= COUPON_MAX;
+}
 // 오늘 카드를 탭한 학생이 "정상 이상 + 첫 번째"라면 쿠폰 적립.
-// 반환: { winner: bool, count: number, justReached10: bool }
+// 쿠폰이 가득(COUPON_MAX) 찬 학생은 1등이어도 못 받고, 다음 정시 출석자에게 기회가 넘어감.
+// 반환: { winner, count, full, reachedMax, newPrize }
 function awardCouponIfFirst(studentId, time) {
   const status = getStatus(time);
   if (status !== 'early' && status !== 'normal') return { winner: false };
   const today = todayKey();
-  // 이미 그날 쿠폰 수령자가 있으면 패스 (보통 이 시점엔 없음)
+  // 이미 그날 쿠폰 수령자가 있으면 패스
   if (getCouponWinner(today)) return { winner: false };
-  // 이 record는 이미 저장된 상태에서 호출 — 다른 출석자가 있으면 1등 아님
+  // 가득 찬 학생은 적립 없이 안내만
+  if (isCouponFull(studentId)) return { winner: false, full: true, count: getCouponCount(studentId) };
+  // 이 record는 이미 저장된 상태에서 호출 — (가득 차지 않은) 다른 정시 출석자가 있으면 1등 아님
   const records = getRecords(today);
-  const others = records.filter(r => r.id !== studentId && isOnTime(r));
+  const others = records.filter(r => r.id !== studentId && isOnTime(r) && !isCouponFull(r.id));
   if (others.length > 0) return { winner: false };
-  const before = getCouponCount(studentId);
   const after = addCoupon(studentId);
   setCouponWinner(today, studentId);
+  // 이번 적립으로 새로 교환 가능해진 상품 (cost === after)
+  const newPrize = loadPrizes().find(p => p.cost === after) || null;
   return {
     winner: true,
     count: after,
-    justReached10: Math.floor(after / 10) > Math.floor(before / 10),
+    reachedMax: after >= COUPON_MAX,
+    newPrize,
   };
+}
+// 상품 교환 — 쿠폰 차감 + 기록
+function exchangePrize(studentId, prizeIdx) {
+  const prizes = loadPrizes();
+  const prize = prizes[prizeIdx];
+  if (!prize) return false;
+  const cur = getCouponCount(studentId);
+  if (cur < prize.cost) return false;
+  setCouponCount(studentId, cur - prize.cost);
+  const log = loadExchangeLog();
+  log.unshift({ date: todayKey(), id: studentId, prize: prize.name, icon: prize.icon || '🎁', cost: prize.cost, at: Date.now() });
+  saveExchangeLog(log.slice(0, 300));
+  return true;
+}
+function undoExchange(at) {
+  const log = loadExchangeLog();
+  const idx = log.findIndex(e => e.at === at);
+  if (idx < 0) return;
+  const e = log[idx];
+  const s = STUDENTS.find(x => x.id === e.id);
+  if (!confirm(`${s ? s.name : e.id} · ${e.prize} 교환을 취소하고 쿠폰 ${e.cost}장을 돌려줄까요?`)) return;
+  addCoupon(e.id, e.cost);
+  log.splice(idx, 1);
+  saveExchangeLog(log);
+  renderAdminCouponGrid();
+  updateCardStates();
 }
 
 function getTotalCount(studentId) {
@@ -2360,14 +2597,26 @@ function getWeeklyCount(studentId) {
 // ────────────────────────────────────────
 // 식물 성장 단계 (얼리버드 누적 일수 기준)
 // ────────────────────────────────────────
+// 단계별 일러스트 (인라인 SVG, 64×64 좌표계)
+const PLANT_SVG = {
+  seed: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="50" rx="22" ry="9" fill="#d3b08c"/><ellipse cx="32" cy="48" rx="17" ry="6" fill="#b48a66"/><ellipse cx="32" cy="44.5" rx="7.5" ry="5.2" fill="#8a5a3c" transform="rotate(-18 32 44.5)"/><path d="M28.5 43.5q3.5-3.2 7 0" stroke="#d09a6c" stroke-width="1.6" fill="none" stroke-linecap="round"/><text x="41" y="35" font-size="11" font-weight="700" fill="#a8a8a8" font-family="sans-serif">z</text><text x="47" y="27" font-size="9" font-weight="700" fill="#c4c4c4" font-family="sans-serif">z</text></svg>`,
+  sprout: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="52" rx="20" ry="8" fill="#d3b08c"/><ellipse cx="32" cy="50" rx="15" ry="5" fill="#b48a66"/><path d="M32 50V33" stroke="#5fb975" stroke-width="3.2" stroke-linecap="round"/><path d="M32 41C23.5 41 19 34.5 20 28.5 27.5 28.5 33 34 32 41Z" fill="#8fd19e"/><path d="M32 36C40.5 36 45 29.5 44 23.5 36.5 23.5 31 29 32 36Z" fill="#5fb975"/><circle cx="26" cy="33" r="1.3" fill="#fff" opacity="0.7"/></svg>`,
+  leaf: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="53" rx="20" ry="8" fill="#d3b08c"/><ellipse cx="32" cy="51" rx="15" ry="5" fill="#b48a66"/><path d="M32 51V18" stroke="#4fae68" stroke-width="3.2" stroke-linecap="round"/><path d="M32 45C21.5 45 16.5 38 17.5 31 26.5 31 33 37 32 45Z" fill="#8fd19e"/><path d="M32 38.5C42.5 38.5 47.5 31.5 46.5 24.5 37.5 24.5 31 30.5 32 38.5Z" fill="#5fb975"/><path d="M32 30.5C24 30.5 20 25.5 21 19.5 28 19.5 33 24.5 32 30.5Z" fill="#5fb975"/><path d="M32 24C39.5 24 43.5 19 42.5 13 35.5 13 31 18 32 24Z" fill="#8fd19e"/></svg>`,
+  pot: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 33V15" stroke="#4fae68" stroke-width="3.2" stroke-linecap="round"/><ellipse cx="21" cy="23" rx="9" ry="6.2" fill="#8fd19e" transform="rotate(-28 21 23)"/><ellipse cx="43" cy="23" rx="9" ry="6.2" fill="#8fd19e" transform="rotate(28 43 23)"/><ellipse cx="32" cy="12" rx="7" ry="8.5" fill="#5fb975"/><ellipse cx="25" cy="31" rx="6.5" ry="4.6" fill="#5fb975" transform="rotate(-18 25 31)"/><ellipse cx="39" cy="31" rx="6.5" ry="4.6" fill="#5fb975" transform="rotate(18 39 31)"/><path d="M18 37H46L43 57H21Z" fill="#eaa48f"/><path d="M21 37H27L26 57H22Z" fill="#f3bfae" opacity="0.7"/><rect x="15" y="33" width="34" height="7.5" rx="3.5" fill="#d98b73"/></svg>`,
+  flower: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 37V23" stroke="#4fae68" stroke-width="3.2" stroke-linecap="round"/><path d="M32 33C23.5 33 19.5 28 20.5 22 27.5 22 33 27 32 33Z" fill="#8fd19e"/><path d="M32 31C40.5 31 44.5 26 43.5 20 36.5 20 31 25 32 31Z" fill="#5fb975"/><circle cx="32" cy="7.5" r="5.4" fill="#ff9db5"/><circle cx="24.2" cy="13" r="5.4" fill="#ff9db5"/><circle cx="39.8" cy="13" r="5.4" fill="#ff9db5"/><circle cx="26.8" cy="21.5" r="5.4" fill="#ffb3c6"/><circle cx="37.2" cy="21.5" r="5.4" fill="#ffb3c6"/><circle cx="32" cy="15" r="5" fill="#ffd66b"/><circle cx="30.5" cy="13.5" r="1.4" fill="#fff" opacity="0.8"/><path d="M18 39H46L43 59H21Z" fill="#eaa48f"/><path d="M21 39H27L26 59H22Z" fill="#f3bfae" opacity="0.7"/><rect x="15" y="35" width="34" height="7.5" rx="3.5" fill="#d98b73"/></svg>`,
+  tree: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="56" rx="19" ry="5" fill="#c6e6cb"/><path d="M29 56V34H35V56Z" fill="#a3745a"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#a3745a" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#7ccf8a"/><circle cx="20.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="43.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="32" cy="15.5" r="10" fill="#a9e3b0"/><circle cx="23" cy="21.5" r="5.5" fill="#a9e3b0" opacity="0.85"/><circle cx="41" cy="20" r="3" fill="#fff" opacity="0.5"/></svg>`,
+  fruit: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="56" rx="19" ry="5" fill="#c6e6cb"/><path d="M29 56V34H35V56Z" fill="#a3745a"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#a3745a" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#7ccf8a"/><circle cx="20.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="43.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="32" cy="15.5" r="10" fill="#a9e3b0"/><g fill="#ff6b6b"><circle cx="24" cy="26" r="3.4"/><circle cx="38.5" cy="18.5" r="3.4"/><circle cx="42" cy="33" r="3.4"/><circle cx="30" cy="35.5" r="3.4"/><circle cx="18" cy="35" r="3"/></g><g fill="#fff" opacity="0.75"><circle cx="22.8" cy="24.8" r="1.1"/><circle cx="37.3" cy="17.3" r="1.1"/><circle cx="40.8" cy="31.8" r="1.1"/><circle cx="28.8" cy="34.3" r="1.1"/></g></svg>`,
+  gold: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="26" r="25" fill="#fff3c4" opacity="0.75"/><ellipse cx="32" cy="56" rx="19" ry="5" fill="#f5e6b8"/><path d="M29 56V34H35V56Z" fill="#b98a5e"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#b98a5e" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#ffd36b"/><circle cx="20.5" cy="30.5" r="10" fill="#ffd36b"/><circle cx="43.5" cy="30.5" r="10" fill="#ffd36b"/><circle cx="32" cy="15.5" r="10" fill="#ffe9a8"/><g fill="#ff9db5"><circle cx="24" cy="26" r="3.2"/><circle cx="39" cy="19" r="3.2"/><circle cx="42" cy="33" r="3.2"/><circle cx="30" cy="35.5" r="3.2"/></g><g fill="#fff"><path d="M32 8l1.4 3.4 3.4 1.4-3.4 1.4L32 17.6l-1.4-3.4-3.4-1.4 3.4-1.4z"/><path d="M14 20l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z"/><path d="M52 14l1.2 2.9 2.9 1.2-2.9 1.2-1.2 2.9-1.2-2.9-2.9-1.2 2.9-1.2z"/><path d="M50 38l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></g></svg>`,
+};
 function getPlantStage(count) {
-  if (count === 0) return { emoji: '🪨', name: '씨앗 잠듦' };
-  if (count <= 2)  return { emoji: '🌱', name: '새싹' };
-  if (count <= 5)  return { emoji: '🌿', name: '잎' };
-  if (count <= 10) return { emoji: '🪴', name: '화분' };
-  if (count <= 20) return { emoji: '🌷', name: '꽃' };
-  if (count <= 34) return { emoji: '🌳', name: '나무' };
-  return { emoji: '🍎', name: '열매' };
+  if (count === 0) return { key: 'seed',   emoji: '🪨', name: '씨앗 잠듦', svg: PLANT_SVG.seed };
+  if (count <= 2)  return { key: 'sprout', emoji: '🌱', name: '새싹',     svg: PLANT_SVG.sprout };
+  if (count <= 5)  return { key: 'leaf',   emoji: '🌿', name: '잎',       svg: PLANT_SVG.leaf };
+  if (count <= 10) return { key: 'pot',    emoji: '🪴', name: '화분',     svg: PLANT_SVG.pot };
+  if (count <= 20) return { key: 'flower', emoji: '🌷', name: '꽃',       svg: PLANT_SVG.flower };
+  if (count <= 34) return { key: 'tree',   emoji: '🌳', name: '나무',     svg: PLANT_SVG.tree };
+  if (count <= 49) return { key: 'fruit',  emoji: '🍎', name: '열매',     svg: PLANT_SVG.fruit };
+  return { key: 'gold', emoji: '🌟', name: '황금 나무', svg: PLANT_SVG.gold };
 }
 
 // ────────────────────────────────────────
@@ -2482,7 +2731,7 @@ function renderCards() {
     card.dataset.id = s.id;
     card.innerHTML = `
       <div class="card-coupon" data-coupon></div>
-      <div class="card-plant" data-plant>🪨</div>
+      <div class="card-plant" data-plant></div>
       <div class="card-name">
         <span class="cn-text">${s.name}</span>
         <span class="cn-mood" data-mood-badge></span>
@@ -2518,19 +2767,26 @@ function updateCardStates() {
     const plant = getPlantStage(earlyCount);
     const coupons = getCouponCount(id);
 
-    card.querySelector('[data-plant]').textContent = plant.emoji;
+    const plantEl = card.querySelector('[data-plant]');
+    if (plantEl.dataset.stage !== plant.key) {
+      plantEl.innerHTML = plant.svg;
+      plantEl.dataset.stage = plant.key;
+    }
+    plantEl.classList.toggle('is-gold', plant.key === 'gold');
 
-    // 쿠폰 카운트 (있을 때만)
+    // 쿠폰 카운트 (있을 때만) — 20장 가득이면 분홍으로 강조
     const couponEl = card.querySelector('[data-coupon]');
-    if (coupons >= 10) {
+    couponEl.classList.remove('has-star', 'is-max');
+    if (coupons >= COUPON_MAX) {
+      couponEl.textContent = `🎁 ${coupons} 가득`;
+      couponEl.classList.add('is-max');
+    } else if (coupons >= 10) {
       couponEl.textContent = `⭐ ${coupons}`;
       couponEl.classList.add('has-star');
     } else if (coupons > 0) {
       couponEl.textContent = `🎟 ${coupons}`;
-      couponEl.classList.remove('has-star');
     } else {
       couponEl.textContent = '';
-      couponEl.classList.remove('has-star');
     }
 
     const streakEl = card.querySelector('[data-streak]');
@@ -2731,10 +2987,17 @@ function finalizeCheck(mood) {
   updateCardStates();
   applyDeadlineState();
 
-  // 쿠폰 10개(20·30…) 도달 → 별도 축하 (마일스톤보다 우선)
-  if (couponResult.justReached10) {
+  // 쿠폰 가득(20장) 상태로 1등 → 적립 없이 교환 안내
+  if (couponResult.full) {
+    rainEmojis(16, 3);
+    showCouponFull(studentId, couponResult.count, time);
+    return;
+  }
+
+  // 쿠폰 20장 가득 / 상품 교환 가능 수량 도달 → 별도 축하 (마일스톤보다 우선)
+  if (couponResult.reachedMax || couponResult.newPrize) {
     rainEmojis(40, 3.8);
-    showCouponMilestone(studentId, couponResult.count, time);
+    showCouponMilestone(studentId, couponResult.count, time, couponResult.newPrize, couponResult.reachedMax);
     return;
   }
 
@@ -2843,7 +3106,7 @@ function showCouponWin(studentId, count, time) {
   document.getElementById('cheer-emoji').textContent = '🎟';
   document.getElementById('cheer-text').textContent = `오늘 1등! 쿠폰 +1`;
   const s = STUDENTS.find(x => x.id === studentId);
-  document.getElementById('cheer-sub').textContent = s ? `${s.name} · 누적 ${count}장 · ${time}` : `누적 ${count}장 · ${time}`;
+  document.getElementById('cheer-sub').textContent = s ? `${s.name} · 쿠폰 ${count}/${COUPON_MAX}장 · ${time}` : `쿠폰 ${count}/${COUPON_MAX}장 · ${time}`;
   box.classList.remove('hiding');
   overlay.classList.add('show');
   setTimeout(() => {
@@ -2855,13 +3118,41 @@ function showCouponWin(studentId, count, time) {
   }, 2400);
 }
 
-// 쿠폰 10/20/30… 도달 — 마일스톤 모달 사용
-function showCouponMilestone(studentId, count, time) {
+// 쿠폰 가득 찬 학생이 1등 — 적립 없이 교환 안내 (응원 팝업 형태)
+function showCouponFull(studentId, count, time) {
+  const overlay = document.getElementById('cheer-overlay');
+  const box = document.getElementById('cheer-box');
+  document.getElementById('cheer-emoji').textContent = '🎁';
+  document.getElementById('cheer-text').textContent = `쿠폰이 가득 찼어요`;
   const s = STUDENTS.find(x => x.id === studentId);
-  document.getElementById('milestone-emoji').textContent = '🎁';
-  document.getElementById('milestone-title').textContent = `쿠폰 ${count}장 모음!`;
+  document.getElementById('cheer-sub').textContent = `${s ? s.name + ' · ' : ''}선생님과 상품으로 바꾸면 다시 모을 수 있어요`;
+  box.classList.remove('hiding');
+  overlay.classList.add('show');
+  setTimeout(() => {
+    box.classList.add('hiding');
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      box.classList.remove('hiding');
+    }, 400);
+  }, 2800);
+}
+
+// 쿠폰이 상품 교환 수량(3/5/10/15…)이나 최대치(20)에 도달 — 마일스톤 모달 사용
+function showCouponMilestone(studentId, count, time, prize, reachedMax) {
+  const s = STUDENTS.find(x => x.id === studentId);
+  const emojiEl = document.getElementById('milestone-emoji');
+  if (reachedMax) {
+    emojiEl.textContent = '🎁';
+    document.getElementById('milestone-title').textContent = `쿠폰 ${COUPON_MAX}장 가득!`;
+    document.getElementById('milestone-sub').textContent = prize
+      ? `「${prize.name}」으로 바꿀 수 있어요. 교환해야 다시 모을 수 있어요.`
+      : '선생님과 상품으로 교환해야 다시 모을 수 있어요.';
+  } else {
+    emojiEl.textContent = prize.icon || '🎁';
+    document.getElementById('milestone-title').textContent = `쿠폰 ${count}장 모음!`;
+    document.getElementById('milestone-sub').textContent = `이제 「${prize.name}」으로 바꿀 수 있어요. 더 모아서 큰 상품을 노려도 좋아요.`;
+  }
   document.getElementById('milestone-name').textContent = s ? `${s.name} · ${time}` : time;
-  document.getElementById('milestone-sub').textContent = '선생님께 쿠폰을 보여주세요.';
   document.getElementById('milestone-overlay').classList.add('show');
 }
 
@@ -2876,12 +3167,14 @@ const STREAK_MILESTONES = {
   30: { emoji: '⭐', title: '한 달 연속!',      sub: '대단해요. 학생만의 시간이에요.' },
 };
 // 식물 마일스톤은 "얼리버드 누적 일수"
+// 숫자는 식물 단계가 바뀌는 순간(getPlantStage 경계)과 맞춤
 const EARLY_MILESTONES = {
-  5:  { emoji: '🌿', title: '얼리버드 5회!',  sub: '식물이 잎을 펼쳤어요.' },
-  10: { emoji: '🪴', title: '얼리버드 10회!', sub: '식물이 화분으로 자랐어요.' },
-  20: { emoji: '🌷', title: '얼리버드 20회!', sub: '꽃이 폈어요.' },
-  35: { emoji: '🌳', title: '얼리버드 35회!', sub: '큰 나무가 됐어요.' },
-  50: { emoji: '🍎', title: '얼리버드 50회!', sub: '열매가 맺혔어요.' },
+  3:  { plant: 'leaf',   title: '얼리버드 3회!',  sub: '새싹이 잎을 펼쳤어요.' },
+  6:  { plant: 'pot',    title: '얼리버드 6회!',  sub: '화분으로 옮겨 심었어요.' },
+  11: { plant: 'flower', title: '얼리버드 11회!', sub: '꽃이 폈어요.' },
+  21: { plant: 'tree',   title: '얼리버드 21회!', sub: '큰 나무가 됐어요.' },
+  35: { plant: 'fruit',  title: '얼리버드 35회!', sub: '열매가 맺혔어요.' },
+  50: { plant: 'gold',   title: '얼리버드 50회!', sub: '황금 나무가 됐어요. 학급의 전설이에요.' },
 };
 function checkMilestone(streak, earlyCount) {
   if (STREAK_MILESTONES[streak]) return STREAK_MILESTONES[streak];
@@ -2890,7 +3183,9 @@ function checkMilestone(streak, earlyCount) {
 }
 function showMilestone(studentId, m, time) {
   const s = STUDENTS.find(x => x.id === studentId);
-  document.getElementById('milestone-emoji').textContent = m.emoji;
+  const emojiEl = document.getElementById('milestone-emoji');
+  if (m.plant && PLANT_SVG[m.plant]) emojiEl.innerHTML = PLANT_SVG[m.plant];
+  else emojiEl.textContent = m.emoji;
   document.getElementById('milestone-title').textContent = m.title;
   document.getElementById('milestone-name').textContent = s ? `${s.name} · ${time}` : time;
   document.getElementById('milestone-sub').textContent = m.sub;
@@ -2962,6 +3257,7 @@ function openAdmin() {
   document.getElementById('title-input').value = TITLE;
   document.getElementById('admin-modal').classList.add('show');
   renderAdminGrid();
+  renderPrizeEditor();
   renderAdminCouponGrid();
 }
 function closeAdmin() {
@@ -2976,17 +3272,115 @@ function renderAdminCouponGrid() {
     grid.innerHTML = '<div class="deadline-help">학생 명단을 먼저 업로드해주세요.</div>';
     return;
   }
+  const minCost = loadPrizes().reduce((m, p) => Math.min(m, p.cost), Infinity);
   grid.innerHTML = STUDENTS.map(s => {
     const c = getCouponCount(s.id);
-    const star = c >= 10 ? ' has-star' : '';
+    const cls = c >= COUPON_MAX ? ' is-max' : (c >= 10 ? ' has-star' : '');
+    const icon = c >= COUPON_MAX ? '🎁' : (c >= 10 ? '⭐' : '🎟');
+    const canExchange = c >= minCost;
     return `
-      <div class="admin-coupon-row${star}">
+      <div class="admin-coupon-row${cls}">
         <span class="acr-name">${s.name}</span>
         <button class="acr-btn" onclick="adjustCoupon('${s.id}', -1)">−</button>
-        <span class="acr-count">${c >= 10 ? '⭐' : '🎟'} ${c}</span>
+        <span class="acr-count">${icon} ${c}</span>
         <button class="acr-btn" onclick="adjustCoupon('${s.id}', 1)">＋</button>
+        <button class="acr-exchange" onclick="openPrizeModal('${s.id}')" ${canExchange ? '' : 'disabled'}>교환</button>
       </div>`;
   }).join('');
+  renderExchangeLog();
+}
+function renderExchangeLog() {
+  const el = document.getElementById('exchange-log');
+  if (!el) return;
+  const log = loadExchangeLog();
+  if (log.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="deadline-help" style="margin-top:4px;">최근 교환 기록</div>` + log.slice(0, 30).map(e => {
+    const s = STUDENTS.find(x => x.id === e.id);
+    return `
+      <div class="exchange-log-row">
+        <span><b>${s ? s.name : e.id}</b> · ${e.icon || '🎁'} ${e.prize} <span style="color:#b8405f;">−${e.cost}</span></span>
+        <span class="el-date">${e.date.slice(5).replace('-', '/')} <button class="el-undo" onclick="undoExchange(${e.at})" title="교환 취소">취소</button></span>
+      </div>`;
+  }).join('');
+}
+
+// ── 상품 목록 편집 ──
+function renderPrizeEditor() {
+  const el = document.getElementById('prize-edit-list');
+  if (!el) return;
+  const maxLabel = document.getElementById('coupon-max-label');
+  if (maxLabel) maxLabel.textContent = COUPON_MAX;
+  el.innerHTML = loadPrizes().map(p => prizeRowHTML(p)).join('');
+}
+function prizeRowHTML(p) {
+  const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  return `
+    <div class="prize-edit-row">
+      <input type="text" class="pe-icon" value="${esc(p.icon || '🎁')}" maxlength="4" style="flex:0 0 46px;text-align:center;" title="아이콘">
+      <input type="text" class="pe-name" value="${esc(p.name || '')}" placeholder="상품 이름">
+      <input type="number" class="pe-cost" value="${p.cost || 1}" min="1" max="${COUPON_MAX}">
+      <span class="pe-unit">장</span>
+      <button class="pe-del" onclick="this.parentElement.remove()" title="삭제">✕</button>
+    </div>`;
+}
+function addPrizeRow() {
+  const el = document.getElementById('prize-edit-list');
+  if (!el) return;
+  el.insertAdjacentHTML('beforeend', prizeRowHTML({ icon: '🎁', name: '', cost: 5 }));
+  const last = el.querySelector('.prize-edit-row:last-child .pe-name');
+  if (last) last.focus();
+}
+function savePrizes() {
+  const rows = document.querySelectorAll('#prize-edit-list .prize-edit-row');
+  const prizes = [];
+  rows.forEach(r => {
+    const name = r.querySelector('.pe-name').value.trim();
+    const icon = r.querySelector('.pe-icon').value.trim() || '🎁';
+    const cost = Math.min(COUPON_MAX, Math.max(1, parseInt(r.querySelector('.pe-cost').value) || 1));
+    if (name) prizes.push({ icon, name, cost });
+  });
+  prizes.sort((a, b) => a.cost - b.cost);
+  savePrizesToStorage(prizes);
+  renderPrizeEditor();
+  renderAdminCouponGrid();
+  alert(prizes.length ? `상품 ${prizes.length}개 저장 완료!` : '상품 목록이 비었어요. (교환 불가 상태)');
+}
+
+// ── 상품 교환 모달 ──
+let prizeModalStudent = null;
+function openPrizeModal(studentId) {
+  prizeModalStudent = studentId;
+  const s = STUDENTS.find(x => x.id === studentId);
+  const c = getCouponCount(studentId);
+  document.getElementById('prize-student-name').textContent = s ? s.name : studentId;
+  document.getElementById('prize-student-count').textContent = `🎟 쿠폰 ${c}장 보유`;
+  const prizes = loadPrizes();
+  const list = document.getElementById('prize-pick-list');
+  list.innerHTML = prizes.length === 0
+    ? '<div class="deadline-help">등록된 상품이 없어요. 위에서 상품을 먼저 추가해주세요.</div>'
+    : prizes.map((p, i) => `
+      <button class="prize-pick" onclick="pickPrize(${i})" ${c >= p.cost ? '' : 'disabled'}>
+        <span class="pp-icon">${p.icon || '🎁'}</span>
+        <span class="pp-name">${p.name}</span>
+        <span class="pp-cost">🎟 ${p.cost}장</span>
+      </button>`).join('');
+  document.getElementById('prize-modal').classList.add('show');
+}
+function closePrizeModal() {
+  document.getElementById('prize-modal').classList.remove('show');
+  prizeModalStudent = null;
+}
+function pickPrize(idx) {
+  if (!prizeModalStudent) return;
+  const prizes = loadPrizes();
+  const p = prizes[idx];
+  const s = STUDENTS.find(x => x.id === prizeModalStudent);
+  if (!p) return;
+  if (!confirm(`${s ? s.name : ''} · 「${p.name}」\n쿠폰 ${p.cost}장을 차감하고 교환할까요?`)) return;
+  if (!exchangePrize(prizeModalStudent, idx)) { alert('쿠폰이 부족해요.'); return; }
+  closePrizeModal();
+  renderAdminCouponGrid();
+  updateCardStates();
 }
 function adjustCoupon(studentId, delta) {
   const cur = getCouponCount(studentId);
@@ -3071,6 +3465,8 @@ function exportJSON() {
     thresholds: { early: THRESHOLD_EARLY, normal: THRESHOLD_NORMAL },
     coupons: loadCoupons(),
     couponHistory: loadCouponHistory(),
+    prizes: loadPrizes(),
+    exchangeLog: loadExchangeLog(),
     data,
   }, null, 2);
   downloadFile(`얼리버드_백업_${todayKey()}.json`, json, 'application/json');
@@ -3105,9 +3501,16 @@ function importJSON(file) {
       if (parsed.coupons && typeof parsed.coupons === 'object') {
         const cur = loadCoupons();
         Object.entries(parsed.coupons).forEach(([id, n]) => {
-          cur[id] = Math.max(cur[id] || 0, n); // 더 큰 값 유지
+          cur[id] = Math.min(COUPON_MAX, Math.max(cur[id] || 0, n)); // 더 큰 값 유지 (상한 적용)
         });
         saveCoupons(cur);
+      }
+      if (Array.isArray(parsed.prizes) && parsed.prizes.length) savePrizesToStorage(parsed.prizes);
+      if (Array.isArray(parsed.exchangeLog)) {
+        const cur = loadExchangeLog();
+        parsed.exchangeLog.forEach(e => { if (e && e.at && !cur.find(x => x.at === e.at)) cur.push(e); });
+        cur.sort((a, b) => (b.at || 0) - (a.at || 0));
+        saveExchangeLog(cur.slice(0, 300));
       }
       if (parsed.couponHistory && typeof parsed.couponHistory === 'object') {
         const cur = loadCouponHistory();
@@ -3122,7 +3525,7 @@ function importJSON(file) {
         if (parsed.thresholds.normal) saveThresholdNormal(parsed.thresholds.normal);
       }
       alert('불러오기 완료!');
-      renderAdminGrid(); renderAdminCouponGrid(); updateCardStates();
+      renderAdminGrid(); renderPrizeEditor(); renderAdminCouponGrid(); updateCardStates();
     } catch {
       alert('파일을 읽는 중 오류가 발생했습니다.');
     }
@@ -3364,13 +3767,19 @@ function renderStudentHistory(studentId) {
         <div class="stat-label">연속</div>
       </div>
       <div class="history-student-stat">
-        <div class="stat-value">🎟 ${coupons}</div>
+        <div class="stat-value">🎟 ${coupons}<span style="font-size:12px;color:var(--ink-mute);font-weight:600;">/${COUPON_MAX}</span></div>
         <div class="stat-label">쿠폰</div>
       </div>
       <div class="history-student-stat">
-        <div class="stat-value" style="font-size:26px;">${plant.emoji}</div>
+        <div class="stat-value" style="font-size:26px;">${plant.svg}</div>
         <div class="stat-label">${plant.name}</div>
       </div>`;
+    const oldLine = document.getElementById('student-exchange-line');
+    if (oldLine) oldLine.remove();
+    const myLog = loadExchangeLog().filter(e => e.id === studentId);
+    if (myLog.length) {
+      summaryEl.insertAdjacentHTML('afterend', `<div class="history-empty" id="student-exchange-line" style="padding:6px 0 2px;font-size:12px;">🎁 교환: ${myLog.slice(0, 6).map(e => `${e.icon || ''}${e.prize}(${e.date.slice(5).replace('-', '/')})`).join(' · ')}${myLog.length > 6 ? ' 외 ' + (myLog.length - 6) + '건' : ''}</div>`);
+    }
   }
   const el = document.getElementById('student-date-list');
   if (!el) return;
@@ -3422,7 +3831,7 @@ function renderGarden() {
         <div class="gs-label">학급 누적 출석</div>
       </div>
       <div class="garden-stat-box">
-        <div class="gs-value">${topPlant.emoji}</div>
+        <div class="gs-value">${topPlant.svg}</div>
         <div class="gs-label">가장 큰 식물</div>
       </div>
     </div>
@@ -3431,10 +3840,10 @@ function renderGarden() {
         const p = getPlantStage(s.earlyCount);
         const empty = s.earlyCount === 0 ? ' empty' : '';
         const streak = s.streak >= 1 ? `<div class="gt-streak">🔥 ${s.streak}일</div>` : '';
-        const coupon = s.coupons > 0 ? `<div class="gt-coupon">${s.coupons >= 10 ? '⭐' : '🎟'} ${s.coupons}</div>` : '';
+        const coupon = s.coupons > 0 ? `<div class="gt-coupon">${s.coupons >= COUPON_MAX ? '🎁' : (s.coupons >= 10 ? '⭐' : '🎟')} ${s.coupons}</div>` : '';
         return `
           <div class="garden-tile${empty}">
-            <div class="gt-plant">${p.emoji}</div>
+            <div class="gt-plant${p.key === 'gold' ? ' is-gold' : ''}">${p.svg}</div>
             <div class="gt-name">${s.name}</div>
             <div class="gt-count">🌅 ${s.earlyCount}회</div>
             ${streak}
@@ -3444,13 +3853,27 @@ function renderGarden() {
     </div>
     <div class="garden-legend">
       식물은 얼리버드(${THRESHOLD_EARLY} 이전 도착) 일수로 자라요<br>
-      <span class="lg-item"><span class="lg-emoji">🪨</span> 0</span>
-      <span class="lg-item"><span class="lg-emoji">🌱</span> 1~2</span>
-      <span class="lg-item"><span class="lg-emoji">🌿</span> 3~5</span>
-      <span class="lg-item"><span class="lg-emoji">🪴</span> 6~10</span>
-      <span class="lg-item"><span class="lg-emoji">🌷</span> 11~20</span>
-      <span class="lg-item"><span class="lg-emoji">🌳</span> 21~34</span>
-      <span class="lg-item"><span class="lg-emoji">🍎</span> 35+</span>
+      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.seed}</span> 0</span>
+      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.sprout}</span> 1~2</span>
+      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.leaf}</span> 3~5</span>
+      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.pot}</span> 6~10</span>
+      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.flower}</span> 11~20</span>
+      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.tree}</span> 21~34</span>
+      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.fruit}</span> 35~49</span>
+      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.gold}</span> 50+</span>
+    </div>
+    ${renderGardenPrizes()}`;
+}
+function renderGardenPrizes() {
+  const prizes = loadPrizes();
+  if (prizes.length === 0) return '';
+  return `
+    <div class="garden-prizes">
+      <div class="gp-title">🎟 쿠폰 상품 (그날 첫 정시 출석 = 쿠폰 1장)</div>
+      <div class="gp-list">
+        ${prizes.map(p => `<span class="gp-item">${p.icon || '🎁'} ${p.name} <b>${p.cost}장</b></span>`).join('')}
+      </div>
+      <div class="gp-note">한 명이 최대 ${COUPON_MAX}장까지 모을 수 있어요. 가득 차면 선생님과 교환해야 다시 모여요.</div>
     </div>`;
 }
 
@@ -3518,6 +3941,7 @@ document.getElementById('btn-history').addEventListener('click', openHistory);
 document.getElementById('history-close').addEventListener('click', closeHistory);
 document.getElementById('btn-garden').addEventListener('click', openGarden);
 document.getElementById('garden-close').addEventListener('click', closeGarden);
+document.getElementById('prize-modal').addEventListener('click', (e) => { if (e.target.id === 'prize-modal') closePrizeModal(); });
 document.getElementById('milestone-close-btn').addEventListener('click', closeMilestone);
 
 // ────────────────────────────────────────

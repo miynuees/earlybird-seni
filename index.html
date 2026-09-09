@@ -434,10 +434,12 @@
     overflow: visible;
   }
   .card-plant .plant-svg { display: block; margin: 0 auto; }
-  .card-plant.is-gold { animation: goldGlow 2.4s ease-in-out infinite; }
-  @keyframes goldGlow {
-    0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 200, 80, 0.55)); transform: rotate(-2deg); }
-    50%      { filter: drop-shadow(0 0 10px rgba(255, 190, 60, 0.95)); transform: rotate(2deg); }
+  /* 황금 나무 이상은 단계별 색으로 은은하게 빛남 (--glow는 JS가 넣어줌) */
+  .card-plant.is-glow,
+  .student-card.checked .card-plant.is-glow { animation: plantGlow 2.4s ease-in-out infinite; }
+  @keyframes plantGlow {
+    0%, 100% { filter: drop-shadow(0 0 4px var(--glow, rgba(255,200,80,0.6))); transform: rotate(-2deg); }
+    50%      { filter: drop-shadow(0 0 11px var(--glow, rgba(255,200,80,0.95))); transform: rotate(2deg) translateY(-1px); }
   }
   .card-name {
     font-size: 16px;
@@ -530,6 +532,46 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    letter-spacing: -0.2px;
+  }
+  /* 사이드패널 상품 목록 */
+  .prize-box { padding: 12px 11px 10px; }
+  .prize-box .panel-box-title { margin-bottom: 8px; }
+  .pl-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 7px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.72);
+    margin-bottom: 4px;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  .pl-row:last-child { margin-bottom: 0; }
+  .pl-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+  .pl-name {
+    flex: 1;
+    font-weight: 700;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: -0.2px;
+  }
+  .pl-cost {
+    font-weight: 800;
+    color: var(--mint-deep);
+    font-size: 11.5px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .pl-note {
+    font-size: 10.5px;
+    color: var(--ink-mute);
+    margin-top: 7px;
+    line-height: 1.4;
+    text-align: center;
     letter-spacing: -0.2px;
   }
   .today-count {
@@ -949,7 +991,7 @@
     line-height: 1;
     margin-bottom: 2px;
   }
-  .gt-plant.is-gold { filter: drop-shadow(0 0 6px rgba(255, 200, 80, 0.8)); }
+  .gt-plant.is-glow { filter: drop-shadow(0 0 6px var(--glow, rgba(255, 200, 80, 0.8))); }
   .gt-name {
     font-size: 13px;
     font-weight: 700;
@@ -1483,6 +1525,146 @@
   .student-card.checked.status-late .card-time { opacity: 0.92; }
   .student-card.checked.status-late .card-streak { color: rgba(255, 240, 220, 1); }
 
+  /* ── 카드 테두리 장식: 식물 단계가 오를수록 화려해짐 ──
+     꽃(11+) 분홍 → 나무(21+) 잎 → 열매(35+) 사과 → 황금(50+) 반짝 → 황금사과(65+)
+     → 보석(80+) → 무지개(100+) → 별빛(120+). data-frame 속성은 JS(updateCardStates)가 붙임 */
+  .card-frame {
+    position: absolute;
+    inset: -2px;
+    border-radius: 16px;
+    pointer-events: none;
+    display: none;
+    z-index: 1;
+  }
+  .student-card.has-frame { overflow: visible; }
+  .student-card.has-frame,
+  .student-card.has-frame:hover,
+  .student-card.has-frame.checked { border-color: transparent; }
+  .student-card.has-frame .card-frame { display: block; }
+  /* 링: 가운데를 마스크로 뚫어서 그라데이션 테두리만 남김 */
+  .card-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: var(--ring-w, 3px);
+    background: var(--ring);
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  /* 모서리 장식 (SVG 여러 개를 배경으로 겹침) */
+  .card-frame::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.12));
+  }
+  .student-card[data-frame="flower"] { --ring: linear-gradient(135deg, #ffb3c6, #ffe3ea 45%, #ffc4d3 70%, #ffb3c6); --ring-w: 2.5px; }
+  .student-card[data-frame="flower"] .card-frame::after {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cg fill='%23ff9db5'%3E%3Ccircle cx='10' cy='4' r='3.2'/%3E%3Ccircle cx='4.3' cy='8.2' r='3.2'/%3E%3Ccircle cx='15.7' cy='8.2' r='3.2'/%3E%3Ccircle cx='6.3' cy='14.8' r='3.2'/%3E%3Ccircle cx='13.7' cy='14.8' r='3.2'/%3E%3C/g%3E%3Ccircle cx='10' cy='10' r='3' fill='%23ffd66b'/%3E%3C/svg%3E");
+    background-position: top 1px right 8px;
+    background-size: 15px;
+  }
+  .student-card[data-frame="tree"] { --ring: linear-gradient(135deg, #7ccf8a, #c9f0cf 45%, #a9e3b0 70%, #7ccf8a); --ring-w: 3px; }
+  .student-card[data-frame="tree"] .card-frame::after {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M2 18C2 8 8 2 18 2 18 12 12 18 2 18Z' fill='%237ccf8a'/%3E%3Cpath d='M3 17L16 4' stroke='%23fff' stroke-width='1.2' opacity='.7'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M18 18C18 8 12 2 2 2 2 12 8 18 18 18Z' fill='%23a9e3b0'/%3E%3Cpath d='M17 17L4 4' stroke='%23fff' stroke-width='1.2' opacity='.7'/%3E%3C/svg%3E");
+    background-position: top 1px right 6px, bottom 1px left 6px;
+    background-size: 15px, 13px;
+  }
+  .student-card[data-frame="fruit"] { --ring: linear-gradient(135deg, #7ccf8a, #ffb3b3 40%, #a9e3b0 65%, #ff8f8f 85%, #7ccf8a); --ring-w: 3px; }
+  .student-card[data-frame="fruit"] .card-frame::after {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='11.5' r='7' fill='%23ff6b6b'/%3E%3Cpath d='M10 5V2' stroke='%238a5a3c' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M10 3.5c2-2.5 5-2 5-2s-1 3.5-5 2z' fill='%237ccf8a'/%3E%3Ccircle cx='7.5' cy='9' r='1.6' fill='%23fff' opacity='.75'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='11.5' r='7' fill='%23ff6b6b'/%3E%3Cpath d='M10 5V2' stroke='%238a5a3c' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M10 3.5c2-2.5 5-2 5-2s-1 3.5-5 2z' fill='%237ccf8a'/%3E%3Ccircle cx='7.5' cy='9' r='1.6' fill='%23fff' opacity='.75'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M2 18C2 8 8 2 18 2 18 12 12 18 2 18Z' fill='%237ccf8a'/%3E%3Cpath d='M3 17L16 4' stroke='%23fff' stroke-width='1.2' opacity='.7'/%3E%3C/svg%3E");
+    background-position: top 0 right 6px, bottom 0 left 6px, bottom 2px right 8px;
+    background-size: 16px, 14px, 12px;
+  }
+  .student-card[data-frame="gold"] { --ring: linear-gradient(120deg, #f3c14b, #fff4c2 25%, #e2a52a 50%, #ffe58a 75%, #f3c14b); --ring-w: 3px; }
+  .student-card[data-frame="gold"] .card-frame::after {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23ffd54a'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23ffe9a8'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23ffd54a'/%3E%3C/svg%3E");
+    background-position: top 0 right 5px, top 14px right 0, bottom 0 left 5px;
+    background-size: 16px, 10px, 13px;
+  }
+  .student-card[data-frame="goldapple"] { --ring: linear-gradient(120deg, #f3c14b, #fff4c2 20%, #f2a324 45%, #ffe58a 70%, #f3c14b); --ring-w: 3.5px; }
+  .student-card[data-frame="goldapple"] .card-frame::after {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='11.5' r='7' fill='%23f2a324'/%3E%3Cpath d='M10 5V2' stroke='%238a5a3c' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M10 3.5c2-2.5 5-2 5-2s-1 3.5-5 2z' fill='%23ffd36b'/%3E%3Ccircle cx='7.5' cy='9' r='1.6' fill='%23fff' opacity='.8'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='11.5' r='7' fill='%23f2a324'/%3E%3Cpath d='M10 5V2' stroke='%238a5a3c' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M10 3.5c2-2.5 5-2 5-2s-1 3.5-5 2z' fill='%23ffd36b'/%3E%3Ccircle cx='7.5' cy='9' r='1.6' fill='%23fff' opacity='.8'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23ffd54a'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23ffe9a8'/%3E%3C/svg%3E");
+    background-position: top 0 right 6px, bottom 0 left 6px, top 16px right 0, bottom 2px right 7px;
+    background-size: 17px, 15px, 10px, 12px;
+  }
+  .student-card[data-frame="gem"] { --ring: linear-gradient(120deg, #ff7eb6, #b57bff 25%, #6ec6ff 50%, #7ef0c8 75%, #ff7eb6); --ring-w: 3.5px; }
+  .student-card[data-frame="gem"] .card-frame::after {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3 8l3-5h8l3 5-7 10z' fill='%23b57bff'/%3E%3Cpath d='M3 8h14' stroke='%23fff' stroke-width='1.2' opacity='.8'/%3E%3Cpath d='M6 3l4 5 4-5' fill='none' stroke='%23fff' stroke-width='1' opacity='.6'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3 8l3-5h8l3 5-7 10z' fill='%23ff7eb6'/%3E%3Cpath d='M3 8h14' stroke='%23fff' stroke-width='1.2' opacity='.8'/%3E%3Cpath d='M6 3l4 5 4-5' fill='none' stroke='%23fff' stroke-width='1' opacity='.6'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3 8l3-5h8l3 5-7 10z' fill='%236ec6ff'/%3E%3Cpath d='M3 8h14' stroke='%23fff' stroke-width='1.2' opacity='.8'/%3E%3Cpath d='M6 3l4 5 4-5' fill='none' stroke='%23fff' stroke-width='1' opacity='.6'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23fff'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23ffd6f0'/%3E%3C/svg%3E");
+    background-position: top 0 right 6px, bottom 0 left 6px, bottom 2px right 8px, top 15px right 0, top 30px left 0;
+    background-size: 17px, 15px, 12px, 10px, 9px;
+  }
+  .student-card[data-frame="rainbow"] { --ring: linear-gradient(90deg, #ff8a80, #ffb74d, #fff176, #aed581, #81d4fa, #b39ddb, #ff8a80); --ring-w: 4px; }
+  .student-card[data-frame="rainbow"] .card-frame::after {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M2 16A8 8 0 0 1 18 16' stroke='%23ff8a80'/%3E%3Cpath d='M4.6 16A5.4 5.4 0 0 1 15.4 16' stroke='%23fff176'/%3E%3Cpath d='M7.2 16A2.8 2.8 0 0 1 12.8 16' stroke='%2381d4fa'/%3E%3C/g%3E%3Ccircle cx='3' cy='16' r='2' fill='%23fff'/%3E%3Ccircle cx='17' cy='16' r='2' fill='%23fff'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23fff'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23ffd54a'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23ff9db5'/%3E%3C/svg%3E");
+    background-position: top 0 right 5px, bottom 0 left 6px, top 16px right 0, top 26px left 0;
+    background-size: 20px, 13px, 10px, 9px;
+  }
+  .student-card[data-frame="star"] { --ring: linear-gradient(120deg, #2b2b66, #6c63d9 25%, #3b3f8c 50%, #9d95ff 75%, #2b2b66); --ring-w: 4px;
+    box-shadow: 0 0 0 4px rgba(120, 110, 230, 0.12), 0 8px 22px rgba(90, 80, 200, 0.30);
+    animation: starHalo 3.2s ease-in-out infinite; }
+  .student-card[data-frame="star"] .card-frame::after {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M12 2a8 8 0 1 0 0 16 6.5 6.5 0 1 1 0-16z' fill='%23fff1a8'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5l2.5 5.4 5.9.7-4.4 4 1.2 5.9L10 14.6l-5.2 2.9 1.2-5.9-4.4-4 5.9-.7z' fill='%23ffe66d'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5l2.5 5.4 5.9.7-4.4 4 1.2 5.9L10 14.6l-5.2 2.9 1.2-5.9-4.4-4 5.9-.7z' fill='%23ffe66d'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23fff'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23c9c4ff'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23fff'/%3E%3C/svg%3E");
+    background-position: top 0 right 5px, bottom 0 left 6px, top 18px right 0, top 34px left 0, bottom 2px right 8px, top 4px left 30px;
+    background-size: 18px, 14px, 10px, 9px, 11px, 8px;
+  }
+  .student-card[data-frame="star"]:hover { box-shadow: 0 0 0 4px rgba(120, 110, 230, 0.18), 0 10px 26px rgba(90, 80, 200, 0.40); }
+  @keyframes starHalo {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(120, 110, 230, 0.10), 0 8px 22px rgba(90, 80, 200, 0.28); }
+    50%      { box-shadow: 0 0 0 6px rgba(120, 110, 230, 0.20), 0 10px 28px rgba(90, 80, 200, 0.42); }
+  }
+  /* 황금부터는 링이 천천히 흐르고 장식이 반짝임 */
+  .student-card[data-frame="gold"] .card-frame::before,
+  .student-card[data-frame="goldapple"] .card-frame::before,
+  .student-card[data-frame="gem"] .card-frame::before,
+  .student-card[data-frame="rainbow"] .card-frame::before,
+  .student-card[data-frame="star"] .card-frame::before { animation: ringFlow 5s linear infinite; }
+  @keyframes ringFlow {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  .student-card[data-frame="gold"] .card-frame::after,
+  .student-card[data-frame="goldapple"] .card-frame::after,
+  .student-card[data-frame="gem"] .card-frame::after,
+  .student-card[data-frame="rainbow"] .card-frame::after,
+  .student-card[data-frame="star"] .card-frame::after { animation: decoTwinkle 2.2s ease-in-out infinite; }
+  @keyframes decoTwinkle {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.55; }
+  }
+
   /* 카드 좌상단 쿠폰 카운트 */
   .card-coupon {
     position: absolute;
@@ -1995,6 +2177,11 @@
       </button>
       <div class="today-names" id="today-names" style="display:none;"></div>
     </div>
+    <div class="panel-box prize-box" id="prize-box">
+      <div class="panel-box-title">🎁 쿠폰 상품</div>
+      <div class="prize-list" id="side-prize-list"></div>
+      <div class="pl-note">그날 첫 정시 출석 = 쿠폰 1장 · 최대 20장</div>
+    </div>
     <button class="panel-btn btn-garden" id="btn-garden">🌱 우리 학급 정원</button>
     <button class="panel-btn btn-history" id="btn-history">📋 전체 이력 보기</button>
     <button class="panel-btn btn-admin" id="btn-admin">🔒 관리자</button>
@@ -2288,6 +2475,21 @@ function loadPrizes() {
 }
 function savePrizesToStorage(arr) {
   localStorage.setItem('earlybird_prizes', JSON.stringify(arr));
+}
+// 메인 화면 사이드패널의 상품 목록 (상품이 없으면 박스 숨김)
+function renderSidePrizes() {
+  const box = document.getElementById('prize-box');
+  const list = document.getElementById('side-prize-list');
+  if (!box || !list) return;
+  const prizes = loadPrizes();
+  if (prizes.length === 0) { box.style.display = 'none'; return; }
+  box.style.display = '';
+  list.innerHTML = prizes.map(p => `
+    <div class="pl-row">
+      <span class="pl-icon">${p.icon || '🎁'}</span>
+      <span class="pl-name" title="${p.name}">${p.name}</span>
+      <span class="pl-cost">🎟 ${p.cost}장</span>
+    </div>`).join('');
 }
 // 교환 기록: [{date, id, prize, icon, cost, at}]
 function loadExchangeLog() {
@@ -2607,17 +2809,32 @@ const PLANT_SVG = {
   tree: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="56" rx="19" ry="5" fill="#c6e6cb"/><path d="M29 56V34H35V56Z" fill="#a3745a"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#a3745a" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#7ccf8a"/><circle cx="20.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="43.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="32" cy="15.5" r="10" fill="#a9e3b0"/><circle cx="23" cy="21.5" r="5.5" fill="#a9e3b0" opacity="0.85"/><circle cx="41" cy="20" r="3" fill="#fff" opacity="0.5"/></svg>`,
   fruit: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="56" rx="19" ry="5" fill="#c6e6cb"/><path d="M29 56V34H35V56Z" fill="#a3745a"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#a3745a" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#7ccf8a"/><circle cx="20.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="43.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="32" cy="15.5" r="10" fill="#a9e3b0"/><g fill="#ff6b6b"><circle cx="24" cy="26" r="3.4"/><circle cx="38.5" cy="18.5" r="3.4"/><circle cx="42" cy="33" r="3.4"/><circle cx="30" cy="35.5" r="3.4"/><circle cx="18" cy="35" r="3"/></g><g fill="#fff" opacity="0.75"><circle cx="22.8" cy="24.8" r="1.1"/><circle cx="37.3" cy="17.3" r="1.1"/><circle cx="40.8" cy="31.8" r="1.1"/><circle cx="28.8" cy="34.3" r="1.1"/></g></svg>`,
   gold: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="26" r="25" fill="#fff3c4" opacity="0.75"/><ellipse cx="32" cy="56" rx="19" ry="5" fill="#f5e6b8"/><path d="M29 56V34H35V56Z" fill="#b98a5e"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#b98a5e" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#ffd36b"/><circle cx="20.5" cy="30.5" r="10" fill="#ffd36b"/><circle cx="43.5" cy="30.5" r="10" fill="#ffd36b"/><circle cx="32" cy="15.5" r="10" fill="#ffe9a8"/><g fill="#ff9db5"><circle cx="24" cy="26" r="3.2"/><circle cx="39" cy="19" r="3.2"/><circle cx="42" cy="33" r="3.2"/><circle cx="30" cy="35.5" r="3.2"/></g><g fill="#fff"><path d="M32 8l1.4 3.4 3.4 1.4-3.4 1.4L32 17.6l-1.4-3.4-3.4-1.4 3.4-1.4z"/><path d="M14 20l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z"/><path d="M52 14l1.2 2.9 2.9 1.2-2.9 1.2-1.2 2.9-1.2-2.9-2.9-1.2 2.9-1.2z"/><path d="M50 38l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></g></svg>`,
+  goldapple: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="26" r="25" fill="#fff3c4" opacity="0.75"/><ellipse cx="32" cy="56" rx="19" ry="5" fill="#f5e6b8"/><path d="M29 56V34H35V56Z" fill="#b98a5e"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#b98a5e" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#ffd36b"/><circle cx="20.5" cy="30.5" r="10" fill="#ffd36b"/><circle cx="43.5" cy="30.5" r="10" fill="#ffd36b"/><circle cx="32" cy="15.5" r="10" fill="#ffe9a8"/><g stroke="#8a5a3c" stroke-width="1.3" stroke-linecap="round"><path d="M23 23v-2.5"/><path d="M40 15v-2.5"/><path d="M43 30v-2.5"/><path d="M30 32v-2.5"/></g><g fill="#f2a324"><circle cx="23" cy="27" r="4.3"/><circle cx="40" cy="19" r="4.3"/><circle cx="43" cy="34" r="4.3"/><circle cx="30" cy="36" r="4.3"/></g><g fill="#fff" opacity="0.85"><circle cx="21.5" cy="25.5" r="1.4"/><circle cx="38.5" cy="17.5" r="1.4"/><circle cx="41.5" cy="32.5" r="1.4"/><circle cx="28.5" cy="34.5" r="1.4"/></g><g fill="#fff"><path d="M12 12l1.2 2.9 2.9 1.2-2.9 1.2-1.2 2.9-1.2-2.9-2.9-1.2 2.9-1.2z"/><path d="M53 9l1.4 3.4 3.4 1.4-3.4 1.4L53 18.6l-1.4-3.4-3.4-1.4 3.4-1.4z"/><path d="M52 40l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></g></svg>`,
+  gem: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="26" r="25" fill="#f0e6ff" opacity="0.8"/><ellipse cx="32" cy="56" rx="19" ry="5" fill="#e3d6f5"/><path d="M29 56V34H35V56Z" fill="#8d7a9e"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#8d7a9e" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#c9b6f5"/><circle cx="20.5" cy="30.5" r="10" fill="#c9b6f5"/><circle cx="43.5" cy="30.5" r="10" fill="#c9b6f5"/><circle cx="32" cy="15.5" r="10" fill="#e0d3ff"/><polygon points="18.5,26 21,23 25,23 27.5,26 23,32" fill="#ff7eb6"/><polygon points="35.5,18 38,15 42,15 44.5,18 40,24" fill="#6ec6ff"/><polygon points="38.5,33 41,30 45,30 47.5,33 43,39" fill="#5fe3b8"/><polygon points="25.5,36 28,33 32,33 34.5,36 30,42" fill="#b57bff"/><polygon points="28.5,10 30.5,7.5 33.5,7.5 35.5,10 32,15" fill="#ffd66b"/><g stroke="#fff" stroke-width="0.9" opacity="0.8" fill="none"><path d="M18.5 26h9M35.5 18h9M38.5 33h9M25.5 36h9M28.5 10h7"/></g><g fill="#fff"><path d="M11 14l1.2 2.9 2.9 1.2-2.9 1.2-1.2 2.9-1.2-2.9-2.9-1.2 2.9-1.2z"/><path d="M53 8l1.4 3.4 3.4 1.4-3.4 1.4L53 17.6l-1.4-3.4-3.4-1.4 3.4-1.4z"/><path d="M53 40l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></g></svg>`,
+  rainbow: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke-width="3.2" stroke-linecap="round"><path d="M2 44A30 30 0 0 1 62 44" stroke="#ff8a80"/><path d="M5.2 44A26.8 26.8 0 0 1 58.8 44" stroke="#ffb74d"/><path d="M8.4 44A23.6 23.6 0 0 1 55.6 44" stroke="#fff176"/><path d="M11.6 44A20.4 20.4 0 0 1 52.4 44" stroke="#aed581"/><path d="M14.8 44A17.2 17.2 0 0 1 49.2 44" stroke="#81d4fa"/><path d="M18 44A14 14 0 0 1 46 44" stroke="#b39ddb"/></g><g fill="#fff"><circle cx="6" cy="45" r="4.2"/><circle cx="10.5" cy="46.5" r="3.4"/><circle cx="58" cy="45" r="4.2"/><circle cx="53.5" cy="46.5" r="3.4"/></g><g transform="translate(9 14) scale(0.72)"><ellipse cx="32" cy="56" rx="19" ry="5" fill="#c6e6cb"/><path d="M29 56V34H35V56Z" fill="#a3745a"/><path d="M32 43 25.5 37M32 40 38 35" stroke="#a3745a" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="16" fill="#7ccf8a"/><circle cx="20.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="43.5" cy="30.5" r="10" fill="#7ccf8a"/><circle cx="32" cy="15.5" r="10" fill="#a9e3b0"/><g fill="#ff9db5"><circle cx="24" cy="26" r="3.2"/><circle cx="39" cy="19" r="3.2"/><circle cx="42" cy="33" r="3.2"/><circle cx="30" cy="35.5" r="3.2"/></g><circle cx="41" cy="20" r="3" fill="#fff" opacity="0.5"/></g></svg>`,
+  star: `<svg class="plant-svg" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="30" r="27" fill="#2f2f6e"/><circle cx="32" cy="30" r="21" fill="#3b3b85" opacity="0.7"/><g fill="#fff" opacity="0.85"><circle cx="12" cy="18" r="1.1"/><circle cx="18" cy="9" r="0.9"/><circle cx="50" cy="44" r="1.1"/><circle cx="13" cy="40" r="0.9"/><circle cx="46" cy="6" r="0.8"/><circle cx="55" cy="26" r="1"/></g><path d="M52 8a7 7 0 1 0 0 14 5.6 5.6 0 1 1 0-14z" fill="#fff1a8"/><ellipse cx="32" cy="53" rx="17" ry="4" fill="#4a4a8f"/><path d="M29 53V33H35V53Z" fill="#6b5a7a"/><path d="M32 42 25.5 36M32 39 38 34" stroke="#6b5a7a" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="24" r="15" fill="#6f6be0"/><circle cx="21" cy="30" r="9.5" fill="#6f6be0"/><circle cx="43" cy="30" r="9.5" fill="#6f6be0"/><circle cx="32" cy="16" r="9.5" fill="#8f8cf5"/><g fill="#ffe66d"><path d="M24 22l1.2 2.9 2.9 1.2-2.9 1.2-1.2 2.9-1.2-2.9-2.9-1.2 2.9-1.2z"/><path d="M40 16l1.2 2.9 2.9 1.2-2.9 1.2-1.2 2.9-1.2-2.9-2.9-1.2 2.9-1.2z"/><path d="M42 30l1.2 2.9 2.9 1.2-2.9 1.2-1.2 2.9-1.2-2.9-2.9-1.2 2.9-1.2z"/><path d="M30 32l1.2 2.9 2.9 1.2-2.9 1.2-1.2 2.9-1.2-2.9-2.9-1.2 2.9-1.2z"/><path d="M32 6l1.4 3.4 3.4 1.4-3.4 1.4L32 15.6l-1.4-3.4-3.4-1.4 3.4-1.4z"/></g><g fill="#fff" opacity="0.9"><circle cx="20" cy="36" r="1"/><circle cx="46" cy="24" r="1"/></g></svg>`,
 };
+// frame: 카드 테두리 장식 종류 (CSS data-frame) / glow: 식물 주변 빛 색
 function getPlantStage(count) {
-  if (count === 0) return { key: 'seed',   emoji: '🪨', name: '씨앗 잠듦', svg: PLANT_SVG.seed };
-  if (count <= 2)  return { key: 'sprout', emoji: '🌱', name: '새싹',     svg: PLANT_SVG.sprout };
-  if (count <= 5)  return { key: 'leaf',   emoji: '🌿', name: '잎',       svg: PLANT_SVG.leaf };
-  if (count <= 10) return { key: 'pot',    emoji: '🪴', name: '화분',     svg: PLANT_SVG.pot };
-  if (count <= 20) return { key: 'flower', emoji: '🌷', name: '꽃',       svg: PLANT_SVG.flower };
-  if (count <= 34) return { key: 'tree',   emoji: '🌳', name: '나무',     svg: PLANT_SVG.tree };
-  if (count <= 49) return { key: 'fruit',  emoji: '🍎', name: '열매',     svg: PLANT_SVG.fruit };
-  return { key: 'gold', emoji: '🌟', name: '황금 나무', svg: PLANT_SVG.gold };
+  if (count === 0)  return { key: 'seed',   emoji: '🪨', name: '씨앗 잠듦', svg: PLANT_SVG.seed };
+  if (count <= 2)   return { key: 'sprout', emoji: '🌱', name: '새싹',     svg: PLANT_SVG.sprout };
+  if (count <= 5)   return { key: 'leaf',   emoji: '🌿', name: '잎',       svg: PLANT_SVG.leaf };
+  if (count <= 10)  return { key: 'pot',    emoji: '🪴', name: '화분',     svg: PLANT_SVG.pot };
+  if (count <= 20)  return { key: 'flower', emoji: '🌷', name: '꽃',       svg: PLANT_SVG.flower, frame: 'flower' };
+  if (count <= 34)  return { key: 'tree',   emoji: '🌳', name: '나무',     svg: PLANT_SVG.tree,   frame: 'tree' };
+  if (count <= 49)  return { key: 'fruit',  emoji: '🍎', name: '열매',     svg: PLANT_SVG.fruit,  frame: 'fruit' };
+  if (count <= 64)  return { key: 'gold',      emoji: '🌟', name: '황금 나무',   svg: PLANT_SVG.gold,      frame: 'gold',      glow: 'rgba(255, 200, 80, 0.9)' };
+  if (count <= 79)  return { key: 'goldapple', emoji: '🍏', name: '황금 사과',   svg: PLANT_SVG.goldapple, frame: 'goldapple', glow: 'rgba(255, 170, 40, 0.95)' };
+  if (count <= 99)  return { key: 'gem',       emoji: '💎', name: '보석 나무',   svg: PLANT_SVG.gem,       frame: 'gem',       glow: 'rgba(190, 130, 255, 0.9)' };
+  if (count <= 119) return { key: 'rainbow',   emoji: '🌈', name: '무지개 나무', svg: PLANT_SVG.rainbow,   frame: 'rainbow',   glow: 'rgba(255, 150, 200, 0.85)' };
+  return { key: 'star', emoji: '🌙', name: '별빛 나무', svg: PLANT_SVG.star, frame: 'star', glow: 'rgba(150, 140, 255, 1)' };
 }
+// 정원 범례용 (단계 순서·구간)
+const PLANT_LEGEND = [
+  ['seed', '0'], ['sprout', '1~2'], ['leaf', '3~5'], ['pot', '6~10'], ['flower', '11~20'],
+  ['tree', '21~34'], ['fruit', '35~49'], ['gold', '50~64'], ['goldapple', '65~79'],
+  ['gem', '80~99'], ['rainbow', '100~119'], ['star', '120+'],
+];
 
 // ────────────────────────────────────────
 // 시간대 그라데이션 (헤더)
@@ -2730,6 +2947,7 @@ function renderCards() {
     card.className = 'student-card';
     card.dataset.id = s.id;
     card.innerHTML = `
+      <div class="card-frame" data-frame></div>
       <div class="card-coupon" data-coupon></div>
       <div class="card-plant" data-plant></div>
       <div class="card-name">
@@ -2772,7 +2990,16 @@ function updateCardStates() {
       plantEl.innerHTML = plant.svg;
       plantEl.dataset.stage = plant.key;
     }
-    plantEl.classList.toggle('is-gold', plant.key === 'gold');
+    plantEl.classList.toggle('is-glow', !!plant.glow);
+    plantEl.style.setProperty('--glow', plant.glow || 'transparent');
+    // 식물 단계에 맞는 카드 테두리 장식
+    if (plant.frame) {
+      card.dataset.frame = plant.frame;
+      card.classList.add('has-frame');
+    } else {
+      delete card.dataset.frame;
+      card.classList.remove('has-frame');
+    }
 
     // 쿠폰 카운트 (있을 때만) — 20장 가득이면 분홍으로 강조
     const couponEl = card.querySelector('[data-coupon]');
@@ -3174,7 +3401,11 @@ const EARLY_MILESTONES = {
   11: { plant: 'flower', title: '얼리버드 11회!', sub: '꽃이 폈어요.' },
   21: { plant: 'tree',   title: '얼리버드 21회!', sub: '큰 나무가 됐어요.' },
   35: { plant: 'fruit',  title: '얼리버드 35회!', sub: '열매가 맺혔어요.' },
-  50: { plant: 'gold',   title: '얼리버드 50회!', sub: '황금 나무가 됐어요. 학급의 전설이에요.' },
+  50: { plant: 'gold',      title: '얼리버드 50회!',  sub: '황금 나무가 됐어요. 학급의 전설이에요.' },
+  65: { plant: 'goldapple', title: '얼리버드 65회!',  sub: '황금 사과가 열렸어요.' },
+  80: { plant: 'gem',       title: '얼리버드 80회!',  sub: '보석 나무가 됐어요. 반짝반짝.' },
+  100:{ plant: 'rainbow',   title: '얼리버드 100회!', sub: '백 번의 아침. 무지개가 떴어요.' },
+  120:{ plant: 'star',      title: '얼리버드 120회!', sub: '별빛 나무가 됐어요. 밤하늘도 응원해요.' },
 };
 function checkMilestone(streak, earlyCount) {
   if (STREAK_MILESTONES[streak]) return STREAK_MILESTONES[streak];
@@ -3343,6 +3574,7 @@ function savePrizes() {
   savePrizesToStorage(prizes);
   renderPrizeEditor();
   renderAdminCouponGrid();
+  renderSidePrizes();
   alert(prizes.length ? `상품 ${prizes.length}개 저장 완료!` : '상품 목록이 비었어요. (교환 불가 상태)');
 }
 
@@ -3525,7 +3757,7 @@ function importJSON(file) {
         if (parsed.thresholds.normal) saveThresholdNormal(parsed.thresholds.normal);
       }
       alert('불러오기 완료!');
-      renderAdminGrid(); renderPrizeEditor(); renderAdminCouponGrid(); updateCardStates();
+      renderAdminGrid(); renderPrizeEditor(); renderAdminCouponGrid(); renderSidePrizes(); updateCardStates();
     } catch {
       alert('파일을 읽는 중 오류가 발생했습니다.');
     }
@@ -3843,7 +4075,7 @@ function renderGarden() {
         const coupon = s.coupons > 0 ? `<div class="gt-coupon">${s.coupons >= COUPON_MAX ? '🎁' : (s.coupons >= 10 ? '⭐' : '🎟')} ${s.coupons}</div>` : '';
         return `
           <div class="garden-tile${empty}">
-            <div class="gt-plant${p.key === 'gold' ? ' is-gold' : ''}">${p.svg}</div>
+            <div class="gt-plant${p.glow ? ' is-glow' : ''}" style="--glow:${p.glow || 'transparent'}">${p.svg}</div>
             <div class="gt-name">${s.name}</div>
             <div class="gt-count">🌅 ${s.earlyCount}회</div>
             ${streak}
@@ -3853,14 +4085,7 @@ function renderGarden() {
     </div>
     <div class="garden-legend">
       식물은 얼리버드(${THRESHOLD_EARLY} 이전 도착) 일수로 자라요<br>
-      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.seed}</span> 0</span>
-      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.sprout}</span> 1~2</span>
-      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.leaf}</span> 3~5</span>
-      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.pot}</span> 6~10</span>
-      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.flower}</span> 11~20</span>
-      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.tree}</span> 21~34</span>
-      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.fruit}</span> 35~49</span>
-      <span class="lg-item"><span class="lg-emoji">${PLANT_SVG.gold}</span> 50+</span>
+      ${PLANT_LEGEND.map(([k, range]) => `<span class="lg-item"><span class="lg-emoji">${PLANT_SVG[k]}</span> ${range}</span>`).join('')}
     </div>
     ${renderGardenPrizes()}`;
 }
@@ -3964,6 +4189,7 @@ function init() {
   updateHeader();
   applyHeaderTheme();
   renderCards();
+  renderSidePrizes();
   applyDeadlineState();
   updateClock();
   setInterval(() => {

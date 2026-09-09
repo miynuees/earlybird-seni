@@ -1,4 +1,4 @@
-const CACHE = 'earlybird-v12';
+const CACHE = 'earlybird-v13';
 const ASSETS = [
   './',
   './index.html',

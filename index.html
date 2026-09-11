@@ -4212,5 +4212,29 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+<!-- 202 허브로 돌아가기 -->
+<style>
+.hub-back {
+  position: fixed; right: 20px; bottom: 20px; z-index: 90;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 20px 12px 16px; border-radius: 999px;
+  background: var(--mint, #6ec1b1); color: #fff; text-decoration: none;
+  font-family: inherit; font-size: 16px; font-weight: 800; line-height: 1;
+  box-shadow: 0 6px 20px rgba(0,0,0,.22);
+  transition: transform .15s ease, box-shadow .15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.hub-back:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0,0,0,.28); }
+.hub-back:active { transform: scale(.95); }
+.hub-back .hub-back-icon { font-size: 20px; }
+@media (max-width: 600px) {
+  .hub-back { right: 12px; bottom: 12px; padding: 10px 16px 10px 13px; font-size: 14px; }
+  .hub-back .hub-back-icon { font-size: 17px; }
+}
+@media print { .hub-back { display: none; } }
+</style>
+<a class="hub-back" href="https://class-202-hub.vercel.app/" title="202 공쥬들의 하루로 돌아가기">
+  <span class="hub-back-icon">🏠</span><span>202</span>
+</a>
 </body>
 </html>
